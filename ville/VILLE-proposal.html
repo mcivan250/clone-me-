@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VILLE — Season One — Partner Document</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,400..700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#000000;
+    --paper:#FAFAF7;
+    --dim:rgba(250,250,247,.55);
+    --rule:rgba(250,250,247,.18);
+    --c1:#FF3B14;
+    --c2:#E4FF3A;
+    --c3:#B084FF;
+    --c4:#FAFAF7;
+    --gutter:clamp(20px,5vw,80px);
+    --col:minmax(0,1fr);
+  }
+
+  *{box-sizing:border-box;}
+
+  html{-webkit-text-size-adjust:100%;}
+
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:"Archivo","Helvetica Neue",Arial,sans-serif;
+    font-variation-settings:"wdth" 100,"wght" 400;
+    font-size:clamp(15px,1.05vw,17px);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---- the grid the chapters break out of ---- */
+  .sheet{
+    position:relative;
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 var(--gutter);
+  }
+  .sheet::before,
+  .sheet::after{
+    content:"";
+    position:absolute;
+    top:0;bottom:0;
+    width:1px;
+    background:var(--rule);
+    pointer-events:none;
+  }
+  .sheet::before{left:var(--gutter);}
+  .sheet::after{right:var(--gutter);}
+
+  .block{
+    padding:clamp(56px,9vh,120px) 0;
+    border-bottom:1px solid var(--rule);
+  }
+  .block:last-of-type{border-bottom:0;}
+
+  .wide{
+    display:grid;
+    grid-template-columns:var(--col);
+    gap:clamp(24px,4vw,64px);
+  }
+  @media(min-width:860px){
+    .wide{grid-template-columns:minmax(0,17ch) minmax(0,1fr);}
+  }
+
+  h1,h2,h3{
+    font-variation-settings:"wdth" 125,"wght" 850;
+    letter-spacing:-.025em;
+    line-height:.92;
+    margin:0;
+    text-transform:uppercase;
+  }
+
+  h2{
+    font-size:clamp(28px,4.6vw,54px);
+  }
+  h3{
+    font-size:clamp(19px,2vw,26px);
+    letter-spacing:-.015em;
+  }
+
+  .lede{
+    font-variation-settings:"wdth" 110,"wght" 500;
+    font-size:clamp(19px,2.3vw,30px);
+    line-height:1.24;
+    letter-spacing:-.018em;
+    max-width:24ch;
+  }
+
+  p{margin:0 0 1.1em;max-width:62ch;}
+  p:last-child{margin-bottom:0;}
+
+  .sidenote{
+    color:var(--dim);
+    font-size:.82rem;
+    line-height:1.5;
+    max-width:30ch;
+  }
+
+  .stack > * + *{margin-top:1.4em;}
+
+  em{font-style:italic;}
+  strong{font-variation-settings:"wdth" 100,"wght" 700;font-weight:normal;}
+
+  /* ---- hero ---- */
+  .hero{
+    padding:clamp(70px,16vh,190px) 0 clamp(44px,7vh,90px);
+    border-bottom:1px solid var(--rule);
+  }
+  .mark{
+    font-variation-settings:"wdth" 125,"wght" 900;
+    font-size:clamp(78px,20vw,260px);
+    line-height:.78;
+    letter-spacing:-.045em;
+    text-transform:uppercase;
+    margin:0;
+  }
+  .promise{
+    font-variation-settings:"wdth" 118,"wght" 700;
+    font-size:clamp(15px,2.5vw,32px);
+    letter-spacing:.01em;
+    line-height:1.1;
+    text-transform:uppercase;
+    margin:clamp(20px,3vh,36px) 0 0;
+  }
+  .standfirst{
+    color:var(--dim);
+    margin-top:1.4em;
+    max-width:44ch;
+    font-size:.95rem;
+  }
+
+  /* ---- timetable ---- */
+  .timetable{
+    margin-top:clamp(44px,8vh,90px);
+    border-top:1px solid var(--rule);
+  }
+  .line{
+    display:grid;
+    grid-template-columns:3.2rem minmax(0,1fr) auto;
+    align-items:baseline;
+    gap:clamp(12px,3vw,32px);
+    padding:1.05rem 0;
+    border-bottom:1px solid var(--rule);
+  }
+  .line .no{
+    font-variation-settings:"wdth" 125,"wght" 800;
+    font-size:.95rem;
+  }
+  .line .where{
+    font-variation-settings:"wdth" 112,"wght" 650;
+    font-size:clamp(15px,2vw,22px);
+    text-transform:uppercase;
+    letter-spacing:-.01em;
+  }
+  .line .when{
+    font-size:.88rem;
+    color:var(--dim);
+    white-space:nowrap;
+  }
+  .l1 .no,.l1 .where{color:var(--c1);}
+  .l2 .no,.l2 .where{color:var(--c2);}
+  .l3 .no,.l3 .where{color:var(--c3);}
+  .l4 .no,.l4 .where{color:var(--c4);}
+
+  /* ---- chapters: full bleed, break the grid ---- */
+  .chapter{
+    position:relative;
+    padding:clamp(48px,9vh,110px) var(--gutter);
+    color:var(--ink);
+  }
+  .chapter-inner{
+    max-width:1180px;
+    margin:0 auto;
+  }
+  .ch1{background:var(--c1);color:var(--ink);}
+  .ch2{background:var(--c2);color:var(--ink);}
+  .ch3{background:var(--c3);color:var(--ink);}
+  .ch4{background:var(--paper);color:var(--ink);}
+
+  .chapter .num{
+    font-variation-settings:"wdth" 125,"wght" 900;
+    font-size:clamp(56px,13vw,150px);
+    line-height:.8;
+    letter-spacing:-.05em;
+    display:block;
+    margin-bottom:.12em;
+  }
+  .chapter h3{
+    font-size:clamp(26px,5.2vw,62px);
+    margin-bottom:.35em;
+  }
+  .chapter .meta{
+    font-variation-settings:"wdth" 110,"wght" 650;
+    text-transform:uppercase;
+    font-size:clamp(13px,1.5vw,17px);
+    letter-spacing:.005em;
+    margin-bottom:1.4em;
+  }
+  .chapter p{max-width:50ch;}
+  .chapter .rule{
+    border:0;
+    border-top:2px solid currentColor;
+    opacity:.35;
+    margin:1.8em 0 0;
+    max-width:50ch;
+  }
+
+  /* ---- roster ---- */
+  .swap{
+    display:grid;
+    gap:1px;
+    background:var(--rule);
+    border:1px solid var(--rule);
+    margin-top:2em;
+  }
+  @media(min-width:760px){.swap{grid-template-columns:1fr 1fr;}}
+  .swap div{
+    background:var(--ink);
+    padding:1.3rem clamp(16px,2vw,26px);
+  }
+  .swap .from{
+    color:var(--dim);
+    text-decoration:line-through;
+    text-decoration-thickness:1px;
+    font-size:.85rem;
+  }
+  .swap .to{
+    font-variation-settings:"wdth" 112,"wght" 700;
+    font-size:clamp(16px,1.8vw,21px);
+    text-transform:uppercase;
+    letter-spacing:-.01em;
+    margin:.25em 0 .5em;
+  }
+  .swap p{font-size:.88rem;color:var(--dim);margin:0;}
+
+  /* ---- phases ---- */
+  .phase{
+    border-top:1px solid var(--rule);
+    padding:1.8rem 0;
+  }
+  .phase:first-of-type{border-top:0;padding-top:0;}
+  .phase .tag{
+    font-variation-settings:"wdth" 120,"wght" 800;
+    font-size:.9rem;
+    text-transform:uppercase;
+    margin-bottom:.5em;
+  }
+  blockquote{
+    margin:1.2em 0 0;
+    padding-left:1.1em;
+    border-left:2px solid var(--c1);
+    font-variation-settings:"wdth" 112,"wght" 600;
+    font-size:clamp(17px,2vw,24px);
+    line-height:1.25;
+    letter-spacing:-.015em;
+    max-width:30ch;
+  }
+
+  /* ---- halloween ---- */
+  .blackout{
+    background:var(--c1);
+    color:var(--ink);
+    padding:clamp(70px,16vh,180px) var(--gutter);
+    text-align:center;
+  }
+  .blackout p{
+    max-width:none;
+    margin:0 auto;
+    font-variation-settings:"wdth" 125,"wght" 900;
+    font-size:clamp(34px,8vw,104px);
+    line-height:.9;
+    letter-spacing:-.04em;
+    text-transform:uppercase;
+  }
+  .blackout .above{
+    font-variation-settings:"wdth" 105,"wght" 500;
+    font-size:clamp(14px,1.6vw,19px);
+    text-transform:none;
+    letter-spacing:0;
+    line-height:1.4;
+    max-width:34ch;
+    margin:0 auto 1.1em;
+  }
+
+  /* ---- numbers ---- */
+  .scroller{overflow-x:auto;margin-top:2em;-webkit-overflow-scrolling:touch;}
+  table{
+    border-collapse:collapse;
+    width:100%;
+    min-width:660px;
+    font-size:.86rem;
+    font-variant-numeric:tabular-nums;
+  }
+  th,td{
+    text-align:right;
+    padding:.72rem .6rem;
+    border-bottom:1px solid var(--rule);
+    white-space:nowrap;
+  }
+  th:first-child,td:first-child{
+    text-align:left;
+    padding-left:0;
+    white-space:normal;
+  }
+  thead th{
+    font-variation-settings:"wdth" 118,"wght" 750;
+    text-transform:uppercase;
+    font-size:.76rem;
+    border-bottom:2px solid var(--paper);
+  }
+  thead th.k1{color:var(--c1);}
+  thead th.k2{color:var(--c2);}
+  thead th.k3{color:var(--c3);}
+  thead th.k4{color:var(--c4);}
+  tbody tr.total td{
+    font-variation-settings:"wdth" 110,"wght" 750;
+    border-bottom:2px solid var(--paper);
+  }
+  td.dim{color:var(--dim);}
+
+  .gate{
+    margin-top:2.4em;
+    border:2px solid var(--c1);
+    padding:clamp(20px,3vw,34px);
+  }
+  .gate h3{color:var(--c1);margin-bottom:.6em;}
+  .gate p{max-width:54ch;}
+
+  /* ---- partners ---- */
+  .tiers{margin-top:2em;}
+  .tier{
+    display:grid;
+    gap:.4rem clamp(16px,3vw,40px);
+    padding:1.6rem 0;
+    border-top:1px solid var(--rule);
+  }
+  @media(min-width:760px){
+    .tier{grid-template-columns:minmax(0,20ch) minmax(0,1fr);align-items:start;}
+  }
+  .tier .price{
+    font-variation-settings:"wdth" 122,"wght" 850;
+    font-size:clamp(20px,2.4vw,30px);
+    letter-spacing:-.025em;
+    line-height:1;
+  }
+  .tier .name{
+    font-variation-settings:"wdth" 112,"wght" 700;
+    text-transform:uppercase;
+    font-size:.88rem;
+    color:var(--dim);
+    margin-bottom:.35em;
+  }
+  .tier p{margin:0;font-size:.93rem;}
+  .tier .avail{
+    display:block;
+    margin-top:.6em;
+    font-size:.8rem;
+    color:var(--dim);
+  }
+
+  /* ---- checklist ---- */
+  ol.needs{
+    list-style:none;
+    counter-reset:n;
+    padding:0;
+    margin:2em 0 0;
+    max-width:62ch;
+  }
+  ol.needs li{
+    counter-increment:n;
+    display:grid;
+    grid-template-columns:2.6rem 1fr;
+    gap:.6rem;
+    padding:.95rem 0;
+    border-top:1px solid var(--rule);
+  }
+  ol.needs li::before{
+    content:counter(n,decimal-leading-zero);
+    font-variation-settings:"wdth" 125,"wght" 800;
+    font-size:.9rem;
+    color:var(--c1);
+  }
+
+  /* ---- close ---- */
+  .close{
+    padding:clamp(80px,18vh,200px) var(--gutter);
+    text-align:center;
+    border-top:1px solid var(--rule);
+  }
+  .close .mark{font-size:clamp(60px,16vw,200px);}
+  .close .promise{margin-top:1rem;}
+  .close .sign{
+    margin-top:clamp(36px,6vh,70px);
+    color:var(--dim);
+    font-size:.85rem;
+    line-height:1.7;
+  }
+
+  a{color:inherit;}
+  :focus-visible{outline:2px solid var(--c1);outline-offset:3px;}
+
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+
+  @media print{
+    :root{--ink:#fff;--paper:#000;--dim:#555;--rule:#bbb;}
+    body{background:#fff;color:#000;font-size:10.5pt;}
+    .sheet::before,.sheet::after{display:none;}
+    .chapter,.blackout{-webkit-print-color-adjust:exact;print-color-adjust:exact;break-inside:avoid;}
+    .block{break-inside:avoid;padding:24pt 0;}
+    thead th{border-bottom:1.5pt solid #000;}
+    .swap div{background:#fff;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="sheet">
+    <h1 class="mark">Ville</h1>
+    <p class="promise">Same room. Different energy.</p>
+    <p class="standfirst">A four-chapter season across Kampala. Four spaces, six weeks, 1,200 people. Partner document for Season One.</p>
+
+    <div class="timetable">
+      <div class="line l1"><span class="no">01</span><span class="where">Design Hub — the warehouse</span><span class="when">Sat 31 Oct</span></div>
+      <div class="line l2"><span class="no">02</span><span class="where">Tupe Hostel UCU — the courtyard</span><span class="when">Sat 14 Nov</span></div>
+      <div class="line l3"><span class="no">03</span><span class="where">Nkonzi Hill — the hill</span><span class="when">Sat 28 Nov</span></div>
+      <div class="line l4"><span class="no">04</span><span class="where">Unknown</span><span class="when">Sat 12 Dec</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="sheet block wide">
+    <h2>The idea</h2>
+    <div class="stack">
+      <p class="lede">There are so many people here doing interesting things. They're just never in the same room.</p>
+      <p>Making music. Taking photographs. Shooting films. Designing clothes. Building businesses. Painting. Dancing. Starting things. All of it happening at once, across a city, in separate rooms.</p>
+      <p>VILLE puts them in one. Not to network, not to make connections — just to be there, hear something new, meet someone, and have a night worth talking about.</p>
+      <p>And every time, we change the room.</p>
+    </div>
+  </section>
+
+  <section class="sheet block wide">
+    <h2>The name</h2>
+    <div class="stack">
+      <p class="lede">A ville is a town. VILLE is a town that moves.</p>
+      <p>It has no address. It has a room, and the room changes.</p>
+      <p>You don't live in it. You turn up. That is the entire membership requirement, and it's why the card matters — it's the only record of who was there.</p>
+      <p>Kampala is where it starts. The town is what travels.</p>
+    </div>
+  </section>
+
+  <section class="sheet block wide">
+    <h2>The rule</h2>
+    <div class="stack">
+      <p class="lede">Same room. Same ticket.</p>
+      <p>No VIP. No tables. No sections. Nobody gets a better version of the night than anybody else.</p>
+      <p>This is the decision everything else protects. The moment VILLE has a rope it becomes every other event in the city, and the reason people came stops being true. It applies to partners too — no branded VIP, no separated area. Saying so out loud is part of what makes the offer credible.</p>
+      <p>Same ticket applies <em>within</em> a chapter. Chapters are priced to their room: a student courtyard and a December finale are not the same night and shouldn't cost the same.</p>
+      <p><strong>Bring your own.</strong> Corkage is charged per cooler, not per person. A group of six splits 100,000 and pays under 20,000 each — arriving together becomes the natural move, which is exactly the behaviour the room wants.</p>
+    </div>
+  </section>
+
+</main>
+
+<section class="chapter ch1">
+  <div class="chapter-inner">
+    <span class="num">01</span>
+    <h3>The warehouse</h3>
+    <p class="meta">Design Hub · Saturday 31 October</p>
+    <p>A rave. Raw, dark, loud, late.</p>
+    <p>Music inside, food outside, people everywhere. No headliner, no lineup announced. Sound and light are the production — the room is meant to look like a warehouse, because it is one.</p>
+    <p>The first room, and the one that sets the standard for every room after it.</p>
+    <hr class="rule">
+  </div>
+</section>
+
+<section class="chapter ch2">
+  <div class="chapter-inner">
+    <span class="num">02</span>
+    <h3>The courtyard</h3>
+    <p class="meta">Tupe Hostel, UCU · Saturday 14 November</p>
+    <p>Open air. University energy. A block party in a quadrangle that already has social memory — VILLE inherits it rather than manufacturing it.</p>
+    <p>The cheapest ticket of the season, in the most commercially valuable room in it.</p>
+    <hr class="rule">
+  </div>
+</section>
+
+<section class="chapter ch3">
+  <div class="chapter-inner">
+    <span class="num">03</span>
+    <h3>The hill</h3>
+    <p class="meta">Nkonzi Hill · Saturday 28 November</p>
+    <p>Sunset. Views. Music that fits the light. Proof that VILLE doesn't need a venue — it needs a place.</p>
+    <p>Chapter Four is revealed here, from the stage, to a room that's already inside.</p>
+    <hr class="rule">
+  </div>
+</section>
+
+<section class="chapter ch4">
+  <div class="chapter-inner">
+    <span class="num">04</span>
+    <h3>Unknown</h3>
+    <p class="meta">Saturday 12 December</p>
+    <p>We don't reveal everything.</p>
+    <p>The season's answer to the first three, and the door into what comes next. Announced last, revealed late, and placed in the biggest week of Kampala's year.</p>
+    <hr class="rule">
+  </div>
+</section>
+
+<main>
+
+  <section class="sheet block wide">
+    <h2>The card</h2>
+    <div class="stack">
+      <p class="lede">Everyone who comes gets one. It's marked at every chapter you attend.</p>
+      <p>Four marks means you were there for the whole first season. Not a tier, not access, nothing anyone can buy their way into — only something you can have been present for.</p>
+      <p>It costs almost nothing to produce, and it's the only reason a person needs to think about Chapter Three while standing in Chapter Two.</p>
+    </div>
+  </section>
+
+  <section class="sheet block wide">
+    <h2>The roster</h2>
+    <div class="stack">
+      <p class="lede">Twelve people are cast before any campaign is written.</p>
+      <p>The usual order is concept, then budget, then find creators to amplify it. VILLE runs it backwards. We find the twelve people this audience already listens to, and the campaign comes out of them.</p>
+      <p>One creator is a coin flip. Twelve is a channel we own for six weeks — a photographer, a DJ, a filmmaker, a designer, a fashion creative, an entrepreneur, a student, and the people who simply know everyone. They are not amplification bought after the fact. They are the evidence the room exists.</p>
+
+      <div class="swap">
+        <div>
+          <p class="from">Keyword research</p>
+          <p class="to">Creator research</p>
+          <p>Cast for who listens to them, not how many follow them. Four thousand real peers beats eighty thousand strangers.</p>
+        </div>
+        <div>
+          <p class="from">Content volume</p>
+          <p class="to">Content credibility</p>
+          <p>One person saying something true about their own work beats thirty posts about an event.</p>
+        </div>
+        <div>
+          <p class="from">Campaign management</p>
+          <p class="to">Roster management</p>
+          <p>We're building a channel, not running a flight. The twelve carry across all four chapters and into Season Two.</p>
+        </div>
+        <div>
+          <p class="from">Reach reporting</p>
+          <p class="to">Proof reporting</p>
+          <p>We report what a customer can check: who was in the room, what got made, what came out of it. Not impressions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet block wide">
+    <h2>The launch</h2>
+    <div class="stack">
+      <p class="lede">Eight weeks. Three phases. No ticket on sale until the third.</p>
+      <p>Speed is the story. VILLE didn't spend a year announcing itself. It appeared.</p>
+
+      <div class="phase">
+        <p class="tag">Phase one — Who's in the room?</p>
+        <p>We don't announce an event. We show people. Short films from the roster, no long interviews, no corporate questions. Who are you? What are you into? What are you making? Who are you looking for?</p>
+        <blockquote>The photographer is here. The DJ is here. The designer is here. The founder is here. The student is here. You're here too.</blockquote>
+      </div>
+
+      <div class="phase">
+        <p class="tag">Phase two — The idea</p>
+        <p>Only after the faces:</p>
+        <blockquote>We spend so much time connected to people online. Maybe it's time we got in the same room.</blockquote>
+      </div>
+
+      <div class="phase">
+        <p class="tag">Phase three — Off the grid</p>
+        <p>Then we tease places, not lineups. A warehouse door. A staircase. A courtyard wall. A hill at dusk. No explanation — just that VILLE is going off the grid. Then the date lands.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<section class="blackout">
+  <p class="above">Chapter One falls on 31 October. Every venue in Kampala will run a themed night. VILLE will not — no costumes, no theme. A themed launch would make this a novelty instead of a beginning. So on the one night of the year the whole city dresses as someone else:</p>
+  <p>Come as you are.</p>
+</section>
+
+<main>
+
+  <section class="sheet block">
+    <h2>The numbers</h2>
+    <p style="margin-top:1.4em;color:var(--dim);max-width:52ch;">All figures UGX. Fortnightly, Saturdays. Capacity 300 per chapter.</p>
+
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">&nbsp;</th>
+            <th scope="col" class="k1">01 Warehouse</th>
+            <th scope="col" class="k2">02 Courtyard</th>
+            <th scope="col" class="k3">03 Hill</th>
+            <th scope="col" class="k4">04 Unknown</th>
+            <th scope="col">Season</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Date</th><td class="dim">31 Oct</td><td class="dim">14 Nov</td><td class="dim">28 Nov</td><td class="dim">12 Dec</td><td class="dim">6 weeks</td></tr>
+          <tr><th scope="row">Ticket</th><td>50,000</td><td>25,000</td><td>60,000</td><td>70,000</td><td class="dim">—</td></tr>
+          <tr><th scope="row">Ticket revenue</th><td>15,000,000</td><td>7,500,000</td><td>18,000,000</td><td>21,000,000</td><td>61,500,000</td></tr>
+          <tr><th scope="row">Production</th><td>15,000,000</td><td>15,000,000</td><td>22,000,000</td><td>30,000,000</td><td>82,000,000</td></tr>
+          <tr class="total"><th scope="row">Partner target</th><td>20,000,000</td><td>30,000,000</td><td>20,000,000</td><td>30,000,000</td><td>100,000,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="wide" style="margin-top:2.6em;">
+      <h3>The ladder</h3>
+      <div class="stack">
+        <p>Spend climbs as the property earns proof. Chapter One is a rave in a raw warehouse: production goes to sound and light, not decor, and there is no headliner fee. Making Design Hub look expensive would damage the brand.</p>
+        <p>Chapter One sits at 15,000,000 deliberately. Three hundred tickets at 50,000 is 15,000,000. <strong>Tickets alone cover the night.</strong></p>
+      </div>
+    </div>
+
+    <div class="gate">
+      <h3>The gate — 10 October</h3>
+      <p>Chapter One must be able to run unsponsored. Partner income is upside, not survival. That is what lets GENrise walk into every partner conversation able to say the season happens either way — the only posture that produces a good deal, for both sides.</p>
+      <p>If no Season Partner is signed by 10 October, Chapter One runs on the reduced budget and partner conversations move to Chapter Two.</p>
+    </div>
+
+    <div class="wide" style="margin-top:2.6em;">
+      <h3>Chapter Two</h3>
+      <div class="stack">
+        <p>The lowest ticket of the season sits in the highest-value room. A courtyard of UCU students is the most commercially attractive audience VILLE will assemble all year — which is why Chapter Two carries the largest partner target while charging 25,000 at the door.</p>
+      </div>
+    </div>
+
+    <div class="wide" style="margin-top:2.6em;">
+      <h3>Still open</h3>
+      <div class="stack">
+        <p>Confirm what production covers — space, sound and build, or artists, security, permits, content and marketing too. Confirm whether a bar operates alongside BYOB or corkage replaces it. Confirm permits per space, particularly a late rave at Design Hub on 31 October.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet block">
+    <h2>Partners</h2>
+    <div class="wide" style="margin-top:1.8em;">
+      <div></div>
+      <p class="lede">A brand doesn't present a party. It helps build a room.</p>
+    </div>
+
+    <div class="tiers">
+      <div class="tier">
+        <div>
+          <p class="name">Season partner</p>
+          <p class="price">90,000,000</p>
+        </div>
+        <div>
+          <p>One brand across all four chapters. Present from Phase One of the campaign, travelling with VILLE through the season, part of the story rather than one night of it.</p>
+          <span class="avail">One available.</span>
+        </div>
+      </div>
+
+      <div class="tier">
+        <div>
+          <p class="name">Chapter partner</p>
+          <p class="price">20–30,000,000</p>
+        </div>
+        <div>
+          <p>One brand per chapter. Named with the space, present in the build, in the content, in the room.</p>
+          <span class="avail">Four available.</span>
+        </div>
+      </div>
+
+      <div class="tier">
+        <div>
+          <p class="name">Experience partner</p>
+          <p class="price">4–6,000,000</p>
+        </div>
+        <div>
+          <p>Ownership of one element inside a chapter — a food and drink experience, an installation, a photography setup, a creator collaboration, a pop-up.</p>
+          <span class="avail">Limited per chapter.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="wide" style="margin-top:3em;">
+      <h3>Why now</h3>
+      <div class="stack">
+        <p>VILLE runs 31 October to 12 December — the exact window Q4 budgets are built for. This isn't a request for new money. It's the cultural play that starts before everyone else's December activation and runs straight through it, in front of 1,200 people across four spaces in six weeks.</p>
+        <p>What partners get that they can't buy elsewhere: participation in something a specific, hard-to-reach audience already cares about, content made by the people in the room rather than an agency outside it, and a report a customer could verify.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet block">
+    <h2>What happens next</h2>
+    <ol class="needs">
+      <li><span>Confirm dates and hold Design Hub, Tupe Hostel and Nkonzi Hill.</span></li>
+      <li><span>Secure permits for a late event at Design Hub on 31 October.</span></li>
+      <li><span>Cast the roster of twelve. Films in production within two weeks.</span></li>
+      <li><span>Close the Season Partner by 10 October, or trigger the reduced-budget Chapter One.</span></li>
+      <li><span>Appoint one photographer and one filmmaker for the full season, so four chapters look like one body of work.</span></li>
+      <li><span>Print the cards.</span></li>
+    </ol>
+  </section>
+
+  <section class="sheet block wide">
+    <h2>After Kampala</h2>
+    <div class="stack">
+      <p class="lede">Interesting people need somewhere to find each other. That isn't a local thought.</p>
+      <p>The season film cuts in December and releases in early January, into an empty calendar, as the case for Season Two.</p>
+      <p>Today, VILLE Kampala. Then Kigali, Nairobi, Dar. Different cities, different rooms, same VILLE.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="close">
+  <p class="mark">Ville</p>
+  <p class="promise">Same room. Different energy.</p>
+  <p class="sign">
+    Come as you are. Bring what you're into. Find who's into it too.<br>
+    A cultural experience by GENrise · Kampala · Season One, 2026
+  </p>
+</footer>
+
+</body>
+</html>

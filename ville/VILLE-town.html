@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VILLE — The Moving Town — Year One</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,400..700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#000;
+    --paper:#FAFAF7;
+    --dim:rgba(250,250,247,.55);
+    --rule:rgba(250,250,247,.18);
+    --own:#FF3B14;
+    --with:#E4FF3A;
+    --enter:#B084FF;
+    --full:#FAFAF7;
+    --gutter:clamp(20px,5vw,80px);
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;background:var(--ink);color:var(--paper);
+    font-family:"Archivo","Helvetica Neue",Arial,sans-serif;
+    font-variation-settings:"wdth" 100,"wght" 400;
+    font-size:clamp(15px,1.05vw,17px);line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .sheet{position:relative;max-width:1180px;margin:0 auto;padding:0 var(--gutter);}
+  .sheet::before,.sheet::after{content:"";position:absolute;top:0;bottom:0;width:1px;background:var(--rule);pointer-events:none;}
+  .sheet::before{left:var(--gutter);}
+  .sheet::after{right:var(--gutter);}
+  .block{padding:clamp(56px,9vh,120px) 0;border-bottom:1px solid var(--rule);}
+  .block:last-of-type{border-bottom:0;}
+  .wide{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(24px,4vw,64px);}
+  @media(min-width:860px){.wide{grid-template-columns:minmax(0,17ch) minmax(0,1fr);}}
+
+  h1,h2,h3{font-variation-settings:"wdth" 125,"wght" 850;letter-spacing:-.025em;line-height:.92;margin:0;text-transform:uppercase;text-wrap:balance;}
+  h2{font-size:clamp(28px,4.6vw,54px);}
+  h3{font-size:clamp(19px,2vw,26px);letter-spacing:-.015em;}
+  .lede{font-variation-settings:"wdth" 110,"wght" 500;font-size:clamp(19px,2.3vw,30px);line-height:1.24;letter-spacing:-.018em;max-width:26ch;}
+  p{margin:0 0 1.1em;max-width:62ch;}
+  p:last-child{margin-bottom:0;}
+  .stack > * + *{margin-top:1.4em;}
+  .intro{margin-top:1.4em;color:var(--dim);max-width:54ch;}
+  em{font-style:italic;}
+  strong{font-variation-settings:"wdth" 100,"wght" 700;font-weight:normal;}
+
+  /* hero */
+  .hero{padding:clamp(70px,16vh,190px) 0 clamp(44px,7vh,90px);border-bottom:1px solid var(--rule);}
+  .mark{font-variation-settings:"wdth" 125,"wght" 900;font-size:clamp(78px,20vw,260px);line-height:.78;letter-spacing:-.045em;text-transform:uppercase;margin:0;}
+  .promise{font-variation-settings:"wdth" 118,"wght" 700;font-size:clamp(15px,2.5vw,32px);letter-spacing:.01em;line-height:1.1;text-transform:uppercase;margin:clamp(20px,3vh,36px) 0 0;}
+  .under{font-variation-settings:"wdth" 112,"wght" 600;font-size:clamp(17px,2.2vw,26px);line-height:1.2;letter-spacing:-.015em;margin-top:.8em;color:var(--own);text-transform:uppercase;max-width:22ch;}
+  .standfirst{color:var(--dim);margin-top:1.6em;max-width:46ch;font-size:.95rem;}
+
+  /* the swap */
+  .swap{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:2.2em;}
+  @media(min-width:760px){.swap{grid-template-columns:1fr 1fr;}}
+  .swap div{background:var(--ink);padding:1.3rem clamp(16px,2vw,26px);}
+  .swap .from{color:var(--dim);text-decoration:line-through;text-decoration-thickness:1px;font-size:.85rem;margin:0;}
+  .swap .to{font-variation-settings:"wdth" 112,"wght" 700;font-size:clamp(16px,1.8vw,21px);text-transform:uppercase;letter-spacing:-.01em;margin:.25em 0 .5em;}
+  .swap p:last-child{font-size:.88rem;color:var(--dim);margin:0;}
+
+  /* kinds of stop */
+  .kinds{display:grid;gap:10px;grid-template-columns:1fr;margin-top:2.2em;}
+  @media(min-width:760px){.kinds{grid-template-columns:repeat(3,1fr);}}
+  .kind-card{padding:clamp(16px,2.2vw,26px);color:var(--ink);display:flex;flex-direction:column;min-height:clamp(150px,20vh,200px);}
+  .kind-card .n{font-variation-settings:"wdth" 125,"wght" 900;font-size:clamp(18px,2.2vw,26px);text-transform:uppercase;letter-spacing:-.02em;line-height:1;}
+  .kind-card .q{font-variation-settings:"wdth" 110,"wght" 650;font-size:.82rem;text-transform:uppercase;margin:.5em 0 .9em;opacity:.65;}
+  .kind-card p{font-size:.88rem;max-width:none;margin:0;}
+  .kind-card .cnt{margin-top:auto;padding-top:1em;font-size:.76rem;font-variation-settings:"wdth" 108,"wght" 700;text-transform:uppercase;}
+  .k-own{background:var(--own);}
+  .k-with{background:var(--with);}
+  .k-enter{background:var(--enter);}
+
+  /* passport */
+  .passport{margin-top:2.2em;border:1px solid var(--rule);display:grid;grid-template-columns:1fr;}
+  @media(min-width:760px){.passport{grid-template-columns:1fr 1fr;}}
+  .pcol{padding:clamp(18px,2.4vw,28px);}
+  .pcol + .pcol{border-top:1px solid var(--rule);}
+  @media(min-width:760px){.pcol + .pcol{border-top:0;border-left:1px solid var(--rule);}}
+  .pcol .h{font-variation-settings:"wdth" 122,"wght" 800;text-transform:uppercase;font-size:.9rem;letter-spacing:.01em;margin-bottom:.2em;}
+  .pcol .sub{color:var(--dim);font-size:.8rem;margin-bottom:1.1em;}
+  .pcol ul{list-style:none;margin:0;padding:0;font-size:.9rem;}
+  .pcol li{padding:.42rem 0;border-top:1px solid var(--rule);}
+  .pcol li::before{content:"\2610";margin-right:.6em;opacity:.55;}
+  .p-take .h{color:var(--enter);}
+  .p-give .h{color:var(--with);}
+
+  /* the calendar of stops */
+  .stops{margin-top:2.4em;}
+  .stop{border-top:1px solid var(--rule);padding:clamp(26px,4vh,48px) 0;}
+  .stop:first-child{border-top:2px solid var(--paper);}
+  .stop-head{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.4rem clamp(14px,2.4vw,28px);align-items:start;}
+  @media(min-width:760px){.stop-head{grid-template-columns:auto minmax(0,1fr) auto;align-items:baseline;}}
+  .sn{font-variation-settings:"wdth" 125,"wght" 900;font-size:clamp(34px,6vw,64px);line-height:.8;letter-spacing:-.045em;}
+  .stop h3{font-size:clamp(22px,3.4vw,38px);}
+  .stop .meta{font-variation-settings:"wdth" 110,"wght" 650;text-transform:uppercase;font-size:.84rem;color:var(--dim);margin:.55em 0 0;letter-spacing:.005em;}
+  .tag{
+    font-variation-settings:"wdth" 118,"wght" 800;text-transform:uppercase;
+    font-size:.72rem;letter-spacing:.04em;white-space:nowrap;
+    padding:.34em .7em;color:var(--ink);align-self:start;justify-self:start;
+    grid-column:2;
+  }
+  @media(min-width:760px){.tag{grid-column:auto;justify-self:end;}}
+  .t-own .sn,.t-own h3{color:var(--own);}
+  .t-own .tag{background:var(--own);}
+  .t-with .sn,.t-with h3{color:var(--with);}
+  .t-with .tag{background:var(--with);}
+  .t-enter .sn,.t-enter h3{color:var(--enter);}
+  .t-enter .tag{background:var(--enter);}
+  .t-full .sn,.t-full h3{color:var(--full);}
+  .t-full .tag{background:var(--full);}
+
+  .map{margin:1.6em 0 0;display:grid;gap:0;}
+  .map > div{display:grid;grid-template-columns:1fr;gap:.2rem;padding:.85rem 0;border-top:1px solid var(--rule);}
+  @media(min-width:760px){.map > div{grid-template-columns:minmax(0,15ch) minmax(0,1fr);gap:clamp(16px,3vw,40px);align-items:baseline;}}
+  .map dt{font-variation-settings:"wdth" 112,"wght" 700;text-transform:uppercase;font-size:.76rem;letter-spacing:.03em;color:var(--dim);}
+  .map dd{margin:0;font-size:.93rem;max-width:62ch;}
+  .map .brand dd{color:var(--paper);}
+  .map .brand dt{color:var(--own);}
+  .status{margin-top:1.2em;font-size:.78rem;color:var(--dim);font-variation-settings:"wdth" 108,"wght" 600;text-transform:uppercase;letter-spacing:.02em;}
+
+  .interval{
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    padding:clamp(22px,4vh,40px) 0;margin:0;
+    display:grid;gap:.5rem clamp(16px,3vw,40px);grid-template-columns:1fr;
+  }
+  @media(min-width:760px){.interval{grid-template-columns:minmax(0,15ch) minmax(0,1fr);align-items:start;}}
+  .interval .w{font-variation-settings:"wdth" 122,"wght" 800;text-transform:uppercase;font-size:.9rem;color:var(--own);}
+  .interval p{margin:0;font-size:.93rem;}
+
+  /* brands */
+  .tiers{margin-top:2.2em;}
+  .tier{display:grid;gap:.4rem clamp(16px,3vw,40px);padding:1.6rem 0;border-top:1px solid var(--rule);grid-template-columns:1fr;}
+  @media(min-width:760px){.tier{grid-template-columns:minmax(0,20ch) minmax(0,1fr);align-items:start;}}
+  .tier .name{font-variation-settings:"wdth" 122,"wght" 850;font-size:clamp(18px,2.2vw,26px);text-transform:uppercase;letter-spacing:-.02em;line-height:1.05;}
+  .tier .price{font-variation-settings:"wdth" 112,"wght" 700;font-size:.9rem;color:var(--dim);margin-top:.45em;font-variant-numeric:tabular-nums;}
+  .tier p{margin:0 0 .7em;font-size:.93rem;}
+  .tier .avail{display:block;font-size:.8rem;color:var(--dim);}
+
+  .districts{margin-top:2em;display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);grid-template-columns:1fr;}
+  @media(min-width:700px){.districts{grid-template-columns:1fr 1fr;}}
+  .district{background:var(--ink);padding:1.3rem clamp(16px,2vw,26px);}
+  .district .d{font-variation-settings:"wdth" 118,"wght" 800;text-transform:uppercase;font-size:clamp(15px,1.7vw,19px);letter-spacing:-.01em;}
+  .district .who{color:var(--dim);font-size:.78rem;text-transform:uppercase;font-variation-settings:"wdth" 108,"wght" 650;margin:.35em 0 .7em;}
+  .district p{font-size:.88rem;margin:0;max-width:none;}
+
+  .blackout{background:var(--own);color:var(--ink);padding:clamp(70px,16vh,180px) var(--gutter);text-align:center;}
+  .blackout p{max-width:none;margin:0 auto;font-variation-settings:"wdth" 125,"wght" 900;font-size:clamp(30px,7vw,92px);line-height:.92;letter-spacing:-.04em;text-transform:uppercase;}
+  .blackout .above{font-variation-settings:"wdth" 105,"wght" 500;font-size:clamp(14px,1.6vw,19px);text-transform:none;letter-spacing:0;line-height:1.45;max-width:38ch;margin:0 auto 1.2em;}
+
+  .gate{margin-top:2.4em;border:2px solid var(--own);padding:clamp(20px,3vw,34px);}
+  .gate h3{color:var(--own);margin-bottom:.6em;}
+  .gate p{max-width:56ch;}
+
+  ol.needs{list-style:none;counter-reset:n;padding:0;margin:2em 0 0;max-width:64ch;}
+  ol.needs li{counter-increment:n;display:grid;grid-template-columns:2.6rem 1fr;gap:.6rem;padding:.95rem 0;border-top:1px solid var(--rule);}
+  ol.needs li::before{content:counter(n,decimal-leading-zero);font-variation-settings:"wdth" 125,"wght" 800;font-size:.9rem;color:var(--own);}
+
+  .rules{margin-top:2em;}
+  .rule-row{display:grid;grid-template-columns:1fr;gap:.3rem clamp(16px,3vw,40px);padding:1.1rem 0;border-top:1px solid var(--rule);}
+  @media(min-width:760px){.rule-row{grid-template-columns:minmax(0,22ch) minmax(0,1fr);align-items:baseline;}}
+  .rule-row .r{font-variation-settings:"wdth" 118,"wght" 750;text-transform:uppercase;font-size:.85rem;}
+  .rule-row p{margin:0;font-size:.92rem;}
+
+  .close{padding:clamp(80px,18vh,200px) var(--gutter);text-align:center;border-top:1px solid var(--rule);}
+  .close .mark{font-size:clamp(60px,16vw,200px);}
+  .close .sign{margin-top:clamp(36px,6vh,70px);color:var(--dim);font-size:.85rem;line-height:1.7;}
+
+  a{color:inherit;}
+  :focus-visible{outline:2px solid var(--own);outline-offset:3px;}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+
+  @media print{
+    :root{--ink:#fff;--paper:#000;--dim:#555;--rule:#bbb;}
+    body{background:#fff;color:#000;font-size:10.5pt;}
+    .sheet::before,.sheet::after{display:none;}
+    .kind-card,.blackout,.tag{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .block,.stop,.tier,.district{break-inside:avoid;}
+    .swap div,.district{background:#fff;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="sheet">
+    <h1 class="mark">Ville</h1>
+    <p class="promise">Same room. Different energy.</p>
+    <p class="under">Ville is not an event. It's a town that moves.</p>
+    <p class="standfirst">Year One: eight stops between October 2026 and July 2027. Where each one goes, why that place, what it unlocks, what it leaves behind, and what a brand can do inside it. Partner document.</p>
+  </div>
+</header>
+
+<main>
+
+  <section class="sheet block wide">
+    <h2>The idea</h2>
+    <div class="stack">
+      <p class="lede">A <em>ville</em> is a town. VILLE is a town with no fixed address.</p>
+      <p>It doesn't run one event and repeat it. It moves — through places, communities and moments, carrying the same identity into each one. Some stops we build ourselves. Some we build with a partner who already holds the room. Some we enter, appearing inside a moment somebody else created.</p>
+      <p>The room changes every time. What travels is the rule, the roster, the archive and the passport. That's the property.</p>
+      <p><strong>Which is why a brand doesn't sponsor a VILLE event. It enters the town.</strong> It takes a function inside a place people already want to be, and travels with it.</p>
+    </div>
+  </section>
+
+  <section class="sheet block">
+    <h2>What changes</h2>
+    <p class="intro">Same season, same spaces, same dates. A different thing to sell, and a different reason for a brand to say yes.</p>
+
+    <div class="swap">
+      <div>
+        <p class="from">A season of four parties</p>
+        <p class="to">A town on the move</p>
+        <p>Four chapters in Kampala is the first block of the route, not the product. The product is the thing that keeps arriving somewhere new.</p>
+      </div>
+      <div>
+        <p class="from">Sponsorship of an event</p>
+        <p class="to">Entry into a town</p>
+        <p>A logo on one night ends with the night. A district inside the town travels to every stop that follows it.</p>
+      </div>
+      <div>
+        <p class="from">Impact as a CSR line</p>
+        <p class="to">Impact as the mechanism</p>
+        <p>Every stop is built to leave something in the place it visited. It isn't a section of the deck; it's what a stop is for.</p>
+      </div>
+      <div>
+        <p class="from">Building towards next summer</p>
+        <p class="to">Already moving by then</p>
+        <p>When the big moments land, the town doesn't launch into them. It arrives in them, already running, already known.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet block">
+    <h2>Three kinds of stop</h2>
+    <p class="intro">Every stop in the calendar is one of these three. The type sets the cost, the risk and what a partner is actually buying.</p>
+
+    <div class="kinds">
+      <div class="kind-card k-own">
+        <div class="n">We build it</div>
+        <div class="q">Owned</div>
+        <p>VILLE finds the place, holds the permits, sets the room and carries the risk. Total control of the standard, highest cost, our ticket revenue.</p>
+        <div class="cnt">Stops 01 · 03 · 04 · 05 · 08</div>
+      </div>
+      <div class="kind-card k-with">
+        <div class="n">We build it with</div>
+        <div class="q">Hosted</div>
+        <p>Someone already holds the room — a campus, an institution, a neighbourhood. They bring the place and the people, we bring the town. Shared cost, inherited trust.</p>
+        <div class="cnt">Stops 02 · 07</div>
+      </div>
+      <div class="kind-card k-enter">
+        <div class="n">We enter it</div>
+        <div class="q">Guest</div>
+        <p>A moment that exists without us — a festival, a match weekend, a market. We don't build the crowd. We build the one room inside it worth being in.</p>
+        <div class="cnt">Stop 06</div>
+      </div>
+    </div>
+
+    <div class="wide" style="margin-top:2.8em;">
+      <h3>What makes a stop VILLE</h3>
+      <div class="stack">
+        <p>Four things, in any place, whoever built it. One ticket, no VIP, no sections — nobody gets a better version of the night than anybody else. A room nobody has seen used that way before. The roster in it, making the record of it. And a passport marked at the door.</p>
+        <p style="color:var(--dim);font-size:.9rem;">If a stop can't hold all four, it isn't a stop. It's an event we were at.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet block">
+    <h2>Impact, built in</h2>
+    <p class="intro">Two halves, and the passport records both. One is what a person takes out of a stop. The other is what the town leaves in the place.</p>
+
+    <div class="passport">
+      <div class="pcol p-take">
+        <div class="h">Discovery</div>
+        <div class="sub">What you leave with</div>
+        <ul>
+          <li>New artist</li>
+          <li>New place</li>
+          <li>New neighbourhood</li>
+          <li>Met someone new</li>
+          <li>Made something</li>
+          <li>Off the grid</li>
+        </ul>
+      </div>
+      <div class="pcol p-give">
+        <div class="h">Contribution</div>
+        <div class="sub">What the stop leaves behind</div>
+        <ul>
+          <li>Local crew hired and credited by name</li>
+          <li>A paid brief for someone who'd never been paid for it</li>
+          <li>Two roster places given to the place we visited</li>
+          <li>The space returned better than we found it</li>
+          <li>The archive given back to the people in it</li>
+          <li>One thing built that stays after we go</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="wide" style="margin-top:2.8em;">
+      <h3>Why it's structural</h3>
+      <div class="stack">
+        <p>A touring property that takes a crowd's money and leaves nothing is a tour. A town that arrives, hires locally, pays people who've never been paid for their work, and leaves two of its own seats behind is something a place invites back.</p>
+        <p>It is also the only version of impact a partner can report honestly — named people, paid briefs, a space handed back. Not a donation photographed at the end of the night.</p>
+        <p style="color:var(--dim);font-size:.9rem;">Season One prints as designed: paper, ten boxes, discovery only. The contribution column joins the passport in the 2027 edition, once there's a road to record.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet block">
+    <h2>Year One</h2>
+    <p class="intro">Eight stops, October 2026 to July 2027. The first four are the Kampala block — dated, spaced and budgeted. Everything after the January gate is designed but deliberately uncosted, because nothing on this road gets built on a forecast.</p>
+
+    <div class="stops">
+
+      <article class="stop t-own">
+        <div class="stop-head">
+          <span class="sn">01</span>
+          <div>
+            <h3>The warehouse</h3>
+            <p class="meta">Design Hub, Kampala · Saturday 31 October 2026</p>
+          </div>
+          <span class="tag">We build it</span>
+        </div>
+        <dl class="map">
+          <div><dt>Where</dt><dd>A working industrial space in the middle of the city, run as a rave. Raw, dark, loud, late. No headliner, no lineup announced — sound and light are the production.</dd></div>
+          <div><dt>Why this place</dt><dd>It carries no social baggage. Nobody has a memory of who they're supposed to be in that room, which is the only way a first night sets its own standard instead of inheriting one.</dd></div>
+          <div><dt>What it unlocks</dt><dd>Kampala's creative core — the DJs, photographers, designers and filmmakers who decide what the city thinks is good. Get this room right and the other seven are invitations rather than pitches.</dd></div>
+          <div><dt>What we leave</dt><dd>The first 300 passports in circulation. The roster's first films. A technical spec and supplier list every later stop inherits — the town's first infrastructure.</dd></div>
+          <div class="brand"><dt>What a brand gets</dt><dd>Founding position. The cheapest entry the town will ever sell, and the stop every later credit is measured against. A brand here isn't at the launch — it's in the origin story.</dd></div>
+        </dl>
+        <p class="status">Date fixed · Space held · Late-event permit outstanding</p>
+      </article>
+
+      <article class="stop t-with">
+        <div class="stop-head">
+          <span class="sn">02</span>
+          <div>
+            <h3>The courtyard</h3>
+            <p class="meta">Tupe Hostel, UCU, Mukono · Saturday 14 November 2026</p>
+          </div>
+          <span class="tag">We build it with</span>
+        </div>
+        <dl class="map">
+          <div><dt>Where</dt><dd>A university quadrangle, open air, run as a block party. The cheapest ticket of the year at 25,000.</dd></div>
+          <div><dt>Why this place</dt><dd>The courtyard already has social memory — it is where these students already gather. VILLE inherits that rather than manufacturing it. It's also the first stop outside Kampala proper, which is the first proof the town travels at all.</dd></div>
+          <div><dt>What it unlocks</dt><dd>Students: the most commercially valuable audience of the year and the hardest to reach without being obvious about it. Reached here on their ground, at their price, by invitation of their own hostel.</dd></div>
+          <div><dt>What we leave</dt><dd>Paid briefs for student photographers and DJs on the night, credited by name. A campus route into the Season Two roster. The lowest door price of the year, so nobody in that room is priced out of their own courtyard.</dd></div>
+          <div class="brand"><dt>What a brand gets</dt><dd>The youth room without the usual campus-activation awkwardness — no gazebo, no sampling table, no branded scaffold in a place people live. The trade is stated openly: lowest ticket of the year, largest partner target of the block.</dd></div>
+        </dl>
+        <p class="status">Date fixed · Space held · Host agreement to sign</p>
+      </article>
+
+      <article class="stop t-own">
+        <div class="stop-head">
+          <span class="sn">03</span>
+          <div>
+            <h3>The hill</h3>
+            <p class="meta">Nkonzi Hill · Saturday 28 November 2026</p>
+          </div>
+          <span class="tag">We build it</span>
+        </div>
+        <dl class="map">
+          <div><dt>Where</dt><dd>Sunset on open land. Views, music that fits the light, and no building at all.</dd></div>
+          <div><dt>Why this place</dt><dd>It is the argument in physical form: VILLE doesn't need a venue, it needs a place. A town that can only exist where there's a licensed room isn't a town, it's a promoter.</dd></div>
+          <div><dt>What it unlocks</dt><dd>Everyone who would never queue outside a club — older creatives, the photographers who work in daylight, the people who bring their friends rather than arrive alone. It widens the town past the night crowd.</dd></div>
+          <div><dt>What we leave</dt><dd>The land exactly as found, to a stated pack-out standard, because the next hill depends on this one. The first landscape archive of the route. Stop 04 revealed from the stage, to a room already in it.</dd></div>
+          <div class="brand"><dt>What a brand gets</dt><dd>Daylight. The only stop that photographs in natural light — a golden hour that yields a brand's whole year of content in one afternoon, without a studio or a set.</dd></div>
+        </dl>
+        <p class="status">Date fixed · Land held · Access, power and weather plan to confirm</p>
+      </article>
+
+      <article class="stop t-own">
+        <div class="stop-head">
+          <span class="sn">04</span>
+          <div>
+            <h3>Unknown</h3>
+            <p class="meta">Kampala, revealed late · Saturday 12 December 2026</p>
+          </div>
+          <span class="tag">We build it</span>
+        </div>
+        <dl class="map">
+          <div><dt>Where</dt><dd>Announced last, revealed late, placed in the biggest week of the city's year. We don't reveal everything.</dd></div>
+          <div><dt>Why this place</dt><dd>December is when every brand in the country is already spending and every venue is already full. The finale doesn't compete with that calendar — it's the one room in it nobody can predict.</dd></div>
+          <div><dt>What it unlocks</dt><dd>Everyone the first three stops collected, in one place, plus everybody they dragged along. The first night the town is visibly a population rather than an audience.</dd></div>
+          <div><dt>What we leave</dt><dd>The season film. The only two numbers that matter: passports issued, and passports at four stamps. The January report, which is what the whole road is actually funded by.</dd></div>
+          <div class="brand"><dt>What a brand gets</dt><dd>The end of a six-week story a partner was inside from the first frame — not a December activation bought in November. The report lands in January, when nobody else has anything to show.</dd></div>
+        </dl>
+        <p class="status">Date fixed · Space deliberately unconfirmed until November</p>
+      </article>
+
+      <div class="interval">
+        <div class="w">Dec 20 – Jan</div>
+        <div>
+          <p><strong>The town stops and counts.</strong> Season film cut. Passports counted. Season One report written honestly and sent to partners — attendance, repeat attendance, work made, collaborations formed, partner delivery against what was actually promised, money in and out per stop.</p>
+          <p style="margin-top:.7em;color:var(--dim);">Stops 05 to 08 are committed off that report, not off this document. If the first four don't produce the proof, the road gets shorter, not louder.</p>
+        </div>
+      </div>
+
+      <article class="stop t-own">
+        <div class="stop-head">
+          <span class="sn">05</span>
+          <div>
+            <h3>The road stop</h3>
+            <p class="meta">Jinja — Gulu as alternate · February 2027</p>
+          </div>
+          <span class="tag">We build it</span>
+        </div>
+        <dl class="map">
+          <div><dt>Where</dt><dd>A town outside the capital with a scene of its own. Jinja is first choice: river, skate, boda and adventure culture, close enough to reach and far enough to count. Gulu is the alternate, and a stronger music case if the north opens first.</dd></div>
+          <div><dt>Why this place</dt><dd>This is the stop that tests the whole thesis. Nobody in that room has been to a VILLE. Nobody is there because of the Kampala crowd. If the identity holds here, the property travels; if it doesn't, better to learn it two hours away than across a border.</dd></div>
+          <div><dt>What it unlocks</dt><dd>A scene that currently has to send its people to Kampala to be seen. The town goes to them instead, which is a thing no cultural property in this market has bothered to do.</dd></div>
+          <div><dt>What we leave</dt><dd>Local crew, local sound, local photographers — hired, paid and credited. Two roster places for that town, held for Season Two. The first stop where the archive is made largely by people who don't live in Kampala.</dd></div>
+          <div class="brand"><dt>What a brand gets</dt><dd>Presence upcountry that isn't a truck and a gazebo. For any brand whose distribution is national but whose marketing is Kampala, this is the stop that closes the gap — and the content from it doesn't look like a regional activation.</dd></div>
+        </dl>
+        <p class="status">Proposal · Committed at the January gate · Space to secure</p>
+      </article>
+
+      <article class="stop t-enter">
+        <div class="stop-head">
+          <span class="sn">06</span>
+          <div>
+            <h3>The guest stop</h3>
+            <p class="meta">Inside somebody else's moment · March – April 2027</p>
+          </div>
+          <span class="tag">We enter it</span>
+        </div>
+        <dl class="map">
+          <div><dt>Where</dt><dd>A moment that happens with or without us — a festival, a match weekend, a fashion show, a market. VILLE takes one space inside it and runs it as a stop of the town.</dd></div>
+          <div><dt>Why this place</dt><dd>It proves the town can appear inside existing culture instead of competing with it. We don't build the crowd, we build the room. It's the cheapest stop of the year and the fastest way to meet people who've never heard the name.</dd></div>
+          <div><dt>What it unlocks</dt><dd>An audience someone else assembled — including a football crowd, which arrives as a community rather than a broadcast, and is reachable here without touching anybody's rights.</dd></div>
+          <div><dt>What we leave</dt><dd>The host keeps the build and the content. Passports go out to people who didn't know the town existed that morning — the clearest measure of whether the identity carries on its own.</dd></div>
+          <div class="brand"><dt>What a brand gets</dt><dd>A room of its own inside a moment where every other brand is buying signage. For a brand built on football communities, this is the entry point: the culture around the match, not the ninety minutes anyone has already sold.</dd></div>
+        </dl>
+        <p class="status">Proposal · Host to identify · Committed at the January gate</p>
+      </article>
+
+      <article class="stop t-with">
+        <div class="stop-head">
+          <span class="sn">07</span>
+          <div>
+            <h3>Across the border</h3>
+            <p class="meta">Nairobi or Kigali, with a local partner · May 2027</p>
+          </div>
+          <span class="tag">We build it with</span>
+        </div>
+        <dl class="map">
+          <div><dt>Where</dt><dd>One city, once, built with people who already run rooms there. Not a tour — a stop.</dd></div>
+          <div><dt>Why this place</dt><dd>The property has to stop being Ugandan before the summer, not during it. Regional budgets are set at regional level, and a partner can't take VILLE to their regional board while it only exists in one city.</dd></div>
+          <div><dt>What it unlocks</dt><dd>A creative scene that already trades with Kampala's informally — the same photographers, DJs and designers who follow each other and have never been in a room together.</dd></div>
+          <div><dt>What we leave</dt><dd>A counterpart roster of twelve in that city, cast by the same rule. The first cross-border collaborations in the archive. A passport with two cities on it, which is the moment it stops being a ticket stub.</dd></div>
+          <div class="brand"><dt>What a brand gets</dt><dd>Regional proof before the season everyone is planning for. One market becomes three, on evidence rather than a deck — and at the price of a single stop.</dd></div>
+        </dl>
+        <p class="status">Proposal · Local partner to appoint · Committed at the January gate</p>
+      </article>
+
+      <article class="stop t-full">
+        <div class="stop-head">
+          <span class="sn">08</span>
+          <div>
+            <h3>The summer</h3>
+            <p class="meta">Kampala, daily · 19 June – 17 July 2027</p>
+          </div>
+          <span class="tag">The town at full size</span>
+        </div>
+        <dl class="map">
+          <div><dt>Where</dt><dd>The whole city, for a month, while East Africa fills with visitors. Four rooms a day: morning, streets, after, tomorrow.</dd></div>
+          <div><dt>Why this place</dt><dd>It's the one moment nobody has to be convinced matters. Every brand in the region will build something around the ninety minutes inside the stadium. The other twenty-two and a half hours are unclaimed, and they belong to whoever already knows the city.</dd></div>
+          <div><dt>What it unlocks</dt><dd>Visitors who arrive asking where the city actually goes, and the entire population the previous seven stops assembled, in the same month.</dd></div>
+          <div><dt>What we leave</dt><dd>The routes, mapped by the people who live on them. A city guide made from a year of archive rather than a press trip. The passport as a visitor's route through Kampala — and the case for year two.</dd></div>
+          <div class="brand"><dt>What a brand gets</dt><dd>First position on the cultural layer of the biggest moment East Africa has had in fifty years — bought at 2026 prices, before anyone else noticed it was for sale. Not an official anything. That's the point.</dd></div>
+        </dl>
+        <p class="status">Window fixed by the calendar · Everything else earned by the seven stops before it</p>
+      </article>
+
+    </div>
+  </section>
+
+</main>
+
+<section class="blackout">
+  <p class="above">Every brand in the region will spend next summer trying to build something in time. A property that starts building next June is already late. The only ones that work will be the ones that were already moving.</p>
+  <p>The town doesn't launch into the moment.<br>It arrives in it.</p>
+</section>
+
+<main>
+
+  <section class="sheet block">
+    <h2>Entering the town</h2>
+    <p class="intro">A brand doesn't present a stop. It takes a function inside the town and travels with it. Four ways in, priced by how far you travel — not by how big the logo is.</p>
+
+    <div class="tiers">
+      <div class="tier">
+        <div>
+          <div class="name">The town</div>
+          <div class="price">UGX 90,000,000 — Kampala block</div>
+        </div>
+        <div>
+          <p>One brand travels with VILLE across the whole route. Present from the first frame of the campaign, in every room, on the passport, in the report. Part of the story rather than one night of it. Priced here for the four Kampala stops; the road extends on the January report.</p>
+          <span class="avail">One available.</span>
+        </div>
+      </div>
+
+      <div class="tier">
+        <div>
+          <div class="name">A district</div>
+          <div class="price">Scoped per route</div>
+        </div>
+        <div>
+          <p>One function, every stop. The brand doesn't own a night — it owns the thing that makes the night work, wherever the town goes. This is the position with the longest life and the shortest explanation.</p>
+          <span class="avail">One brand per district. Districts below.</span>
+        </div>
+      </div>
+
+      <div class="tier">
+        <div>
+          <div class="name">A stop</div>
+          <div class="price">UGX 20,000,000 – 30,000,000</div>
+        </div>
+        <div>
+          <p>One brand at one stop. Named with the place, present in the build, in the room and in the content from it.</p>
+          <span class="avail">One per stop.</span>
+        </div>
+      </div>
+
+      <div class="tier">
+        <div>
+          <div class="name">A room within a room</div>
+          <div class="price">UGX 4,000,000 – 6,000,000</div>
+        </div>
+        <div>
+          <p>Ownership of one element inside a stop — a food and drink experience, an installation, a photography setup, a creator collaboration, a pop-up.</p>
+          <span class="avail">Limited per stop.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="wide" style="margin-top:3em;">
+      <h3>The districts</h3>
+      <div class="stack">
+        <p style="color:var(--dim);font-size:.9rem;max-width:56ch;">Illustrative shapes, not commitments, and not pitched to anyone. Each names a function the town genuinely needs, which is the only reason a brand inside it looks like it belongs.</p>
+      </div>
+    </div>
+
+    <div class="districts">
+      <div class="district">
+        <div class="d">Navigation</div>
+        <div class="who">A connectivity brand</div>
+        <p>The passport, the tickets, the maps, the connection, the creator stations, the secret drops. Every time someone finds their way through VILLE, this brand is the reason it worked.</p>
+      </div>
+      <div class="district">
+        <div class="d">Meeting</div>
+        <div class="who">A soft drink brand</div>
+        <p>Strangers paired at every stop, a drink shared, a portrait taken — a portrait series that runs the whole route and only exists because two people who'd never met sat down.</p>
+      </div>
+      <div class="district">
+        <div class="d">The football town</div>
+        <div class="who">A brewer with football in its portfolio</div>
+        <p>The community around the game rather than the game itself. Viewing rooms, five-a-side in a car park, the away-day energy imported into stops 06 and 08 — reaching football people without going near anybody's rights.</p>
+      </div>
+      <div class="district">
+        <div class="d">The after</div>
+        <div class="who">A spirits brand</div>
+        <p>A room within the room. A secret space, a rotating artist collaboration, an installation that changes at every stop. Nobody remembers a banner. People remember a room.</p>
+      </div>
+    </div>
+
+    <div class="wide" style="margin-top:3em;">
+      <h3>How we report</h3>
+      <div class="stack">
+        <p>Not impressions. VILLE reports what a customer could check: who was in the room, what got made, what collaborations came out of it, how many passports moved from one stamp to four, and what each stop left in the place it visited — named people, paid briefs, spaces handed back.</p>
+        <p>Proof a partner can repeat out loud without being embarrassed.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet block">
+    <h2>The rules that protect it</h2>
+    <p class="intro">A moving property fails in predictable ways. These are the four that would kill it, and what stops each one.</p>
+
+    <div class="rules">
+      <div class="rule-row">
+        <div class="r">Same room, same ticket</div>
+        <p>No VIP, no tables, no sections, at any stop, for anybody — partners included. The moment the town has a rope it becomes every other event in the city and the reason people came stops being true.</p>
+      </div>
+      <div class="rule-row">
+        <div class="r">Nothing on a forecast</div>
+        <p>Stop 01 breaks even on tickets alone. Stops 05 to 08 are committed on the January report, not on this document. A brand saying no slows the road down; it never stops it.</p>
+      </div>
+      <div class="rule-row">
+        <div class="r">Drift is the real risk</div>
+        <p>Not money. Eight stops with one roster and a live partner pipeline is a lot of surface area, and the failure mode is that stop 01 goes well, scope grows, and stop 04 arrives underprepared in the most expensive week of the year. The gates hold the line: fewer stops before worse ones.</p>
+      </div>
+      <div class="rule-row">
+        <div class="r">The summer has language rules</div>
+        <p>VILLE will not use tournament names, marks, imagery or any wording implying affiliation, in any material, at any stop. Rights are sold and enforced. We say: the summer, the month the city fills up, visitors, when the world comes to Kampala. The roster is briefed in writing before it publishes anything.</p>
+      </div>
+    </div>
+
+    <div class="gate">
+      <h3>What a partner is actually buying</h3>
+      <p>Not four parties in Kampala, and not a promise about next summer. A property that will have visited eight places, hired in each of them and kept a record of all of it — with a position inside it that travels, reported in things a customer can verify.</p>
+      <p style="margin-top:.9em;">The town happens either way. That's the only posture that produces a good deal, for both sides.</p>
+    </div>
+  </section>
+
+  <section class="sheet block">
+    <h2>What happens next</h2>
+    <ol class="needs">
+      <li><span>Cast the roster of twelve — the campaign comes out of them, not the other way round.</span></li>
+      <li><span>Confirm the three held spaces and secure permits, including a late event at Design Hub on 31 October.</span></li>
+      <li><span>Design and print the passport. Ten boxes, paper only, discovery side for Season One.</span></li>
+      <li><span>Appoint one photographer and one filmmaker for the full route, so the archive looks like one body of work from the first night.</span></li>
+      <li><span>Close a partner by 10 October, or run stop 01 on the reduced budget and move the conversation to stop 02.</span></li>
+      <li><span>Shortlist the road: one town, one host, one border city, and the name of a person in each who could hold it.</span></li>
+      <li><span>Register the marks and handles, and put the summer language rules in writing before anything goes public.</span></li>
+    </ol>
+  </section>
+
+</main>
+
+<footer class="close">
+  <p class="mark">Ville</p>
+  <p class="promise">Same room. Different energy.</p>
+  <p class="sign">
+    Don't go where everybody goes. Go somewhere you've never been.<br>
+    Meet someone you don't know. See your city differently.<br><br>
+    The town moves · A cultural property by GENrise · Kampala
+  </p>
+</footer>
+
+</body>
+</html>

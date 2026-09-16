@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VILLE — The Pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,400..700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#000;
+    --paper:#FAFAF7;
+    --dim:rgba(250,250,247,.55);
+    --faint:rgba(250,250,247,.34);
+    --rule:rgba(250,250,247,.18);
+    --own:#FF3B14;
+    --with:#E4FF3A;
+    --enter:#B084FF;
+    --s1:#FF3B14;
+    --s2:#9366F2;
+    --gutter:clamp(20px,5vw,90px);
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--ink);color:var(--paper);
+    font-family:"Archivo","Helvetica Neue",Arial,sans-serif;
+    font-variation-settings:"wdth" 100,"wght" 400;
+    font-size:clamp(15px,1.02vw,17px);line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{animation:none!important;transition:none!important;}}
+
+  /* ---------- deck mechanics ---------- */
+  .deck{scroll-snap-type:y mandatory;height:100svh;overflow-y:auto;overflow-x:hidden;}
+  @media(max-width:760px){.deck{scroll-snap-type:none;height:auto;overflow:visible;}}
+  .slide{
+    scroll-snap-align:start;scroll-snap-stop:always;
+    min-height:100svh;position:relative;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:clamp(48px,7vh,80px) var(--gutter);
+    border-bottom:1px solid var(--rule);
+  }
+  @media(max-width:760px){.slide{min-height:auto;padding-block:clamp(56px,10vh,90px);}}
+  .inner{max-width:1180px;margin:0 auto;width:100%;position:relative;z-index:2;}
+  .eyebrow{
+    font-variation-settings:"wdth" 118,"wght" 750;text-transform:uppercase;
+    font-size:.74rem;letter-spacing:.14em;color:var(--dim);margin:0 0 1.4em;
+  }
+  .eyebrow b{color:var(--own);font-variation-settings:"wdth" 118,"wght" 750;font-weight:normal;}
+
+  h1,h2,h3{font-variation-settings:"wdth" 125,"wght" 850;letter-spacing:-.028em;line-height:.9;margin:0;text-transform:uppercase;text-wrap:balance;}
+  h2{font-size:clamp(30px,5vw,68px);}
+  h3{font-size:clamp(17px,1.9vw,24px);letter-spacing:-.015em;}
+  p{margin:0 0 1em;max-width:60ch;}
+  p:last-child{margin-bottom:0;}
+  .big{font-variation-settings:"wdth" 125,"wght" 900;font-size:clamp(34px,7.4vw,104px);line-height:.88;letter-spacing:-.04em;text-transform:uppercase;margin:0;max-width:18ch;}
+  .lede{font-variation-settings:"wdth" 110,"wght" 500;font-size:clamp(18px,2.1vw,28px);line-height:1.22;letter-spacing:-.018em;max-width:28ch;}
+  .body{color:var(--dim);font-size:clamp(14px,1.05vw,16px);max-width:56ch;}
+  strong{font-variation-settings:"wdth" 100,"wght" 700;font-weight:normal;}
+  em{font-style:italic;}
+
+  canvas.field{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+  .slide::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(120% 90% at 20% 50%, rgba(0,0,0,.92) 25%, rgba(0,0,0,.55) 65%, rgba(0,0,0,.2) 100%);}
+  .slide.plain::after{display:none;}
+
+  /* rail + counter */
+  .rail{position:fixed;right:clamp(10px,1.6vw,22px);top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;gap:9px;}
+  @media(max-width:760px){.rail{display:none;}}
+  .rail a{width:9px;height:9px;border:1px solid var(--faint);border-radius:50%;display:block;}
+  .rail a[aria-current="true"]{background:var(--own);border-color:var(--own);}
+  .count{position:fixed;left:clamp(14px,2vw,26px);bottom:calc(clamp(12px,2vh,22px) + env(safe-area-inset-bottom,0px));z-index:50;
+    font-variation-settings:"wdth" 118,"wght" 800;font-size:.72rem;letter-spacing:.1em;color:var(--dim);font-variant-numeric:tabular-nums;}
+  @media(max-width:760px){.count{display:none;}}
+  .hint{position:absolute;left:var(--gutter);bottom:clamp(22px,4vh,40px);z-index:3;color:var(--faint);
+    font-variation-settings:"wdth" 110,"wght" 650;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;}
+  @media(max-width:760px){.hint{display:none;}}
+
+  /* ---------- cover ---------- */
+  .mark{font-variation-settings:"wdth" 125,"wght" 900;font-size:clamp(84px,22vw,300px);line-height:.76;letter-spacing:-.05em;text-transform:uppercase;margin:0;}
+  .promise{font-variation-settings:"wdth" 118,"wght" 700;font-size:clamp(15px,2.4vw,30px);letter-spacing:.01em;line-height:1.1;text-transform:uppercase;margin:clamp(18px,3vh,32px) 0 0;}
+  .under{font-variation-settings:"wdth" 112,"wght" 600;font-size:clamp(16px,2vw,24px);line-height:1.2;letter-spacing:-.015em;margin-top:.7em;color:var(--own);text-transform:uppercase;}
+  .cover-foot{margin-top:clamp(28px,5vh,56px);color:var(--dim);font-size:.85rem;}
+
+  /* ---------- generic grids ---------- */
+  .two{display:grid;gap:clamp(22px,3.5vw,56px);grid-template-columns:minmax(0,1fr);align-items:center;}
+  @media(min-width:900px){.two{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);}}
+  .two.tight{align-items:start;}
+
+  .pairs{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:1.6em;grid-template-columns:minmax(0,1fr);}
+  @media(min-width:820px){.pairs{grid-template-columns:1fr 1fr;}}
+  .pair{background:var(--ink);padding:1.15rem clamp(14px,1.8vw,24px);}
+  .pair .from{color:var(--faint);text-decoration:line-through;text-decoration-thickness:1px;font-size:.82rem;margin:0;}
+  .pair .to{font-variation-settings:"wdth" 112,"wght" 750;font-size:clamp(15px,1.6vw,20px);text-transform:uppercase;letter-spacing:-.01em;margin:.2em 0 .4em;}
+  .pair p:last-child{font-size:.84rem;color:var(--dim);margin:0;max-width:none;}
+
+  /* ---------- stop-type triptych ---------- */
+  .kinds{display:grid;gap:clamp(10px,1.4vw,16px);grid-template-columns:minmax(0,1fr);margin-top:1.8em;}
+  @media(min-width:820px){.kinds{grid-template-columns:repeat(3,1fr);}}
+  .kind{border:1px solid var(--rule);padding:clamp(16px,2vw,26px);display:flex;flex-direction:column;gap:.9em;}
+  .kind svg{width:100%;height:auto;max-width:150px;}
+  .kind .n{font-variation-settings:"wdth" 122,"wght" 850;font-size:clamp(17px,1.9vw,23px);text-transform:uppercase;letter-spacing:-.02em;line-height:1;}
+  .kind .q{font-variation-settings:"wdth" 110,"wght" 650;font-size:.74rem;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);}
+  .kind p{font-size:.86rem;color:var(--dim);margin:0;max-width:none;}
+  .kind .cnt{margin-top:auto;padding-top:.8em;border-top:1px solid var(--rule);font-size:.74rem;
+    font-variation-settings:"wdth" 108,"wght" 750;text-transform:uppercase;letter-spacing:.06em;}
+  .k1{border-color:rgba(255,59,20,.5);} .k1 .n,.k1 .cnt{color:var(--own);}
+  .k2{border-color:rgba(228,255,58,.45);} .k2 .n,.k2 .cnt{color:var(--with);}
+  .k3{border-color:rgba(176,132,255,.5);} .k3 .n,.k3 .cnt{color:var(--enter);}
+
+  /* ---------- diagrams ---------- */
+  .diagram{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:1.4em;}
+  .diagram svg{display:block;width:100%;height:auto;}
+  .diagram.route svg{min-width:960px;}
+  .diagram.plan svg{min-width:640px;}
+  .figcap{margin-top:1em;color:var(--faint);font-size:.76rem;letter-spacing:.02em;max-width:70ch;}
+
+  /* ---------- stop lists ---------- */
+  .stoplist{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:1.6em;grid-template-columns:minmax(0,1fr);}
+  @media(min-width:900px){.stoplist{grid-template-columns:1fr 1fr;}}
+  .st{background:var(--ink);padding:1.15rem clamp(14px,1.8vw,24px);display:grid;grid-template-columns:auto 1fr;gap:.2em 1rem;}
+  .st .no{font-variation-settings:"wdth" 125,"wght" 900;font-size:clamp(26px,3vw,40px);line-height:.82;letter-spacing:-.04em;grid-row:span 3;}
+  .st h3{font-size:clamp(16px,1.7vw,21px);}
+  .st .meta{font-variation-settings:"wdth" 110,"wght" 650;text-transform:uppercase;font-size:.74rem;letter-spacing:.04em;color:var(--dim);margin:.3em 0 .45em;}
+  .st p{font-size:.84rem;margin:0;color:var(--dim);max-width:none;}
+  .st p b{color:var(--paper);font-variation-settings:"wdth" 100,"wght" 700;font-weight:normal;}
+  .o .no,.o h3{color:var(--own);} .w .no,.w h3{color:var(--with);} .g .no,.g h3{color:var(--enter);} .f .no,.f h3{color:var(--paper);}
+
+  /* ---------- passport ---------- */
+  .card{
+    background:var(--paper);color:var(--ink);padding:clamp(18px,2.2vw,26px);
+    max-width:430px;width:100%;position:relative;overflow:hidden;
+    box-shadow:0 24px 60px rgba(0,0,0,.6);
+  }
+  .card .top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--ink);padding-bottom:.5em;}
+  .card .id{font-variation-settings:"wdth" 125,"wght" 900;font-size:1.25rem;letter-spacing:-.03em;text-transform:uppercase;}
+  .card .no{font-variation-settings:"wdth" 110,"wght" 650;font-size:.78rem;font-variant-numeric:tabular-nums;}
+  .card .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 1.2rem;margin-top:.9em;}
+  .card .h{font-variation-settings:"wdth" 118,"wght" 800;font-size:.66rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5em;}
+  .card ul{list-style:none;margin:0;padding:0;font-size:.78rem;}
+  .card li{padding:.3em 0;display:flex;gap:.5em;align-items:flex-start;line-height:1.25;}
+  .card li span.box{width:.72em;height:.72em;border:1.5px solid var(--ink);flex:0 0 auto;margin-top:.22em;}
+  .card li.done span.box{background:var(--ink);}
+  .card .foot{margin-top:1em;border-top:1px solid rgba(0,0,0,.25);padding-top:.5em;font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;font-variation-settings:"wdth" 110,"wght" 650;}
+  .card .band{position:relative;height:92px;margin-top:.9em;border-top:1px dashed rgba(0,0,0,.35);}
+  .card .band .lbl{font-variation-settings:"wdth" 118,"wght" 800;font-size:.6rem;text-transform:uppercase;
+    letter-spacing:.12em;color:rgba(0,0,0,.45);padding-top:.45em;}
+  .stamp{
+    position:absolute;font-variation-settings:"wdth" 125,"wght" 900;text-transform:uppercase;
+    font-size:.66rem;letter-spacing:.05em;border:2px solid currentColor;padding:.22em .45em;opacity:.85;
+    white-space:nowrap;
+  }
+  .stamp.s-a{color:#C4300F;left:2px;top:30px;transform:rotate(-8deg);}
+  .stamp.s-b{color:#6F7F10;left:118px;top:48px;transform:rotate(5deg);}
+  .stamp.s-c{color:#6B45B8;left:242px;top:26px;transform:rotate(-4deg);}
+
+  /* ---------- districts / tiers ---------- */
+  .dist{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);grid-template-columns:minmax(0,1fr);margin-top:1.4em;}
+  @media(min-width:760px){.dist{grid-template-columns:1fr 1fr;}}
+  .d{background:var(--ink);padding:1.05rem clamp(14px,1.6vw,22px);}
+  .d .t{font-variation-settings:"wdth" 118,"wght" 800;text-transform:uppercase;font-size:clamp(14px,1.5vw,18px);letter-spacing:-.01em;}
+  .d .who{color:var(--dim);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-variation-settings:"wdth" 108,"wght" 650;margin:.3em 0 .55em;}
+  .d p{font-size:.83rem;margin:0;color:var(--dim);max-width:none;}
+
+  .ways{margin-top:1.4em;}
+  .way{display:grid;grid-template-columns:minmax(0,1fr);gap:.25rem clamp(16px,3vw,40px);padding:1.05rem 0;border-top:1px solid var(--rule);}
+  @media(min-width:760px){.way{grid-template-columns:minmax(0,17ch) minmax(0,1fr) auto;align-items:baseline;}}
+  .way .nm{font-variation-settings:"wdth" 122,"wght" 850;font-size:clamp(16px,1.8vw,22px);text-transform:uppercase;letter-spacing:-.02em;}
+  .way p{font-size:.86rem;margin:0;color:var(--dim);}
+  .way .pr{font-variation-settings:"wdth" 112,"wght" 750;font-size:.86rem;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--paper);}
+
+  /* ---------- the 24h figure ---------- */
+  .clock{margin-top:1.8em;}
+  .clockbar{position:relative;height:76px;border:1px solid var(--rule);display:flex;overflow:hidden;}
+  .clockbar .ninety{width:6.25%;background:var(--own);}
+  .clockbar .rest{flex:1;background:repeating-linear-gradient(90deg,rgba(250,250,247,.11) 0 1px,transparent 1px 60px);}
+  .clocklabels{display:flex;justify-content:space-between;margin-top:.7em;font-size:.74rem;color:var(--dim);
+    text-transform:uppercase;letter-spacing:.08em;font-variation-settings:"wdth" 108,"wght" 700;}
+  .clocklabels .a{color:var(--own);}
+
+  /* ---------- chart ---------- */
+  .chart{margin-top:1.4em;position:relative;}
+  .chart svg{display:block;width:100%;height:auto;overflow:visible;}
+  .legend{display:flex;gap:1.4rem;flex-wrap:wrap;margin-bottom:1em;font-size:.78rem;
+    text-transform:uppercase;letter-spacing:.06em;font-variation-settings:"wdth" 110,"wght" 700;color:var(--dim);}
+  .legend i{display:inline-block;width:12px;height:12px;margin-right:.5em;vertical-align:-1px;}
+  .tip{
+    position:absolute;pointer-events:none;background:var(--paper);color:var(--ink);
+    padding:.45em .6em;font-size:.74rem;line-height:1.3;white-space:nowrap;z-index:5;
+    font-variation-settings:"wdth" 108,"wght" 650;transform:translate(-50%,-115%);
+  }
+  .tip b{font-variation-settings:"wdth" 108,"wght" 850;font-weight:normal;font-variant-numeric:tabular-nums;}
+  .chart .gl{stroke:rgba(250,250,247,.14);stroke-width:1;}
+  .chart .ax{fill:rgba(250,250,247,.55);font-size:13px;font-variation-settings:"wdth" 108,"wght" 650;}
+  .chart .val{fill:#FAFAF7;font-size:14px;font-variation-settings:"wdth" 110,"wght" 800;font-variant-numeric:tabular-nums;}
+  .chart .bar{cursor:default;}
+  .chart .bar:focus-visible{outline:2px solid var(--paper);outline-offset:2px;}
+
+  /* ---------- archive frames ---------- */
+  .frames{display:grid;gap:clamp(10px,1.4vw,18px);grid-template-columns:minmax(0,1fr);margin-top:1.6em;}
+  @media(min-width:820px){.frames{grid-template-columns:repeat(3,1fr);}}
+  .frame{border:1px solid var(--rule);}
+  .frame .win{position:relative;aspect-ratio:4/5;background:#060606;overflow:hidden;}
+  .frame .win canvas{position:absolute;inset:0;width:100%;height:100%;}
+  .frame .tagl{position:absolute;left:10px;top:10px;z-index:2;font-size:.64rem;letter-spacing:.12em;
+    text-transform:uppercase;font-variation-settings:"wdth" 112,"wght" 800;color:var(--ink);padding:.25em .45em;}
+  .frame .cap{padding:.85rem clamp(12px,1.4vw,18px);}
+  .frame .cap .t{font-variation-settings:"wdth" 116,"wght" 800;text-transform:uppercase;font-size:.84rem;letter-spacing:-.005em;}
+  .frame .cap p{font-size:.78rem;color:var(--dim);margin:.35em 0 0;max-width:none;}
+
+  /* ---------- asks ---------- */
+  ol.needs{list-style:none;counter-reset:n;padding:0;margin:1.6em 0 0;max-width:62ch;}
+  ol.needs li{counter-increment:n;display:grid;grid-template-columns:2.4rem 1fr;gap:.6rem;padding:.75rem 0;border-top:1px solid var(--rule);font-size:.93rem;}
+  ol.needs li::before{content:counter(n,decimal-leading-zero);font-variation-settings:"wdth" 125,"wght" 800;font-size:.85rem;color:var(--own);}
+
+  .gate{margin-top:1.6em;border:2px solid var(--own);padding:clamp(16px,2.2vw,26px);max-width:62ch;}
+  .gate .t{color:var(--own);font-variation-settings:"wdth" 122,"wght" 850;text-transform:uppercase;font-size:clamp(15px,1.7vw,20px);margin-bottom:.45em;letter-spacing:-.015em;}
+  .gate p{font-size:.88rem;margin:0;}
+
+  a{color:inherit;}
+  :focus-visible{outline:2px solid var(--own);outline-offset:3px;}
+
+  @media print{
+    :root{--ink:#fff;--paper:#000;--dim:#555;--faint:#888;--rule:#bbb;}
+    body{background:#fff;color:#000;}
+    .deck{height:auto;overflow:visible;}
+    .slide{min-height:auto;break-after:page;border-bottom:0;padding:24pt;}
+    .slide::after{display:none;}
+    .rail,.count,.hint,canvas.field{display:none;}
+    .card{box-shadow:none;border:1pt solid #000;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="rail" aria-label="Slides">
+  <a href="#s1" aria-label="Slide 1"></a><a href="#s2" aria-label="Slide 2"></a><a href="#s3" aria-label="Slide 3"></a>
+  <a href="#s4" aria-label="Slide 4"></a><a href="#s5" aria-label="Slide 5"></a><a href="#s6" aria-label="Slide 6"></a>
+  <a href="#s7" aria-label="Slide 7"></a><a href="#s8" aria-label="Slide 8"></a><a href="#s9" aria-label="Slide 9"></a>
+  <a href="#s10" aria-label="Slide 10"></a><a href="#s11" aria-label="Slide 11"></a><a href="#s12" aria-label="Slide 12"></a>
+  <a href="#s13" aria-label="Slide 13"></a><a href="#s14" aria-label="Slide 14"></a><a href="#s15" aria-label="Slide 15"></a>
+</nav>
+<div class="count"><span id="cur">01</span> / 15</div>
+
+<div class="deck" id="deck">
+
+  <!-- 01 COVER -->
+  <section class="slide" id="s1">
+    <canvas class="field" data-hue="#FF3B14" data-seed="7" data-step="13" aria-hidden="true"></canvas>
+    <div class="inner">
+      <h1 class="mark">Ville</h1>
+      <p class="promise">Same room. Different energy.</p>
+      <p class="under">The moving town</p>
+      <p class="cover-foot">Year One — eight stops, October 2026 to July 2027.<br>A cultural property by GENrise · Kampala · Partner pitch</p>
+    </div>
+    <div class="hint">Scroll, or use ↓ / →</div>
+  </section>
+
+  <!-- 02 THE TRUTH -->
+  <section class="slide" id="s2">
+    <canvas class="field" data-hue="#FF3B14" data-seed="23" data-step="18" aria-hidden="true"></canvas>
+    <div class="inner">
+      <p class="eyebrow">01 — <b>The observation</b></p>
+      <p class="big">They're all around us.<br>They're just never in the same room.</p>
+      <p class="body" style="margin-top:1.6em;">Making music. Taking photographs. Shooting films. Designing clothes. Building businesses. All of it happening at once, across one city, in separate rooms — and almost none of it happening together.</p>
+    </div>
+  </section>
+
+  <!-- 03 WHAT IT IS -->
+  <section class="slide plain" id="s3">
+    <div class="inner two tight">
+      <div>
+        <p class="eyebrow">02 — <b>What VILLE is</b></p>
+        <div style="border:1px solid var(--rule);padding:clamp(18px,2.4vw,30px);">
+          <div style="font-variation-settings:'wdth' 125,'wght' 900;font-size:clamp(30px,4.4vw,56px);line-height:.9;letter-spacing:-.04em;text-transform:uppercase;">ville</div>
+          <div style="color:var(--dim);font-size:.82rem;margin-top:.5em;"><em>noun</em> · French</div>
+          <div style="margin-top:.9em;font-size:.95rem;line-height:1.4;">A town.</div>
+          <div style="margin-top:1.2em;border-top:1px solid var(--rule);padding-top:.9em;color:var(--own);font-variation-settings:'wdth' 112,'wght' 700;font-size:.95rem;line-height:1.35;">
+            VILLE: a town with no fixed address. You don't live in it. You turn up.
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="lede">VILLE is not an event. It's a cultural property that moves.</p>
+        <p class="body" style="margin-top:1.2em;">It travels through places, communities and moments, carrying one identity into each. Some stops we build. Some we build with a partner who already holds the room. Some we simply enter.</p>
+        <p class="body">The room changes every time. What travels is the rule, the roster, the archive and the passport. <strong style="color:var(--paper);">That's the property — and it's the thing a brand can enter.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 THE SHIFT -->
+  <section class="slide plain" id="s4">
+    <div class="inner">
+      <p class="eyebrow">03 — <b>What changes</b></p>
+      <h2>Same season.<br>Different thing to sell.</h2>
+      <div class="pairs">
+        <div class="pair">
+          <p class="from">A season of four parties</p>
+          <p class="to">A town on the move</p>
+          <p>Four chapters in Kampala is the first block of a route, not the product.</p>
+        </div>
+        <div class="pair">
+          <p class="from">Sponsorship of an event</p>
+          <p class="to">Entry into a town</p>
+          <p>A logo on one night ends with the night. A district travels to every stop after it.</p>
+        </div>
+        <div class="pair">
+          <p class="from">Impact as a CSR line</p>
+          <p class="to">Impact as the mechanism</p>
+          <p>Every stop is built to leave something in the place it visited.</p>
+        </div>
+        <div class="pair">
+          <p class="from">Building towards next summer</p>
+          <p class="to">Already moving by then</p>
+          <p>When the big moment lands, the town doesn't launch into it. It arrives in it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 THREE KINDS OF STOP -->
+  <section class="slide plain" id="s5">
+    <div class="inner">
+      <p class="eyebrow">04 — <b>How the town moves</b></p>
+      <h2>Three kinds of stop</h2>
+      <div class="kinds">
+        <div class="kind k1">
+          <svg viewBox="0 0 150 90" role="img" aria-label="A solid block: VILLE builds the room itself">
+            <rect x="8" y="14" width="108" height="62" fill="#FF3B14"></rect>
+            <rect x="8" y="14" width="108" height="62" fill="none" stroke="#FF3B14" stroke-width="2"></rect>
+            <text x="126" y="50" fill="rgba(250,250,247,.5)" font-size="13" font-family="Archivo,Arial" font-weight="700">◆</text>
+          </svg>
+          <div class="n">We build it</div>
+          <div class="q">Owned</div>
+          <p>VILLE finds the place, holds the permits, sets the room and carries the risk. Total control of the standard.</p>
+          <div class="cnt">Stops 01 · 03 · 04 · 05 · 08</div>
+        </div>
+        <div class="kind k2">
+          <svg viewBox="0 0 150 90" role="img" aria-label="Two overlapping blocks: VILLE and a host build the room together">
+            <rect x="8" y="14" width="80" height="62" fill="none" stroke="#E4FF3A" stroke-width="2"></rect>
+            <rect x="52" y="14" width="80" height="62" fill="#E4FF3A" opacity=".22"></rect>
+            <rect x="52" y="14" width="80" height="62" fill="none" stroke="#E4FF3A" stroke-width="2"></rect>
+            <rect x="52" y="14" width="36" height="62" fill="#E4FF3A"></rect>
+          </svg>
+          <div class="n">We build it with</div>
+          <div class="q">Hosted</div>
+          <p>Someone already holds the room — a campus, an institution, a neighbourhood. They bring the place, we bring the town.</p>
+          <div class="cnt">Stops 02 · 07</div>
+        </div>
+        <div class="kind k3">
+          <svg viewBox="0 0 150 90" role="img" aria-label="A small block inside a larger outline: VILLE enters a moment someone else created">
+            <rect x="8" y="8" width="128" height="74" fill="none" stroke="rgba(250,250,247,.35)" stroke-width="2" stroke-dasharray="6 5"></rect>
+            <rect x="44" y="28" width="56" height="34" fill="#B084FF"></rect>
+          </svg>
+          <div class="n">We enter it</div>
+          <div class="q">Guest</div>
+          <p>A moment that exists without us — a festival, a match weekend, a market. We don't build the crowd. We build the room inside it.</p>
+          <div class="cnt">Stop 06</div>
+        </div>
+      </div>
+      <p class="figcap">Stop type sets cost, risk and what a partner is buying. It is the operating model, not a label.</p>
+    </div>
+  </section>
+
+  <!-- 06 THE ROUTE -->
+  <section class="slide plain" id="s6">
+    <div class="inner">
+      <p class="eyebrow">05 — <b>Year One</b></p>
+      <h2>The route</h2>
+      <div class="diagram route">
+        <svg viewBox="0 0 1440 560" role="img" aria-label="Route diagram: eight stops from Kampala in October 2026 to the Kampala summer in June 2027, with a January counting gate between stop 04 and stop 05.">
+          <!-- segments coloured by the type of the stop they arrive at -->
+          <g fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M90 330 L260 190" stroke="#E4FF3A"></path>
+            <path d="M260 190 L430 355" stroke="#FF3B14"></path>
+            <path d="M430 355 L600 215" stroke="#FF3B14"></path>
+            <path d="M600 215 L700 275" stroke="rgba(250,250,247,.34)" stroke-dasharray="3 12"></path>
+            <path d="M700 275 L840 390" stroke="#FF3B14"></path>
+            <path d="M840 390 L1010 195" stroke="#B084FF"></path>
+            <path d="M1010 195 L1180 380" stroke="#E4FF3A"></path>
+            <path d="M1180 380 L1318 252" stroke="#FAFAF7"></path>
+          </g>
+
+          <!-- the gate -->
+          <g>
+            <line x1="700" y1="102" x2="700" y2="430" stroke="rgba(250,250,247,.28)" stroke-width="1" stroke-dasharray="4 6"></line>
+            <text x="700" y="44" fill="rgba(250,250,247,.55)" font-family="Archivo,Arial" font-size="15" font-weight="700" text-anchor="middle" letter-spacing="1.5">JANUARY — THE TOWN COUNTS</text>
+            <text x="700" y="70" fill="rgba(250,250,247,.34)" font-family="Archivo,Arial" font-size="14" text-anchor="middle">Committed on the report, not the forecast</text>
+          </g>
+
+          <!-- stations -->
+          <g font-family="Archivo,Arial">
+            <!-- 01 -->
+            <circle cx="90" cy="330" r="13" fill="#000" stroke="#FF3B14" stroke-width="5"></circle>
+            <text x="90" y="392" fill="#FF3B14" font-size="15" font-weight="800" text-anchor="middle">01</text>
+            <text x="90" y="418" fill="#FAFAF7" font-size="22" font-weight="800" text-anchor="middle" letter-spacing="-.5">WAREHOUSE</text>
+            <text x="90" y="440" fill="rgba(250,250,247,.55)" font-size="14" text-anchor="middle">Kampala · 31 Oct</text>
+            <!-- 02 -->
+            <circle cx="260" cy="190" r="13" fill="#000" stroke="#E4FF3A" stroke-width="5"></circle>
+            <text x="260" y="152" fill="#E4FF3A" font-size="15" font-weight="800" text-anchor="middle">02</text>
+            <text x="260" y="126" fill="#FAFAF7" font-size="22" font-weight="800" text-anchor="middle" letter-spacing="-.5">COURTYARD</text>
+            <text x="260" y="104" fill="rgba(250,250,247,.55)" font-size="14" text-anchor="middle">UCU, Mukono · 14 Nov</text>
+            <!-- 03 -->
+            <circle cx="430" cy="355" r="13" fill="#000" stroke="#FF3B14" stroke-width="5"></circle>
+            <text x="430" y="417" fill="#FF3B14" font-size="15" font-weight="800" text-anchor="middle">03</text>
+            <text x="430" y="443" fill="#FAFAF7" font-size="22" font-weight="800" text-anchor="middle" letter-spacing="-.5">HILL</text>
+            <text x="430" y="465" fill="rgba(250,250,247,.55)" font-size="14" text-anchor="middle">Nkonzi · 28 Nov</text>
+            <!-- 04 -->
+            <circle cx="600" cy="215" r="13" fill="#000" stroke="#FF3B14" stroke-width="5"></circle>
+            <text x="600" y="177" fill="#FF3B14" font-size="15" font-weight="800" text-anchor="middle">04</text>
+            <text x="600" y="151" fill="#FAFAF7" font-size="22" font-weight="800" text-anchor="middle" letter-spacing="-.5">UNKNOWN</text>
+            <text x="600" y="129" fill="rgba(250,250,247,.55)" font-size="14" text-anchor="middle">Kampala · 12 Dec</text>
+            <!-- 05 -->
+            <circle cx="840" cy="390" r="13" fill="#000" stroke="#FF3B14" stroke-width="5"></circle>
+            <text x="840" y="452" fill="#FF3B14" font-size="15" font-weight="800" text-anchor="middle">05</text>
+            <text x="840" y="478" fill="#FAFAF7" font-size="22" font-weight="800" text-anchor="middle" letter-spacing="-.5">ROAD STOP</text>
+            <text x="840" y="500" fill="rgba(250,250,247,.55)" font-size="14" text-anchor="middle">Jinja · Feb</text>
+            <!-- 06 -->
+            <circle cx="1010" cy="195" r="13" fill="#000" stroke="#B084FF" stroke-width="5"></circle>
+            <text x="1010" y="157" fill="#B084FF" font-size="15" font-weight="800" text-anchor="middle">06</text>
+            <text x="1010" y="131" fill="#FAFAF7" font-size="22" font-weight="800" text-anchor="middle" letter-spacing="-.5">GUEST STOP</text>
+            <text x="1010" y="109" fill="rgba(250,250,247,.55)" font-size="14" text-anchor="middle">Someone else's moment · Mar–Apr</text>
+            <!-- 07 -->
+            <circle cx="1180" cy="380" r="13" fill="#000" stroke="#E4FF3A" stroke-width="5"></circle>
+            <text x="1180" y="442" fill="#E4FF3A" font-size="15" font-weight="800" text-anchor="middle">07</text>
+            <text x="1180" y="468" fill="#FAFAF7" font-size="22" font-weight="800" text-anchor="middle" letter-spacing="-.5">THE BORDER</text>
+            <text x="1180" y="490" fill="rgba(250,250,247,.55)" font-size="14" text-anchor="middle">Nairobi or Kigali · May</text>
+            <!-- 08 -->
+            <circle cx="1318" cy="252" r="15" fill="#FAFAF7" stroke="#FAFAF7" stroke-width="5"></circle>
+            <text x="1318" y="207" fill="#FAFAF7" font-size="15" font-weight="800" text-anchor="middle">08</text>
+            <text x="1318" y="181" fill="#FAFAF7" font-size="22" font-weight="800" text-anchor="middle" letter-spacing="-.5">THE SUMMER</text>
+            <text x="1318" y="159" fill="rgba(250,250,247,.55)" font-size="14" text-anchor="middle">Kampala · 19 Jun – 17 Jul</text>
+          </g>
+        </svg>
+      </div>
+      <p class="figcap">Line colour is the kind of stop it arrives at: red — we build it · yellow — we build it with a host · violet — we enter someone else's moment · white — the town at full size.</p>
+    </div>
+  </section>
+
+  <!-- 07 KAMPALA BLOCK -->
+  <section class="slide plain" id="s7">
+    <div class="inner">
+      <p class="eyebrow">06 — <b>Stops 01–04 · the Kampala block</b></p>
+      <h2>Dated. Held. Budgeted.</h2>
+      <div class="stoplist">
+        <div class="st o">
+          <div class="no">01</div>
+          <div><h3>The warehouse</h3><p class="meta">Design Hub, Kampala · Sat 31 Oct 2026</p>
+          <p>A rave in a room with no social memory, so the first night sets its own standard. <b>Leaves:</b> the first 300 passports and the spec every later stop inherits.</p></div>
+        </div>
+        <div class="st w">
+          <div class="no">02</div>
+          <div><h3>The courtyard</h3><p class="meta">Tupe Hostel, UCU, Mukono · Sat 14 Nov 2026</p>
+          <p>A quadrangle that already has social memory — we inherit it. <b>Leaves:</b> paid, credited briefs for student photographers and DJs, at the year's lowest door price.</p></div>
+        </div>
+        <div class="st o">
+          <div class="no">03</div>
+          <div><h3>The hill</h3><p class="meta">Nkonzi Hill · Sat 28 Nov 2026</p>
+          <p>Sunset, no building at all — proof VILLE needs a place, not a venue. <b>Leaves:</b> the land exactly as found, and Stop 04 revealed from the stage.</p></div>
+        </div>
+        <div class="st o">
+          <div class="no">04</div>
+          <div><h3>Unknown</h3><p class="meta">Kampala, revealed late · Sat 12 Dec 2026</p>
+          <p>The one room in the busiest week of the year nobody can predict. <b>Leaves:</b> the season film, and the only two numbers that matter.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 THE ROAD -->
+  <section class="slide plain" id="s8">
+    <div class="inner">
+      <p class="eyebrow">07 — <b>Stops 05–08 · the road</b></p>
+      <h2>Designed. Uncosted<br>until January.</h2>
+      <div class="stoplist">
+        <div class="st o">
+          <div class="no">05</div>
+          <div><h3>The road stop</h3><p class="meta">Jinja — Gulu as alternate · Feb 2027</p>
+          <p>The real test: nobody in that room has been to a VILLE. <b>Leaves:</b> local crew hired and credited, and two roster places held for that town.</p></div>
+        </div>
+        <div class="st g">
+          <div class="no">06</div>
+          <div><h3>The guest stop</h3><p class="meta">Inside someone else's moment · Mar–Apr 2027</p>
+          <p>Cheapest stop of the year, fastest way to meet strangers — including a football crowd, reached without touching anybody's rights.</p></div>
+        </div>
+        <div class="st w">
+          <div class="no">07</div>
+          <div><h3>Across the border</h3><p class="meta">Nairobi or Kigali, with a local partner · May 2027</p>
+          <p>The property stops being Ugandan <em>before</em> the summer. <b>Leaves:</b> a counterpart roster of twelve, and a passport with two cities on it.</p></div>
+        </div>
+        <div class="st f">
+          <div class="no">08</div>
+          <div><h3>The summer</h3><p class="meta">Kampala, daily · 19 Jun – 17 Jul 2027</p>
+          <p>The city fills with visitors asking where it actually goes. <b>Leaves:</b> the routes, the guide, and the case for year two.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 IMPACT / PASSPORT -->
+  <section class="slide plain" id="s9">
+    <div class="inner two">
+      <div>
+        <p class="eyebrow">08 — <b>Impact, built in</b></p>
+        <h2>Discovery.<br>Contribution.</h2>
+        <p class="body" style="margin-top:1.2em;">One half is what a person takes out of a stop. The other is what the town leaves in the place. The passport records both — which is why impact is reportable instead of anecdotal.</p>
+        <p class="body">A touring property that takes a crowd's money and leaves nothing is a tour. A town that hires locally, pays people who've never been paid for their work and leaves two of its own seats behind is something a place invites back.</p>
+        <p class="figcap" style="margin-top:1.4em;">Season One prints as designed: paper, ten boxes, discovery only. The contribution column joins in the 2027 edition, once there's a road to record.</p>
+      </div>
+      <div style="display:flex;justify-content:center;">
+        <div class="card" role="img" aria-label="The VILLE passport: a paper card with a discovery column and a contribution column, three stops stamped.">
+          <div class="top">
+            <div class="id">Ville / KLA</div>
+            <div class="no">No. 0147</div>
+          </div>
+          <div class="cols">
+            <div>
+              <div class="h">Discovered</div>
+              <ul>
+                <li class="done"><span class="box"></span>New artist</li>
+                <li class="done"><span class="box"></span>New place</li>
+                <li><span class="box"></span>New neighbourhood</li>
+                <li class="done"><span class="box"></span>Met someone new</li>
+                <li><span class="box"></span>Made something</li>
+                <li><span class="box"></span>Off the grid</li>
+              </ul>
+            </div>
+            <div>
+              <div class="h">Contributed</div>
+              <ul>
+                <li class="done"><span class="box"></span>Hired local</li>
+                <li class="done"><span class="box"></span>Paid a brief</li>
+                <li><span class="box"></span>Gave a roster seat</li>
+                <li class="done"><span class="box"></span>Left it better</li>
+                <li><span class="box"></span>Gave the archive back</li>
+                <li><span class="box"></span>Built something that stays</li>
+              </ul>
+            </div>
+          </div>
+          <div class="band">
+            <div class="lbl">Stops — eight boxes, stamped at the door</div>
+            <span class="stamp s-a">Warehouse 31·10</span>
+            <span class="stamp s-b">Courtyard 14·11</span>
+            <span class="stamp s-c">Hill 28·11</span>
+          </div>
+          <div class="foot">Unknown · Road · Guest · Border · Summer — to come</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 THE TOWN PLAN -->
+  <section class="slide plain" id="s10">
+    <div class="inner">
+      <p class="eyebrow">09 — <b>The offer</b></p>
+      <h2>Brands don't sponsor it.<br>They enter it.</h2>
+      <div class="two tight" style="margin-top:1.4em;">
+        <div>
+          <p class="body">A brand takes a <strong style="color:var(--paper);">district</strong> — one function the town genuinely needs — and travels with it to every stop. It isn't on the night. It's in the town.</p>
+          <p class="figcap">Illustrative shapes. Not commitments, and not pitched to anyone.</p>
+        </div>
+        <div class="diagram plan">
+          <svg viewBox="0 0 700 440" role="img" aria-label="Plan of the town: four districts around a central square, with the road running through it.">
+            <rect x="1" y="1" width="698" height="438" fill="none" stroke="rgba(250,250,247,.18)"></rect>
+            <!-- road through town -->
+            <path d="M0 220 L700 220" stroke="rgba(250,250,247,.22)" stroke-width="26" fill="none"></path>
+            <path d="M0 220 L700 220" stroke="rgba(250,250,247,.5)" stroke-width="2" stroke-dasharray="16 14" fill="none"></path>
+            <!-- districts -->
+            <rect x="48" y="44" width="264" height="140" fill="#FF3B14" opacity=".9"></rect>
+            <text x="68" y="86" font-family="Archivo,Arial" font-size="24" font-weight="800" fill="#000">NAVIGATION</text>
+            <text x="68" y="112" font-family="Archivo,Arial" font-size="14" fill="rgba(0,0,0,.72)">Passport · tickets · maps · connection</text>
+            <text x="68" y="136" font-family="Archivo,Arial" font-size="14" font-weight="700" fill="rgba(0,0,0,.72)">A connectivity brand</text>
+
+            <rect x="388" y="44" width="264" height="140" fill="#E4FF3A" opacity=".9"></rect>
+            <text x="408" y="86" font-family="Archivo,Arial" font-size="24" font-weight="800" fill="#000">MEETING</text>
+            <text x="408" y="112" font-family="Archivo,Arial" font-size="14" fill="rgba(0,0,0,.72)">Strangers paired · a drink · a portrait</text>
+            <text x="408" y="136" font-family="Archivo,Arial" font-size="14" font-weight="700" fill="rgba(0,0,0,.72)">A soft drink brand</text>
+
+            <rect x="48" y="256" width="264" height="140" fill="#B084FF" opacity=".9"></rect>
+            <text x="68" y="298" font-family="Archivo,Arial" font-size="24" font-weight="800" fill="#000">THE AFTER</text>
+            <text x="68" y="324" font-family="Archivo,Arial" font-size="14" fill="rgba(0,0,0,.72)">A room within the room, rebuilt each stop</text>
+            <text x="68" y="348" font-family="Archivo,Arial" font-size="14" font-weight="700" fill="rgba(0,0,0,.72)">A spirits brand</text>
+
+            <rect x="388" y="256" width="264" height="140" fill="none" stroke="#FAFAF7" stroke-width="2"></rect>
+            <text x="408" y="298" font-family="Archivo,Arial" font-size="24" font-weight="800" fill="#FAFAF7">FOOTBALL TOWN</text>
+            <text x="408" y="324" font-family="Archivo,Arial" font-size="14" fill="rgba(250,250,247,.6)">The community around the game, not the game</text>
+            <text x="408" y="348" font-family="Archivo,Arial" font-size="14" font-weight="700" fill="rgba(250,250,247,.75)">A brewer with football in its portfolio</text>
+
+            <circle cx="350" cy="220" r="26" fill="#000" stroke="#FAFAF7" stroke-width="2"></circle>
+            <text x="350" y="226" font-family="Archivo,Arial" font-size="13" font-weight="800" fill="#FAFAF7" text-anchor="middle">ROOM</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 WAYS IN -->
+  <section class="slide plain" id="s11">
+    <div class="inner">
+      <p class="eyebrow">10 — <b>Four ways in</b></p>
+      <h2>Priced by how far<br>you travel.</h2>
+      <div class="ways">
+        <div class="way">
+          <div class="nm">The town</div>
+          <p>One brand travels the whole route. Present from the first frame of the campaign, in every room, on the passport, in the report.</p>
+          <div class="pr">UGX 90,000,000</div>
+        </div>
+        <div class="way">
+          <div class="nm">A district</div>
+          <p>One function, every stop. The brand owns the thing that makes the night work, wherever the town goes.</p>
+          <div class="pr">Scoped per route</div>
+        </div>
+        <div class="way">
+          <div class="nm">A stop</div>
+          <p>One brand at one stop. Named with the place, present in the build, in the room and in the content from it.</p>
+          <div class="pr">UGX 20–30,000,000</div>
+        </div>
+        <div class="way">
+          <div class="nm">A room within a room</div>
+          <p>One element inside a stop — a food and drink experience, an installation, a photography setup, a pop-up.</p>
+          <div class="pr">UGX 4–6,000,000</div>
+        </div>
+      </div>
+      <div class="dist">
+        <div class="d"><div class="t">What you don't get</div><div class="who">The rule that makes it worth entering</div><p>No branded VIP, no roped section, no better version of the night for anyone. Same room, same ticket — partners included. The moment VILLE has a rope, the reason people came stops being true.</p></div>
+        <div class="d"><div class="t">How we report</div><div class="who">Proof, not impressions</div><p>Who was in the room, what got made, what collaborations came out of it, how many passports moved from one stamp to four, and what each stop left behind — named people, paid briefs, spaces handed back.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 THE SUMMER -->
+  <section class="slide" id="s12">
+    <canvas class="field" data-hue="#FF3B14" data-seed="91" data-step="16" aria-hidden="true"></canvas>
+    <div class="inner">
+      <p class="eyebrow">11 — <b>Next summer</b></p>
+      <p class="big">The match is 90 minutes.<br>The city is 24 hours.</p>
+      <div class="clock">
+        <div class="clockbar" role="img" aria-label="A 24-hour bar. The 90 minutes of a match occupies 6.25 percent of it; the remaining 22 and a half hours are unclaimed.">
+          <div class="ninety"></div>
+          <div class="rest"></div>
+        </div>
+        <div class="clocklabels">
+          <span class="a">90 minutes — sold, locked, official</span>
+          <span>22 hours 30 — nobody owns this yet</span>
+        </div>
+      </div>
+      <p class="body" style="margin-top:1.6em;">In June 2027 East Africa fills with visitors for a month. Every brand in the region will build something around what happens inside the stadium. VILLE is building the rest of the day — and it will have been building it for eight months by the time they arrive.</p>
+      <p class="figcap">VILLE uses no tournament names, marks or imagery, and claims no affiliation. The rights are sold. The city isn't.</p>
+    </div>
+  </section>
+
+  <!-- 13 THE NUMBERS -->
+  <section class="slide plain" id="s13">
+    <div class="inner">
+      <p class="eyebrow">12 — <b>The numbers</b></p>
+      <h2>Stop 01 pays for itself<br>at the door.</h2>
+      <div class="chart" id="chartWrap">
+        <div class="legend">
+          <span><i style="background:#FF3B14"></i>Production cost</span>
+          <span><i style="background:#9366F2"></i>Ticket revenue at capacity</span>
+        </div>
+        <svg viewBox="0 0 900 340" id="ladder" role="img" aria-label="Grouped bars comparing production cost and ticket revenue for the four Kampala stops, in millions of Ugandan shillings.">
+          <g class="gl">
+            <line x1="56" y1="290" x2="880" y2="290"></line>
+            <line x1="56" y1="203" x2="880" y2="203"></line>
+            <line x1="56" y1="116" x2="880" y2="116"></line>
+            <line x1="56" y1="29" x2="880" y2="29"></line>
+          </g>
+          <g class="ax" text-anchor="end">
+            <text x="46" y="295">0</text>
+            <text x="46" y="208">10</text>
+            <text x="46" y="121">20</text>
+            <text x="46" y="34">30</text>
+          </g>
+          <g id="bars"></g>
+          <g class="ax" text-anchor="middle" id="xlabels"></g>
+        </svg>
+        <div class="tip" id="tip" hidden></div>
+      </div>
+      <p class="figcap" style="margin-top:1.2em;">
+        UGX millions, 300 capacity per stop. 01 Warehouse — production 15, tickets 15 (50,000 × 300). 02 Courtyard — 15 / 7.5 (25,000). 03 Hill — 22 / 18 (60,000). 04 Unknown — 30 / 21 (70,000). Season production 82m against ticket revenue of 61.5m; the partner target across the block is 100m.
+      </p>
+      <div class="gate">
+        <div class="t">The gate — 10 October</div>
+        <p>Stop 01 must be able to run unsponsored. Partner income is upside, not survival — which is what lets GENrise say, in every conversation, that the town happens either way. If no partner signs by 10 October, Stop 01 runs on the reduced budget and the conversation moves to Stop 02.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 WHAT WE MAKE -->
+  <section class="slide plain" id="s14">
+    <div class="inner">
+      <p class="eyebrow">13 — <b>What the town produces</b></p>
+      <h2>One photographer.<br>One filmmaker.<br>Eight stops.</h2>
+      <div class="frames">
+        <div class="frame">
+          <div class="win">
+            <canvas data-hue="#FF3B14" data-seed="12" data-step="7" aria-hidden="true"></canvas>
+            <span class="tagl" style="background:#FF3B14">Stop 01</span>
+          </div>
+          <div class="cap">
+            <div class="t">The door, 21:40</div>
+            <p>Ambient light only, no flash. The queue before anyone is famous for the night. Shot list runs from load-in to lights up.</p>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="win">
+            <canvas data-hue="#E4FF3A" data-seed="55" data-step="7" aria-hidden="true"></canvas>
+            <span class="tagl" style="background:#E4FF3A">Stop 03</span>
+          </div>
+          <div class="cap">
+            <div class="t">The hill, golden hour</div>
+            <p>The one stop that photographs in daylight. Portraits against the valley, made as a series rather than coverage.</p>
+          </div>
+        </div>
+        <div class="frame">
+          <div class="win">
+            <canvas data-hue="#B084FF" data-seed="88" data-step="7" aria-hidden="true"></canvas>
+            <span class="tagl" style="background:#B084FF">The season</span>
+          </div>
+          <div class="cap">
+            <div class="t">The film, January</div>
+            <p>Cut in December, released into an empty calendar. The case for Season Two, made of the year rather than about it.</p>
+          </div>
+        </div>
+      </div>
+      <p class="figcap">Frames are art direction, not photographs — the archive doesn't exist until the first night. Appointing one photographer and one filmmaker for the whole route is what makes eight stops look like one body of work instead of eight events.</p>
+    </div>
+  </section>
+
+  <!-- 15 THE ASK -->
+  <section class="slide" id="s15">
+    <canvas class="field" data-hue="#FF3B14" data-seed="140" data-step="14" aria-hidden="true"></canvas>
+    <div class="inner">
+      <p class="eyebrow">14 — <b>The ask</b></p>
+      <h2>What happens next</h2>
+      <ol class="needs">
+        <li><span>Cast the roster of twelve — the campaign comes out of them, not the other way round.</span></li>
+        <li><span>Confirm the three held spaces and secure permits, including a late event at Design Hub on 31 October.</span></li>
+        <li><span>Appoint one photographer and one filmmaker for the full route.</span></li>
+        <li><span>Print the passport. Ten boxes, paper only.</span></li>
+        <li><span>Close a partner by 10 October — or run Stop 01 reduced and move to Stop 02.</span></li>
+        <li><span>Shortlist the road: one town, one host, one border city.</span></li>
+      </ol>
+      <p class="promise" style="margin-top:clamp(28px,5vh,52px);">Same room. Different energy.</p>
+      <p class="cover-foot">Don't go where everybody goes. Go somewhere you've never been.<br>A cultural property by GENrise · Kampala</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---- halftone fields: printed-dot texture, deterministic per seed ---- */
+  function halftone(cv){
+    var hue = cv.getAttribute('data-hue') || '#FF3B14';
+    var seed = parseInt(cv.getAttribute('data-seed') || '1', 10);
+    var step = parseFloat(cv.getAttribute('data-step') || '14');
+    var w = cv.clientWidth, h = cv.clientHeight;
+    if(!w || !h) return;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    var ctx = cv.getContext('2d');
+    if(!ctx) return;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    var s = seed >>> 0;
+    function rnd(){ s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }
+    var cx = w * 0.74, cy = h * 0.34, maxd = Math.sqrt(w*w + h*h);
+    ctx.fillStyle = hue;
+    for(var y = 0; y < h + step; y += step){
+      for(var x = 0; x < w + step; x += step){
+        var dx = x - cx, dy = y - cy;
+        var t = 1 - (Math.sqrt(dx*dx + dy*dy) / maxd) * 1.85;
+        t += (rnd() - 0.5) * 0.4;
+        if(t <= 0.03) continue;
+        var r = step * 0.5 * Math.min(1, t);
+        if(r < 0.35) continue;
+        ctx.globalAlpha = Math.min(0.92, 0.18 + t * 0.85);
+        ctx.beginPath();
+        ctx.arc(x + (rnd() - 0.5) * 1.4, y + (rnd() - 0.5) * 1.4, r, 0, 6.2832);
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+  function paintAll(){
+    var list = document.querySelectorAll('canvas[data-hue]');
+    for(var i = 0; i < list.length; i++) halftone(list[i]);
+  }
+  paintAll();
+  window.addEventListener('load', paintAll);
+  var rt;
+  window.addEventListener('resize', function(){
+    clearTimeout(rt); rt = setTimeout(paintAll, 180);
+  });
+
+  /* ---- the ladder chart ---- */
+  var DATA = [
+    { stop:'01', name:'Warehouse', prod:15, tick:15,   note:'tickets cover the night' },
+    { stop:'02', name:'Courtyard', prod:15, tick:7.5,  note:'lowest door price of the year' },
+    { stop:'03', name:'Hill',      prod:22, tick:18,   note:'' },
+    { stop:'04', name:'Unknown',   prod:30, tick:21,   note:'' }
+  ];
+  var X0 = 56, X1 = 880, Y0 = 290, MAXV = 30, PXV = (290 - 29) / MAXV;
+  var bars = document.getElementById('bars');
+  var xlab = document.getElementById('xlabels');
+  var tip = document.getElementById('tip');
+  var wrap = document.getElementById('chartWrap');
+
+  function topBar(x, y, w, h){
+    var r = Math.min(4, w / 2, h);
+    return 'M' + x + ' ' + (y + h) + ' L' + x + ' ' + (y + r) +
+           ' Q' + x + ' ' + y + ' ' + (x + r) + ' ' + y +
+           ' L' + (x + w - r) + ' ' + y +
+           ' Q' + (x + w) + ' ' + y + ' ' + (x + w) + ' ' + (y + r) +
+           ' L' + (x + w) + ' ' + (y + h) + ' Z';
+  }
+  function svgEl(n){ return document.createElementNS('http://www.w3.org/2000/svg', n); }
+
+  var band = (X1 - X0) / DATA.length, bw = 58, gap = 2;
+  DATA.forEach(function(d, i){
+    var centre = X0 + band * i + band / 2;
+    var xs = [centre - bw - gap / 2, centre + gap / 2];
+    [['prod', '#FF3B14', 'Production'], ['tick', '#9366F2', 'Ticket revenue']].forEach(function(series, k){
+      var v = d[series[0]];
+      var hgt = v * PXV;
+      var p = svgEl('path');
+      p.setAttribute('d', topBar(xs[k], Y0 - hgt, bw, hgt));
+      p.setAttribute('fill', series[1]);
+      p.setAttribute('class', 'bar');
+      p.setAttribute('tabindex', '0');
+      var label = d.stop + ' ' + d.name + ' — ' + series[2] + ' UGX ' + v + 'm';
+      var ttl = svgEl('title'); ttl.textContent = label; p.appendChild(ttl);
+      p.setAttribute('aria-label', label);
+      function show(){
+        if(!tip) return;
+        tip.hidden = false;
+        tip.innerHTML = d.stop + ' ' + d.name + '<br>' + series[2] + ' <b>UGX ' + v + 'm</b>';
+        var box = wrap.getBoundingClientRect(), r = p.getBoundingClientRect();
+        tip.style.left = (r.left - box.left + r.width / 2) + 'px';
+        tip.style.top = (r.top - box.top) + 'px';
+      }
+      function hide(){ if(tip) tip.hidden = true; }
+      p.addEventListener('mouseenter', show);
+      p.addEventListener('mouseleave', hide);
+      p.addEventListener('focus', show);
+      p.addEventListener('blur', hide);
+      bars.appendChild(p);
+    });
+    /* selective direct labels: the ladder itself, plus the break-even pair */
+    var t = svgEl('text');
+    t.setAttribute('x', String(xs[0] + bw / 2));
+    t.setAttribute('y', String(Y0 - d.prod * PXV - 10));
+    t.setAttribute('class', 'val');
+    t.setAttribute('text-anchor', 'middle');
+    t.textContent = d.prod + 'm';
+    bars.appendChild(t);
+    if(i === 0){
+      var t2 = svgEl('text');
+      t2.setAttribute('x', String(xs[1] + bw / 2));
+      t2.setAttribute('y', String(Y0 - d.tick * PXV - 10));
+      t2.setAttribute('class', 'val');
+      t2.setAttribute('text-anchor', 'middle');
+      t2.textContent = '15m';
+      bars.appendChild(t2);
+    }
+    var xl = svgEl('text');
+    xl.setAttribute('x', String(centre));
+    xl.setAttribute('y', String(Y0 + 26));
+    xl.textContent = d.stop + ' ' + d.name;
+    xlab.appendChild(xl);
+    if(d.note){
+      var nl = svgEl('text');
+      nl.setAttribute('x', String(centre));
+      nl.setAttribute('y', String(Y0 + 46));
+      nl.setAttribute('font-size', '12');
+      nl.setAttribute('fill', 'rgba(250,250,247,.4)');
+      nl.textContent = d.note;
+      xlab.appendChild(nl);
+    }
+  });
+
+  /* ---- deck navigation ---- */
+  var deck = document.getElementById('deck');
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var dots = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+  var cur = document.getElementById('cur');
+  var idx = 0;
+
+  function mark(i){
+    idx = Math.max(0, Math.min(slides.length - 1, i));
+    for(var d = 0; d < dots.length; d++) dots[d].setAttribute('aria-current', d === idx ? 'true' : 'false');
+    if(cur) cur.textContent = (idx + 1 < 10 ? '0' : '') + (idx + 1);
+  }
+  mark(0);
+
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting) mark(slides.indexOf(e.target));
+      });
+    }, { root: deck.scrollHeight > deck.clientHeight ? deck : null, threshold: 0.55 });
+    slides.forEach(function(s){ io.observe(s); });
+  }
+
+  function go(i){
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    slides[i].scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    mark(i);
+  }
+  document.addEventListener('keydown', function(e){
+    var tag = (e.target && e.target.tagName) || '';
+    if(tag === 'INPUT' || tag === 'TEXTAREA') return;
+    if(e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' '){
+      e.preventDefault(); go(idx + 1);
+    } else if(e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp'){
+      e.preventDefault(); go(idx - 1);
+    } else if(e.key === 'Home'){ e.preventDefault(); go(0); }
+    else if(e.key === 'End'){ e.preventDefault(); go(slides.length - 1); }
+  });
+})();
+</script>
+
+</body>
+</html>

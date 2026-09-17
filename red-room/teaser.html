@@ -1,0 +1,361 @@
+<title>Red Room Teaser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400&family=Outfit:wght@300;400;500;600;700&display=swap">
+
+<style>
+  :root {
+    color-scheme: dark;
+    --ink: #060305;
+    --red: #e00d2e;
+    --red-hot: #ff4258;
+    --bone: #f4ebe8;
+    --bone-2: #c5b0b2;
+    --display: "Bodoni Moda", Didot, "Times New Roman", serif;
+    --util: "Outfit", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: #0d0709;
+    color: var(--bone);
+    font-family: var(--util);
+  }
+
+  /* ============ page chrome (screen only, never captured) ============ */
+
+  .page {
+    padding-inline: 20px;
+    padding-block: 40px 80px;
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .page-head { display: flex; flex-direction: column; gap: 8px; }
+
+  .page-head h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(30px, 5vw, 44px);
+    margin: 0;
+    line-height: 1.05;
+  }
+
+  .page-head p {
+    margin: 0;
+    color: #9d8a8d;
+    font-size: 15px;
+    max-width: 62ch;
+    line-height: 1.6;
+  }
+
+  .shelf { display: flex; flex-wrap: wrap; gap: 36px; align-items: flex-start; }
+
+  .spec { display: flex; flex-direction: column; gap: 12px; }
+
+  .spec-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red-hot);
+  }
+
+  .frame { position: relative; overflow: hidden; }
+  .frame.feed  { width: 432px; height: 540px; }
+  .frame.story { width: 304px; height: 540px; }
+
+  .frame > .stage { position: absolute; top: 0; left: 0; transform-origin: top left; }
+  .frame.feed  > .stage { transform: scale(0.4); }
+  .frame.story > .stage { transform: scale(0.28148); }
+
+  @media (max-width: 800px) {
+    .frame.feed  { width: 324px; height: 405px; }
+    .frame.story { width: 228px; height: 405px; }
+    .frame.feed  > .stage { transform: scale(0.3); }
+    .frame.story > .stage { transform: scale(0.21111); }
+  }
+
+  /* ============ the poster ============ */
+
+  .stage {
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+    isolation: isolate;
+  }
+
+  .stage.feed  { width: 1080px; height: 1350px; }
+  .stage.story { width: 1080px; height: 1920px; }
+
+  /* --- bloom behind everything --- */
+  .bloom {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: blur(90px);
+    background: radial-gradient(ellipse 46% 48% at 50% 48%,
+      rgba(255,74,92,0.80), rgba(196,10,38,0.30) 54%, transparent 76%);
+  }
+  .stage.feed  .bloom { top: 20px;  width: 1060px; height: 1060px; }
+  .stage.story .bloom { top: 130px; width: 1060px; height: 1280px; }
+
+  /* --- the doorway, feathered on every edge so it reads as light not a rectangle --- */
+  .door {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg,
+      rgba(255,226,222,0.97) 0%,
+      rgba(255,150,155,0.94) 22%,
+      rgba(240,44,74,0.86) 52%,
+      rgba(158,10,32,0.55) 80%,
+      rgba(96,5,20,0.18) 100%);
+    -webkit-mask-image:
+      linear-gradient(180deg, transparent 0%, #000 9%, #000 68%, transparent 100%),
+      linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
+    mask-image:
+      linear-gradient(180deg, transparent 0%, #000 9%, #000 68%, transparent 100%),
+      linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+  .stage.feed  .door { top: 112px; width: 396px; height: 742px; }
+  .stage.story .door { top: 240px; width: 396px; height: 980px; }
+
+  /* --- light spilling onto the floor --- */
+  .shafts {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: blur(26px);
+    opacity: 1;
+    mix-blend-mode: screen;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 92%);
+    mask-image: linear-gradient(180deg, #000 0%, transparent 92%);
+  }
+  .stage.feed  .shafts { top: 700px; width: 1080px; height: 400px; }
+  .stage.story .shafts { top: 1050px; width: 1080px; height: 470px; }
+
+  .pool {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: blur(46px);
+    background: radial-gradient(ellipse 50% 50% at 50% 50%,
+      rgba(255,112,126,0.78), rgba(190,10,36,0.30) 56%, transparent 78%);
+  }
+  .core {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: blur(34px);
+    background: linear-gradient(180deg,
+      rgba(255,240,238,0.92) 0%,
+      rgba(255,176,178,0.70) 34%,
+      rgba(246,60,88,0.34) 72%,
+      transparent 100%);
+  }
+  .stage.feed  .core { top: 132px; width: 214px; height: 560px; }
+  .stage.story .core { top: 268px; width: 214px; height: 730px; }
+
+  .stage.feed  .pool { top: 760px;  width: 760px; height: 230px; }
+  .stage.story .pool { top: 1120px; width: 760px; height: 270px; }
+
+  /* --- vignette --- */
+  .vignette {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 54% at 50% 38%, transparent 42%, rgba(6,3,5,0.58) 76%, rgba(6,3,5,0.95) 100%),
+      linear-gradient(180deg, rgba(6,3,5,0.90) 0%, transparent 14%, transparent 52%, rgba(6,3,5,0.88) 74%, rgba(6,3,5,0.99) 88%);
+  }
+
+  .grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.14;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  /* --- type --- */
+  .type {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+  }
+  .stage.feed  .type { padding: 62px 58px 54px; }
+  .stage.story .type { padding: 120px 58px 110px; }
+
+  .venue {
+    font-weight: 600;
+    letter-spacing: 0.54em;
+    text-transform: uppercase;
+    color: var(--bone);
+    text-indent: 0.54em;
+    margin: 0;
+    text-shadow: 0 2px 22px rgba(6,3,5,0.95);
+  }
+  .stage.feed  .venue { font-size: 23px; }
+  .stage.story .venue { font-size: 26px; }
+
+  .foot { display: flex; flex-direction: column; align-items: center; width: 100%; }
+
+  .wordmark {
+    font-family: var(--display);
+    font-weight: 900;
+    line-height: 0.79;
+    letter-spacing: -0.035em;
+    margin: 0;
+    color: #fffbfa;
+    text-shadow:
+      0 0 50px rgba(255,66,88,0.55),
+      0 0 150px rgba(224,13,46,0.45);
+  }
+  .wordmark span { display: block; }
+  .stage.feed  .wordmark { font-size: 156px; }
+  .stage.story .wordmark { font-size: 188px; }
+
+  .tagline {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    color: #f6e4e2;
+    letter-spacing: 0.01em;
+    margin: 0;
+    text-shadow: 0 2px 26px rgba(6,3,5,0.95);
+  }
+  .stage.feed  .tagline { font-size: 37px; margin-top: 26px; }
+  .stage.story .tagline { font-size: 43px; margin-top: 32px; }
+
+  .hairline {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(244,235,232,0.40), transparent);
+  }
+  .stage.feed  .hairline { margin: 32px 0 30px; }
+  .stage.story .hairline { margin: 40px 0 36px; }
+
+  .date {
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    background: var(--red);
+    color: #0a0305;
+    white-space: nowrap;
+  }
+  .stage.feed  .date { font-size: 31px; padding: 14px 30px; }
+  .stage.story .date { font-size: 36px; padding: 17px 36px; }
+
+  .kicker {
+    font-weight: 500;
+    letter-spacing: 0.30em;
+    text-transform: uppercase;
+    color: var(--bone-2);
+    text-indent: 0.30em;
+    margin: 0;
+  }
+  .stage.feed  .kicker { font-size: 17px; margin-top: 24px; }
+  .stage.story .kicker { font-size: 20px; margin-top: 28px; }
+
+  @keyframes breathe {
+    0%, 100% { opacity: 0.88; }
+    50%      { opacity: 1; }
+  }
+  .is-live .bloom { animation: breathe 6s ease-in-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .is-live .bloom { animation: none; }
+  }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="grainFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="page">
+
+  <div class="page-head">
+    <h1>Red Room &mdash; teaser poster</h1>
+    <p>Week one of the rollout: no faces, no names. The doorway, the date, and the line that makes people ask. Feed post at 1080 &times; 1350, story at 1080 &times; 1920.</p>
+  </div>
+
+  <div class="shelf">
+
+    <div class="spec">
+      <p class="spec-label">Feed &mdash; 1080 &times; 1350</p>
+      <div class="frame feed">
+        <div class="stage feed is-live" id="poster-feed">
+          <div class="bloom"></div>
+          <div class="door"></div>
+          <div class="core"></div>
+          <div class="pool"></div>
+          <svg class="shafts" viewBox="0 0 1080 400" preserveAspectRatio="none" aria-hidden="true">
+            <polygon points="330,0 750,0 1000,400 80,400" fill="rgba(255,84,100,0.46)"/>
+            <polygon points="400,0 680,0 850,400 230,400" fill="rgba(255,146,152,0.38)"/>
+            <polygon points="466,0 614,0 672,400 408,400" fill="rgba(255,206,204,0.30)"/>
+          </svg>
+          <div class="vignette"></div>
+          <svg class="grain" aria-hidden="true"><rect width="100%" height="100%" filter="url(#grainFilter)"/></svg>
+
+          <div class="type">
+            <p class="venue">Club Guvnor</p>
+            <div class="foot">
+              <h2 class="wordmark"><span>RED</span><span>ROOM</span></h2>
+              <p class="tagline">everybody becomes a shape</p>
+              <div class="hairline"></div>
+              <span class="date">Fri 25 Sept &middot; 10pm till late</span>
+              <p class="kicker">4th Friday every month</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec">
+      <p class="spec-label">Story &mdash; 1080 &times; 1920</p>
+      <div class="frame story">
+        <div class="stage story is-live" id="poster-story">
+          <div class="bloom"></div>
+          <div class="door"></div>
+          <div class="core"></div>
+          <div class="pool"></div>
+          <svg class="shafts" viewBox="0 0 1080 470" preserveAspectRatio="none" aria-hidden="true">
+            <polygon points="330,0 750,0 1000,470 80,470" fill="rgba(255,84,100,0.46)"/>
+            <polygon points="400,0 680,0 850,470 230,470" fill="rgba(255,146,152,0.38)"/>
+            <polygon points="466,0 614,0 672,470 408,470" fill="rgba(255,206,204,0.30)"/>
+          </svg>
+          <div class="vignette"></div>
+          <svg class="grain" aria-hidden="true"><rect width="100%" height="100%" filter="url(#grainFilter)"/></svg>
+
+          <div class="type">
+            <p class="venue">Club Guvnor</p>
+            <div class="foot">
+              <h2 class="wordmark"><span>RED</span><span>ROOM</span></h2>
+              <p class="tagline">everybody becomes a shape</p>
+              <div class="hairline"></div>
+              <span class="date">Fri 25 Sept &middot; 10pm till late</span>
+              <p class="kicker">4th Friday every month</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

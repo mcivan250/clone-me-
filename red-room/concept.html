@@ -1,0 +1,768 @@
+<title>Red Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,700&family=Archivo:wght@400;500;600;700&display=swap">
+
+<style>
+  :root {
+    color-scheme: dark;
+
+    --ink:       #090507;
+    --ink-2:     #120a0e;
+    --ink-3:     #1c1013;
+    --line:      #33161d;
+    --line-soft: #241318;
+
+    --red:       #e00d2e;
+    --red-hot:   #ff3d52;
+    --red-deep:  #6d0417;
+    --uv:        #9d4bff;
+    --amber:     #d9903f;
+
+    --bone:      #f4ebe8;
+    --bone-2:    #c9b6b8;
+    --bone-dim:  #8d787c;
+
+    --display: "Bodoni Moda", "Didot", "Times New Roman", serif;
+    --body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+
+    --gutter: 20px;
+    --measure: 68ch;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--bone);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 940px;
+    margin: 0 auto;
+    padding-inline: var(--gutter);
+    padding-block: 0 96px;
+  }
+
+  /* ---------- type ---------- */
+
+  h1, h2, h3 { font-family: var(--display); font-weight: 700; text-wrap: balance; margin: 0; }
+
+  h2 {
+    font-size: clamp(28px, 5vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-size: 20px;
+    line-height: 1.2;
+    color: var(--bone);
+  }
+
+  p { margin: 0; max-width: var(--measure); }
+
+  .label {
+    font-family: var(--body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red-hot);
+    margin: 0;
+  }
+
+  .label.quiet { color: var(--bone-dim); }
+
+  strong { color: var(--bone); font-weight: 600; }
+  em { color: var(--bone-2); }
+
+  a { color: var(--red-hot); }
+
+  /* ---------- hero: a backlit frame ---------- */
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(72px, 14vw, 128px) clamp(56px, 10vw, 96px);
+    padding-inline: var(--gutter);
+    border-bottom: 1px solid var(--line);
+    text-align: center;
+    isolation: isolate;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(ellipse 58% 62% at 50% 46%, rgba(255,61,82,0.42), transparent 68%),
+      radial-gradient(ellipse 95% 70% at 50% 40%, rgba(109,4,23,0.55), transparent 72%);
+  }
+
+  /* the doorway: a bright vertical slot behind the wordmark */
+  .hero::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    top: 8%;
+    width: min(240px, 46vw);
+    height: 84%;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, rgba(255,120,130,0.30), rgba(224,13,46,0.16) 60%, transparent);
+    filter: blur(26px);
+    animation: breathe 7s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    0%, 100% { opacity: 0.85; }
+    50%      { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero::after { animation: none; }
+  }
+
+  .hero-inner { max-width: 940px; margin: 0 auto; }
+
+  .wordmark {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: clamp(56px, 17vw, 148px);
+    line-height: 0.84;
+    letter-spacing: -0.02em;
+    margin: 0;
+    color: var(--bone);
+    text-shadow: 0 0 46px rgba(255,61,82,0.5), 0 0 110px rgba(224,13,46,0.3);
+  }
+
+  .wordmark span { display: block; }
+
+  .hero-sub {
+    margin: 26px auto 0;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--bone-2);
+  }
+
+  .hero-rule {
+    width: 44px;
+    height: 2px;
+    background: var(--red);
+    margin: 26px auto;
+    border: 0;
+  }
+
+  .hero-line {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(17px, 2.6vw, 22px);
+    color: var(--bone-2);
+    max-width: 30ch;
+    margin: 0 auto;
+    line-height: 1.4;
+  }
+
+  /* ---------- sections ---------- */
+
+  section { padding-block: 56px; border-bottom: 1px solid var(--line-soft); }
+  section:last-of-type { border-bottom: 0; }
+
+  .sec-head { display: flex; flex-direction: column; gap: 10px; margin-bottom: 26px; }
+
+  .body-stack { display: flex; flex-direction: column; gap: 16px; }
+
+  /* ---------- lineup ---------- */
+
+  .lineup {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
+  }
+
+  .dj {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 6px;
+    min-height: 260px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    background:
+      radial-gradient(ellipse 80% 55% at 50% 22%, rgba(224,13,46,0.30), transparent 70%),
+      linear-gradient(180deg, var(--ink-3), var(--ink-2));
+    overflow: hidden;
+  }
+
+  /* backlit slot — the reveal frame each photo drops into */
+  .dj::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 14%;
+    width: 56%;
+    height: 56%;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, rgba(255,120,130,0.34), rgba(224,13,46,0.10) 70%, transparent);
+    filter: blur(18px);
+  }
+
+  .dj-slot {
+    position: relative;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--red-hot);
+  }
+
+  .dj-name {
+    position: relative;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(24px, 4vw, 30px);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+  }
+
+  .dj-time {
+    position: relative;
+    font-size: 13px;
+    color: var(--bone-2);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .dj-note {
+    position: relative;
+    font-size: 12.5px;
+    color: var(--bone-dim);
+    line-height: 1.45;
+  }
+
+  .dj.is-peak { border-color: var(--red); }
+
+  .dj.is-peak::after {
+    content: "Peak — Edition 1";
+    position: absolute;
+    top: 14px;
+    left: 18px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--red);
+    padding: 3px 8px;
+  }
+
+  /* ---------- tables ---------- */
+
+  .scroller { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14.5px;
+    min-width: 520px;
+  }
+
+  th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+    padding: 0 14px 10px 0;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 13px 14px 13px 0;
+    border-bottom: 1px solid var(--line-soft);
+    vertical-align: top;
+    color: var(--bone-2);
+  }
+
+  td:first-child {
+    color: var(--bone);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* ---------- chips ---------- */
+
+  .chip {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border: 1px solid currentColor;
+    white-space: nowrap;
+  }
+
+  .chip.red   { color: var(--red-hot); }
+  .chip.amber { color: var(--amber); }
+  .chip.uv    { color: var(--uv); }
+  .chip.dark  { color: var(--bone-dim); }
+
+  /* ---------- callout ---------- */
+
+  .callout {
+    border-left: 3px solid var(--red);
+    background: var(--ink-2);
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .callout.warn { border-left-color: var(--amber); }
+  .callout.uvline { border-left-color: var(--uv); }
+
+  .callout p { max-width: 62ch; }
+
+  /* ---------- two-col detail blocks ---------- */
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px 40px;
+  }
+
+  .block { display: flex; flex-direction: column; gap: 10px; }
+  .block p { font-size: 15px; color: var(--bone-2); }
+
+  ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; }
+  li { color: var(--bone-2); font-size: 15px; max-width: var(--measure); }
+  li::marker { color: var(--red); }
+
+  /* ---------- dates ---------- */
+
+  .dates { display: flex; flex-direction: column; gap: 0; }
+
+  .date-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 16px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .date-row:first-child { border-top: 1px solid var(--line); }
+
+  .date-n {
+    font-family: var(--display);
+    font-size: 15px;
+    color: var(--red-hot);
+    width: 3.5ch;
+    flex: none;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .date-d {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--bone);
+    font-variant-numeric: tabular-nums;
+    min-width: 13ch;
+  }
+
+  .date-note { font-size: 13.5px; color: var(--bone-dim); }
+  .date-row.flagged .date-d { color: var(--amber); }
+  .date-row.flagged .date-note { color: var(--amber); }
+
+  /* ---------- rollout ---------- */
+
+  .rollout { display: flex; flex-direction: column; gap: 0; }
+
+  .week {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 6px 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .week:first-child { border-top: 1px solid var(--line); }
+
+  .week-when {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--red-hot);
+    padding-top: 3px;
+  }
+
+  .week-what { display: flex; flex-direction: column; gap: 6px; }
+  .week-what h3 { font-size: 18px; }
+  .week-what p { font-size: 14.5px; color: var(--bone-2); }
+
+  @media (max-width: 520px) {
+    .week { grid-template-columns: 1fr; gap: 8px; }
+  }
+
+  /* ---------- open items ---------- */
+
+  .open-list { display: flex; flex-direction: column; gap: 0; }
+
+  .open-item {
+    display: flex;
+    gap: 14px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--line-soft);
+    align-items: baseline;
+  }
+
+  .open-item:first-child { border-top: 1px solid var(--line); }
+
+  .open-mark { color: var(--red); font-size: 13px; flex: none; line-height: 1.6; }
+  .open-text { font-size: 15px; color: var(--bone-2); }
+  .open-text strong { display: block; color: var(--bone); font-weight: 600; margin-bottom: 2px; }
+
+  footer {
+    padding-block: 40px 0;
+    font-size: 12.5px;
+    color: var(--bone-dim);
+    letter-spacing: 0.04em;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+</style>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="label">Club Guvnor &nbsp;·&nbsp; 4th Friday, monthly</p>
+    <h1 class="wordmark"><span>RED</span><span>ROOM</span></h1>
+    <p class="hero-sub">Alisha &nbsp;·&nbsp; Tea &nbsp;·&nbsp; Missterious2 &nbsp;·&nbsp; Hady</p>
+    <hr class="hero-rule">
+    <p class="hero-line">One night a month the lights go red and everybody becomes a shape.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <div class="sec-head">
+      <p class="label">The idea</p>
+      <h2>A format people already know how to perform</h2>
+    </div>
+    <div class="body-stack">
+      <p>In 2020 the silhouette challenge put millions of women in a doorway under a red filter. It worked because it needed no explanation — the audio dropped, the light changed, and everyone understood what to do with their body. <strong>Red Room takes that off the phone and puts it in a room.</strong></p>
+      <p>That is the whole competitive advantage. A club night where guests <em>want</em> to post is worth more than any flyer budget, and this one comes with the choreography pre-installed.</p>
+      <p>Monthly, not weekly. Scarcity suits it, the build gets done properly instead of rigged in a hurry, and four weeks between editions is exactly enough runway to sell one.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="label">The signature moment</p>
+      <h2>Silhouette Hour</h2>
+    </div>
+    <div class="body-stack">
+      <p>One hard drop per night, same point in the night, every edition. House lights kill, the red wash comes up, the dancers hit the frames. The original challenge ran on the <em>Put On</em> → <em>Streets</em> transition — use that exact cue and it becomes a ritual the room waits for.</p>
+      <div class="callout">
+        <h3>Rehearse the drop with the lighting desk</h3>
+        <p>The DJ has to hit the transition on a cue the LX operator can see coming. Count them in; do not improvise it. A missed blackout kills the one thing people came for.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="label">Lineup</p>
+      <h2>Four sets, four lighting states</h2>
+    </div>
+    <div class="lineup">
+      <article class="dj is-peak">
+        <p class="dj-slot">Peak</p>
+        <h3 class="dj-name">DJ Alisha</h3>
+        <p class="dj-time">01:00 – 02:30</p>
+        <p class="dj-note">Silhouette Hour lands inside this set.</p>
+      </article>
+      <article class="dj">
+        <p class="dj-slot">Opener</p>
+        <h3 class="dj-name">DJ Tea</h3>
+        <p class="dj-time">22:00 – 23:30</p>
+        <p class="dj-note">Happy hour, room filling, UV pockets live.</p>
+      </article>
+      <article class="dj">
+        <p class="dj-slot">Build</p>
+        <h3 class="dj-name">Missterious2</h3>
+        <p class="dj-time">23:30 – 01:00</p>
+        <p class="dj-note">Duo set. Floor tightens, first dancer rotation.</p>
+      </article>
+      <article class="dj">
+        <p class="dj-slot">Close</p>
+        <h3 class="dj-name">DJ Hady</h3>
+        <p class="dj-time">02:30 – 04:00</p>
+        <p class="dj-note">UV segment, then free floor to close.</p>
+      </article>
+    </div>
+    <div class="callout" style="margin-top:22px">
+      <h3>The peak slot rotates</h3>
+      <p>All four play every edition; the peak slot moves one place each month, so every DJ headlines once a quarter and has a month that is hers to push. Proposed order: <strong>Alisha → Tea → Missterious2 → Hady</strong>, everyone else shifting up behind her.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="label">Run of show</p>
+      <h2>The night, hour by hour</h2>
+    </div>
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Set</th>
+            <th>What's happening</th>
+            <th>Room</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>22:00</td>
+            <td>Tea</td>
+            <td>Doors, happy hour, body shots, dancers circulating</td>
+            <td><span class="chip amber">Low amber + UV</span></td>
+          </tr>
+          <tr>
+            <td>23:30</td>
+            <td>Missterious2</td>
+            <td>Floor tightens, first dancer rotation, red creeping in</td>
+            <td><span class="chip dark">Red accent</span></td>
+          </tr>
+          <tr>
+            <td>01:00</td>
+            <td>Alisha</td>
+            <td>Peak set</td>
+            <td><span class="chip dark">Red accent</span></td>
+          </tr>
+          <tr>
+            <td>01:30</td>
+            <td>Alisha</td>
+            <td><strong>Silhouette Hour</strong> — the drop, the frames, the booth queue</td>
+            <td><span class="chip red">Full red wash</span></td>
+          </tr>
+          <tr>
+            <td>02:30</td>
+            <td>Hady</td>
+            <td>UV segment — paint station open, tattoos glowing</td>
+            <td><span class="chip uv">Blackout + UV</span></td>
+          </tr>
+          <tr>
+            <td>03:00</td>
+            <td>Hady</td>
+            <td>Free floor to close</td>
+            <td><span class="chip red">Red house look</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:16px; font-size:13.5px; color:var(--bone-dim)">Times shift to Guvnor's actual door and peak curve — the four-slot shape is what matters, not the clock.</p>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="label">The build</p>
+      <h2>Lighting, and the one thing that will bite you</h2>
+    </div>
+    <div class="body-stack">
+      <p>The silhouette effect needs a <strong>bright backlight behind the body with everything in front of it dark</strong>. Red gel on the backlight, no front fill. The dancers need risers or lit doorframes — on an open floor they will just look like people standing in red light.</p>
+      <div class="callout uvline">
+        <h3>Red light kills UV paint</h3>
+        <p>Neon tattoos do not glow under a red wash. You cannot run "neon tattoos" and "red silhouette" in the same lighting state — they have to be separated in space or in time.</p>
+      </div>
+      <div class="grid-2" style="margin-top:8px">
+        <div class="block">
+          <h3>Red frames</h3>
+          <p>Backlit panels, dancers in silhouette, zero front light. This is the house look and the Silhouette Hour look.</p>
+        </div>
+        <div class="block">
+          <h3>UV pockets</h3>
+          <p>Separate platforms and the bar under blacklight only, where the tattoos actually read. Own zone, own fixtures.</p>
+        </div>
+        <div class="block">
+          <h3>The switch is the moment</h3>
+          <p>Red through the peak, then blackout to UV for the close. Make the transition itself a beat rather than hiding it.</p>
+        </div>
+        <div class="block">
+          <h3>Test the paint first</h3>
+          <p>Brands vary wildly under different fixtures. Test yours under the actual rig before launch night, not on the night.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="label">Dancers &amp; neon tattoos</p>
+      <h2>Movement that reads as a shape</h2>
+    </div>
+    <ul>
+      <li><strong>Brief for silhouette legibility.</strong> Big, slow, shape-driven movement — hair, hips, arms, arch. Detail work disappears in silhouette.</li>
+      <li><strong>Paint live, not just pre-applied.</strong> Watching a neon tattoo go on is content in itself, and a free small one for guests costs almost nothing while walking around the club all night advertising the night.</li>
+      <li><strong>Keep the same core dancers.</strong> Monthly means faces have to carry between editions. Regulars should recognise them.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="label">Bar</p>
+      <h2>Happy hour and the giveaway</h2>
+    </div>
+    <ul>
+      <li><strong>Cap it.</strong> Unlimited free body shots will bleed you. Gate it — a 90-minute window, a count per guest, or a wristband.</li>
+      <li><strong>Opt-in on both sides.</strong> Nobody rostered onto the station who did not sign up for it, with a named alternative role for anyone who opts out.</li>
+      <li><strong>Hygiene kit on the station.</strong> Fresh limes, sanitised glasses, wipes, a bin. It photographs badly if it looks grubby, and this night gets photographed.</li>
+      <li><strong>Check the licence.</strong> Some venue terms specifically restrict on-body service. Confirm before the flyers print.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="label">The growth engine</p>
+      <h2>The silhouette booth</h2>
+    </div>
+    <div class="body-stack">
+      <p>A lit doorframe with a red-gelled backlight, a phone mount, and one staff member who knows the angle. Guests shoot their own ten-second silhouette and post it. That is the entire marketing loop, and it runs on guest phones instead of your budget.</p>
+      <p>Put it somewhere with room for a queue, staff it all night, and treat it as infrastructure rather than a photo corner. <strong>You need one clip of your own before you can ask guests for theirs</strong> — shoot the launch teaser with your own dancers in the frame.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="label">Calendar</p>
+      <h2>Every 4th Friday</h2>
+    </div>
+    <div class="dates">
+      <div class="date-row">
+        <span class="date-n">01</span>
+        <span class="date-d">Fri 25 Sep 2026</span>
+        <span class="date-note">Launch — peak slot: Alisha</span>
+      </div>
+      <div class="date-row">
+        <span class="date-n">02</span>
+        <span class="date-d">Fri 23 Oct 2026</span>
+        <span class="date-note">Peak slot: Tea</span>
+      </div>
+      <div class="date-row">
+        <span class="date-n">03</span>
+        <span class="date-d">Fri 27 Nov 2026</span>
+        <span class="date-note">Peak slot: Missterious2</span>
+      </div>
+      <div class="date-row flagged">
+        <span class="date-n">04</span>
+        <span class="date-d">Fri 25 Dec 2026</span>
+        <span class="date-note">Christmas Day — skip it, move to the 18th, or make it the Christmas special. Decide before the campaign starts.</span>
+      </div>
+      <div class="date-row">
+        <span class="date-n">05</span>
+        <span class="date-d">Fri 22 Jan 2027</span>
+        <span class="date-note">Peak slot: Hady</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="label">Rollout</p>
+      <h2>Four weeks, four posts, one night</h2>
+    </div>
+    <div class="rollout">
+      <div class="week">
+        <p class="week-when">Week 1</p>
+        <div class="week-what">
+          <h3>Concept teaser — no names</h3>
+          <p>Red frame, a silhouette, the date. "Red Room. 4th Friday. Guvnor." Let people ask what it is.</p>
+        </div>
+      </div>
+      <div class="week">
+        <p class="week-when">Week 2</p>
+        <div class="week-what">
+          <h3>Two name reveals</h3>
+          <p>Silhouette first, full photo on the reveal. The reveal <em>is</em> the concept — use the format the night is built on.</p>
+        </div>
+      </div>
+      <div class="week">
+        <p class="week-when">Week 3</p>
+        <div class="week-what">
+          <h3>Two more, plus the peak slot</h3>
+          <p>Announce who is holding Silhouette Hour this edition. That is the headline, not an afterthought.</p>
+        </div>
+      </div>
+      <div class="week">
+        <p class="week-when">Week 4</p>
+        <div class="week-what">
+          <h3>Full lineup flyer and last push</h3>
+          <p>All four on one flyer in the red duotone treatment. Every DJ reposts on her own channel the same day.</p>
+        </div>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:24px">
+      <h3>Art direction for the lineup photos</h3>
+      <p>Duotone every press shot to the Red Room red and black — crush the mids, hold the highlight on the face, let the rest fall into shadow. Shot separately in different rooms, they will still read as one set. Then cut a black silhouette variant of each for the teaser phase.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="label">Before launch</p>
+      <h2>Still open</h2>
+    </div>
+    <div class="open-list">
+      <div class="open-item">
+        <span class="open-mark">◆</span>
+        <p class="open-text"><strong>Riser for two.</strong> Missterious2 are a duo — confirmed. The build-slot booth and the backlit frame both need to hold two people, not one.</p>
+      </div>
+      <div class="open-item">
+        <span class="open-mark">◆</span>
+        <p class="open-text"><strong>Handles and name styling.</strong> Exact spelling for the flyer and exact @ for tagging, from each DJ.</p>
+      </div>
+      <div class="open-item">
+        <span class="open-mark">◆</span>
+        <p class="open-text"><strong>Sound per DJ.</strong> Order the slots by energy curve rather than by who confirmed first.</p>
+      </div>
+      <div class="open-item">
+        <span class="open-mark">◆</span>
+        <p class="open-text"><strong>A 10–15s mixing clip each</strong>, for the announce reels.</p>
+      </div>
+      <div class="open-item">
+        <span class="open-mark">◆</span>
+        <p class="open-text"><strong>Lighting test with real dancers and the real rig.</strong> Photograph it — the phone camera is what matters, not your eye.</p>
+      </div>
+      <div class="open-item">
+        <span class="open-mark">◆</span>
+        <p class="open-text"><strong>Licence check on body shots</strong>, before anything prints.</p>
+      </div>
+      <div class="open-item">
+        <span class="open-mark">◆</span>
+        <p class="open-text"><strong>The December call.</strong> Christmas Day, one way or the other.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Red Room · Club Guvnor · 4th Friday, monthly</p>
+    <p>Concept document — v1</p>
+  </footer>
+
+</div>

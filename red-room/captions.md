@@ -10,7 +10,7 @@ feel like it's building to something rather than just posting flyers.
 
 Pair with `exports/red-room-teaser-reel.mp4` or the teaser poster.
 
-> YOUR ANOTHER SIDE.
+> YOUR OTHER SIDE.
 > The lights go red on the 4th Friday. Nobody's going to recognise you.
 > That's the point.
 >
@@ -57,7 +57,7 @@ Pair with `exports/red-room-teaser-reel.mp4` or the teaser poster.
 ## Week 4 — full line-up
 
 > ALISHA · TEA · MISSTERIOUS2 · HADY
-> Four acts. One red room. Your another side.
+> Four acts. One red room. Your other side.
 > 4th Friday, every month.
 >
 > Fri 23 Oct · 10pm till late · Club Guvnor
@@ -82,7 +82,8 @@ Story, posted at the UV switch:
 
 - Tag all four acts on every post, not just the one being revealed. Their followers are
   the point.
-- Keep "4th Friday every month" on every single post. The monthly cadence is the thing
-  people have to learn, and one mention won't teach it.
+- The artwork no longer carries "4th Friday every month", so the **caption** has to.
+  The monthly cadence is the thing people must learn and one mention won't teach it —
+  keep it in the text of every single post.
 - Don't promise the free body shots without the cap attached — "first 90 minutes" has to
   travel with the offer or you'll be arguing about it at 2am.

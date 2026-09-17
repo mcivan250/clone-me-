@@ -341,7 +341,7 @@
 
       <div class="kinetic clip" id="kinetic" data-start="0" data-duration="20" data-track-index="7">
         <div class="kw" data-layout-allow-overflow><b id="kw1" data-layout-allow-occlusion>Your</b></div>
-        <div class="kw mid" data-layout-allow-overflow><b id="kw2" data-layout-allow-occlusion>Another</b></div>
+        <div class="kw" data-layout-allow-overflow><b id="kw2" data-layout-allow-occlusion>Other</b></div>
         <div class="kw" data-layout-allow-overflow><b id="kw3" data-layout-allow-occlusion>Side</b></div>
       </div>
 
@@ -353,9 +353,7 @@
         <span class="date clip" id="date" data-start="0" data-duration="20" data-track-index="10">
           Fri 23 Oct &middot; 10pm till late
         </span>
-        <p class="kicker clip" id="kicker" data-start="0" data-duration="20" data-track-index="11">
-          4th Friday every month
-        </p>
+
       </div>
     </div>
 
@@ -376,7 +374,6 @@
       tl.set("#wmWrap",   { opacity: 0 }, 0);
       tl.set("#hairline", { opacity: 0, scaleX: 0 }, 0);
       tl.set("#date",     { opacity: 0 }, 0);
-      tl.set("#kicker",   { opacity: 0 }, 0);
       tl.set(["#kw1", "#kw2", "#kw3"], { yPercent: 112 }, 0);
       tl.set("#wordmark", { yPercent: 104 }, 0);
 
@@ -431,7 +428,6 @@
       // --- DETAILS
       tl.fromTo("#hairline", { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.8, ease: "power2.inOut", immediateRender: false }, 11.4);
       tl.fromTo("#date",   { opacity: 0, y: 26, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "back.out(1.7)", immediateRender: false }, 12.2);
-      tl.fromTo("#kicker", { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "power2.out", immediateRender: false }, 13.2);
 
       // --- END HOLD: slow push, with two flickers so it never goes dead.
       tl.fromTo("#bloom", { scale: 1 }, { scale: 1.08, duration: 5.6, ease: "sine.inOut", immediateRender: false }, 14.4);

@@ -1,7 +1,7 @@
 # Red Room
 
 Monthly Friday night concept for **Club Guvnor**, built on the 2020 silhouette-challenge
-format. Tagline: **Your another side**. Runs the **4th Friday of every month**.
+format. Tagline: **Your other side**. Runs the **4th Friday of every month**.
 First edition: **Fri 23 Oct 2026**.
 
 Everything in this folder is the launch campaign for edition one.

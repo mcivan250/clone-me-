@@ -1,0 +1,262 @@
+<title>Red Room Reel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Outfit:wght@400;500;600;700&display=swap">
+
+<style>
+  :root {
+    color-scheme: dark;
+    --ink:       #080406;
+    --ink-2:     #140a0e;
+    --line:      #33161d;
+    --line-soft: #241318;
+    --red:       #e00d2e;
+    --red-hot:   #ff4258;
+    --bone:      #f4ebe8;
+    --bone-2:    #c5b0b2;
+    --bone-dim:  #8d787c;
+    --display: "Bodoni Moda", Didot, "Times New Roman", serif;
+    --util: "Outfit", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--bone);
+    font-family: var(--util);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-inline: 20px;
+    padding-block: 48px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .head { display: flex; flex-direction: column; gap: 10px; }
+
+  .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red-hot);
+    margin: 0;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(32px, 6vw, 52px);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .head p {
+    margin: 0;
+    color: var(--bone-2);
+    max-width: 60ch;
+  }
+
+  /* --- player --- */
+
+  .player {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 36px;
+    align-items: flex-start;
+  }
+
+  .video-shell {
+    position: relative;
+    flex: 0 0 auto;
+    width: min(340px, 100%);
+    border: 1px solid var(--line);
+    background: #000;
+    overflow: hidden;
+  }
+
+  video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 9 / 16;
+    max-width: 100%;
+    background: #000;
+  }
+
+  .side { flex: 1 1 300px; display: flex; flex-direction: column; gap: 26px; min-width: 260px; }
+
+  .facts { display: flex; flex-direction: column; gap: 0; }
+
+  .fact {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 14.5px;
+  }
+
+  .fact:first-child { border-top: 1px solid var(--line); }
+  .fact dt { color: var(--bone-dim); }
+  .fact dd { margin: 0; color: var(--bone); font-weight: 500; font-variant-numeric: tabular-nums; text-align: right; }
+
+  .note {
+    border-left: 3px solid var(--red);
+    background: var(--ink-2);
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .note h2 {
+    font-family: var(--display);
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .note p { margin: 0; font-size: 14.5px; color: var(--bone-2); }
+
+  strong { color: var(--bone); font-weight: 600; }
+
+  /* --- beats --- */
+
+  section { display: flex; flex-direction: column; gap: 20px; }
+
+  h2.sec {
+    font-family: var(--display);
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.05;
+  }
+
+  .beats { display: flex; flex-direction: column; gap: 0; }
+
+  .beat {
+    display: grid;
+    grid-template-columns: 86px 1fr;
+    gap: 4px 22px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .beat:first-child { border-top: 1px solid var(--line); }
+
+  .beat-t {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--red-hot);
+    font-variant-numeric: tabular-nums;
+    padding-top: 2px;
+  }
+
+  .beat-d { font-size: 15px; color: var(--bone-2); }
+  .beat-d b { color: var(--bone); font-weight: 600; }
+
+  @media (max-width: 520px) {
+    .beat { grid-template-columns: 1fr; gap: 6px; }
+  }
+
+  footer {
+    font-size: 12.5px;
+    color: var(--bone-dim);
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--line-soft);
+    padding-top: 22px;
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="head">
+    <p class="label">Red Room &mdash; week one</p>
+    <h1>The teaser reel</h1>
+    <p>Eighteen seconds, shot vertical for stories and reels. The door opens from a crack of light, the room floods red, and the name rises out of the floor spill.</p>
+  </div>
+
+  <div class="player">
+    <div class="video-shell">
+      <video controls playsinline loop muted autoplay preload="metadata"
+             poster="reel-poster.jpg" aria-label="Red Room teaser reel">
+        <source src="red-room-teaser-reel.mp4" type="video/mp4">
+        Your browser cannot play this video.
+      </video>
+    </div>
+
+    <div class="side">
+      <dl class="facts">
+        <div class="fact"><dt>Duration</dt><dd>18.0s</dd></div>
+        <div class="fact"><dt>Resolution</dt><dd>1080 &times; 1920</dd></div>
+        <div class="fact"><dt>Frame rate</dt><dd>30 fps</dd></div>
+        <div class="fact"><dt>Format</dt><dd>H.264 MP4</dd></div>
+        <div class="fact"><dt>Size</dt><dd>1.7 MB</dd></div>
+        <div class="fact"><dt>Audio</dt><dd>None &mdash; silent</dd></div>
+      </dl>
+
+      <div class="note">
+        <h2>Add the audio in the app, not in the file</h2>
+        <p>It ships silent on purpose. Put the <em>Put On</em> &rarr; <em>Streets</em> transition on it inside Instagram so it pulls from their licensed library &mdash; a baked-in track can get the post muted or blocked in some regions.</p>
+      </div>
+
+      <div class="note">
+        <h2>Cut it to 15s if you need to</h2>
+        <p>Trim from the front, not the back. The first three seconds are the door at a crack; the last six carry the date and the name, and those have to stay.</p>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <h2 class="sec">How it's cut</h2>
+    <div class="beats">
+      <div class="beat">
+        <p class="beat-t">0.3 &ndash; 2.4</p>
+        <p class="beat-d">Black room. A hairline of red light opens along the door edge &mdash; <b>nothing else moves</b>.</p>
+      </div>
+      <div class="beat">
+        <p class="beat-t">2.4 &ndash; 3.9</p>
+        <p class="beat-d">The door swings open and the light floods out. Floor pool and shafts come up behind it.</p>
+      </div>
+      <div class="beat">
+        <p class="beat-t">3.9 &ndash; 5.0</p>
+        <p class="beat-d">Club Guvnor signs in at the top of frame.</p>
+      </div>
+      <div class="beat">
+        <p class="beat-t">5.4 &ndash; 7.1</p>
+        <p class="beat-d"><b>RED</b>, then <b>ROOM</b> &mdash; each word rises out of the floor light, half a second apart.</p>
+      </div>
+      <div class="beat">
+        <p class="beat-t">7.6 &ndash; 8.8</p>
+        <p class="beat-d">&ldquo;everybody becomes a shape&rdquo;ldquo;Your another side&ldquo;everybody becomes a shape&rdquo;rdquo; fades up underneath.</p>
+      </div>
+      <div class="beat">
+        <p class="beat-t">9.2 &ndash; 12.0</p>
+        <p class="beat-d">Hairline draws across, the date bar lands, the monthly line settles under it.</p>
+      </div>
+      <div class="beat">
+        <p class="beat-t">12.0 &ndash; 18.0</p>
+        <p class="beat-d">Hold on a slow push into the light, so the end card still breathes while people read it.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Red Room &middot; Club Guvnor &middot; Fri 23 Oct &middot; 4th Friday every month
+  </footer>
+
+</div>

@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <link rel="stylesheet" href="assets/fonts/fonts.css" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #060305;
+      }
+
+      :root {
+        --red: #e00d2e;
+        --bone: #f4ebe8;
+        --bone-2: #c5b0b2;
+        --display: "Bodoni Moda", Didot, "Times New Roman", serif;
+        --util: "Outfit", "Helvetica Neue", Arial, sans-serif;
+      }
+
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #060305;
+        font-family: var(--util);
+      }
+
+      /* ---------- the room ---------- */
+
+      .bloom {
+        position: absolute;
+        left: 50%;
+        top: 130px;
+        width: 1060px;
+        height: 1280px;
+        margin-left: -530px;
+        filter: blur(90px);
+        background: radial-gradient(
+          ellipse 46% 48% at 50% 48%,
+          rgba(255, 74, 92, 0.8),
+          rgba(196, 10, 38, 0.3) 54%,
+          transparent 76%
+        );
+      }
+
+      /* the doorway: scaled open on X from a hairline crack to full width */
+      .door {
+        position: absolute;
+        left: 50%;
+        top: 240px;
+        width: 396px;
+        height: 980px;
+        margin-left: -198px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 226, 222, 0.97) 0%,
+          rgba(255, 150, 155, 0.94) 22%,
+          rgba(240, 44, 74, 0.86) 52%,
+          rgba(158, 10, 32, 0.55) 80%,
+          rgba(96, 5, 20, 0.18) 100%
+        );
+        -webkit-mask-image:
+          linear-gradient(180deg, transparent 0%, #000 9%, #000 68%, transparent 100%),
+          linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
+        mask-image:
+          linear-gradient(180deg, transparent 0%, #000 9%, #000 68%, transparent 100%),
+          linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
+        -webkit-mask-composite: source-in;
+        mask-composite: intersect;
+      }
+
+      .core {
+        position: absolute;
+        left: 50%;
+        top: 268px;
+        width: 214px;
+        height: 730px;
+        margin-left: -107px;
+        filter: blur(34px);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 240, 238, 0.92) 0%,
+          rgba(255, 176, 178, 0.7) 34%,
+          rgba(246, 60, 88, 0.34) 72%,
+          transparent 100%
+        );
+      }
+
+      .pool {
+        position: absolute;
+        left: 50%;
+        top: 1120px;
+        width: 760px;
+        height: 270px;
+        margin-left: -380px;
+        filter: blur(46px);
+        background: radial-gradient(
+          ellipse 50% 50% at 50% 50%,
+          rgba(255, 112, 126, 0.78),
+          rgba(190, 10, 36, 0.3) 56%,
+          transparent 78%
+        );
+      }
+
+      .shafts {
+        position: absolute;
+        left: 50%;
+        top: 1050px;
+        width: 1080px;
+        height: 470px;
+        margin-left: -540px;
+        filter: blur(26px);
+        mix-blend-mode: screen;
+        -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 92%);
+        mask-image: linear-gradient(180deg, #000 0%, transparent 92%);
+      }
+
+      .vignette {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 70% 54% at 50% 38%, transparent 42%, rgba(6, 3, 5, 0.58) 76%, rgba(6, 3, 5, 0.95) 100%),
+          linear-gradient(180deg, rgba(6, 3, 5, 0.9) 0%, transparent 14%, transparent 52%, rgba(6, 3, 5, 0.88) 74%, rgba(6, 3, 5, 0.99) 88%);
+      }
+
+      .grain {
+        position: absolute;
+        inset: 0;
+        opacity: 0.14;
+        mix-blend-mode: overlay;
+      }
+
+      /* ---------- type ---------- */
+
+      .venue {
+        position: absolute;
+        top: 150px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: 0.54em;
+        text-indent: 0.54em;
+        text-transform: uppercase;
+        color: var(--bone);
+        text-shadow: 0 2px 22px rgba(6, 3, 5, 0.95);
+      }
+
+      .foot {
+        position: absolute;
+        left: 58px;
+        right: 58px;
+        bottom: 110px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .wordmark {
+        font-family: var(--display);
+        font-weight: 900;
+        font-size: 188px;
+        line-height: 0.79;
+        letter-spacing: -0.035em;
+        color: #fffbfa;
+        text-shadow: 0 0 50px rgba(255, 66, 88, 0.55), 0 0 150px rgba(224, 13, 46, 0.45);
+      }
+
+      .wordmark span { display: block; }
+
+      .tagline {
+        font-family: var(--display);
+        font-size: 36px;
+        letter-spacing: 0.17em;
+        text-indent: 0.17em;
+        text-transform: uppercase;
+        color: #f6e4e2;
+        margin-top: 36px;
+        text-shadow: 0 2px 26px rgba(6, 3, 5, 0.95);
+      }
+
+      .hairline {
+        width: 100%;
+        height: 1px;
+        margin: 40px 0 36px;
+        background: linear-gradient(90deg, transparent, rgba(244, 235, 232, 0.4), transparent);
+      }
+
+      .date {
+        font-size: 36px;
+        font-weight: 700;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        background: var(--red);
+        color: #0a0305;
+        padding: 17px 36px;
+        white-space: nowrap;
+      }
+
+      .kicker {
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 0.3em;
+        text-indent: 0.3em;
+        text-transform: uppercase;
+        color: var(--bone-2);
+        margin-top: 28px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="18"
+      data-width="1080"
+      data-height="1920"
+    >
+      <svg width="0" height="0" style="position: absolute">
+        <defs>
+          <filter id="grainFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch" />
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+        </defs>
+      </svg>
+
+      <div class="bloom clip" id="bloom" data-start="0" data-duration="18" data-track-index="0"></div>
+      <div class="door clip" id="door" data-start="0" data-duration="18" data-track-index="1"></div>
+      <div class="core clip" id="core" data-start="0" data-duration="18" data-track-index="2"></div>
+      <div class="pool clip" id="pool" data-start="0" data-duration="18" data-track-index="3"></div>
+
+      <svg class="shafts clip" id="shafts" viewBox="0 0 1080 470" preserveAspectRatio="none"
+           data-start="0" data-duration="18" data-track-index="4">
+        <polygon points="330,0 750,0 1000,470 80,470" fill="rgba(255,84,100,0.46)" />
+        <polygon points="400,0 680,0 850,470 230,470" fill="rgba(255,146,152,0.38)" />
+        <polygon points="466,0 614,0 672,470 408,470" fill="rgba(255,206,204,0.30)" />
+      </svg>
+
+      <div class="vignette clip" id="vignette" data-start="0" data-duration="18" data-track-index="5"></div>
+
+      <svg class="grain clip" id="grain" data-start="0" data-duration="18" data-track-index="6">
+        <rect width="100%" height="100%" filter="url(#grainFilter)" />
+      </svg>
+
+      <div class="venue clip" id="venue" data-start="0" data-duration="18" data-track-index="7">Club Guvnor</div>
+
+      <div class="foot">
+        <h1 class="wordmark clip" id="wordmark" data-start="0" data-duration="18" data-track-index="8">
+          <span id="w1">RED</span><span id="w2">ROOM</span>
+        </h1>
+        <p class="tagline clip" id="tagline" data-start="0" data-duration="18" data-track-index="9">
+          Your another side
+        </p>
+        <div class="hairline clip" id="hairline" data-start="0" data-duration="18" data-track-index="10"></div>
+        <span class="date clip" id="date" data-start="0" data-duration="18" data-track-index="11">
+          Fri 23 Oct &middot; 10pm till late
+        </span>
+        <p class="kicker clip" id="kicker" data-start="0" data-duration="18" data-track-index="12">
+          4th Friday every month
+        </p>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // Everything is authored with fromTo and explicit values so any frame can be
+      // seeked directly — no randomness, no time-of-day, no repeat counters.
+
+      // 1. The room is dark. A crack of red light opens along the door line.
+      tl.fromTo("#door", { scaleX: 0, opacity: 0 }, { scaleX: 0.035, opacity: 1, duration: 1.6, ease: "power2.out" }, 0.3);
+      tl.set("#bloom", { opacity: 0, scale: 1 }, 0);
+      tl.fromTo("#bloom", { opacity: 0 }, { opacity: 0.28, duration: 1.6, ease: "power2.out" }, 0.3);
+      tl.fromTo("#core", { opacity: 0, scaleX: 0 }, { opacity: 0.5, scaleX: 0.04, duration: 1.6, ease: "power2.out" }, 0.3);
+
+      // 2. The door swings open and the light floods the room.
+      tl.to("#door", { scaleX: 1, duration: 1.5, ease: "power3.out" }, 2.4);
+      tl.to("#core", { scaleX: 1, opacity: 1, duration: 1.5, ease: "power3.out" }, 2.4);
+      tl.to("#bloom", { opacity: 1, duration: 1.7, ease: "power2.out" }, 2.4);
+      tl.fromTo("#pool", { opacity: 0 }, { opacity: 1, duration: 1.6, ease: "power2.out" }, 2.7);
+      tl.fromTo("#shafts", { opacity: 0 }, { opacity: 1, duration: 1.8, ease: "power2.out" }, 2.9);
+
+      // 3. The venue signs itself in.
+      tl.fromTo("#venue", { opacity: 0, y: -18 }, { opacity: 1, y: 0, duration: 1.1, ease: "power2.out" }, 3.9);
+
+      // 4. The name lands, one word at a time, rising out of the floor light.
+      tl.fromTo("#w1", { opacity: 0, y: 70, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 1.1, ease: "power3.out" }, 5.4);
+      tl.fromTo("#w2", { opacity: 0, y: 70, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 1.1, ease: "power3.out" }, 6.0);
+
+      // 5. The line that makes people ask.
+      tl.fromTo("#tagline", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 7.6);
+
+      // 6. Rule, then the date.
+      tl.fromTo("#hairline", { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.9, ease: "power2.inOut" }, 9.2);
+      tl.fromTo("#date", { opacity: 0, y: 24, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "back.out(1.6)" }, 10.0);
+      tl.fromTo("#kicker", { opacity: 0 }, { opacity: 1, duration: 1.0, ease: "power2.out" }, 11.0);
+
+      // 7. Hold: one slow push on the light so the last six seconds still breathe.
+      tl.fromTo("#bloom", { scale: 1 }, { scale: 1.07, duration: 6.0, ease: "sine.inOut", immediateRender: false }, 12.0);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

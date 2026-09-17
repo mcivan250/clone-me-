@@ -1,0 +1,524 @@
+<title>Red Room Reveals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400&family=Outfit:wght@400;500;600;700&display=swap">
+
+<style>
+  :root {
+    color-scheme: dark;
+    --ink:       #060305;
+    --ink-2:     #140a0e;
+    --line:      #33161d;
+    --line-soft: #241318;
+    --red:       #e00d2e;
+    --red-hot:   #ff4258;
+    --bone:      #f4ebe8;
+    --bone-2:    #c5b0b2;
+    --bone-dim:  #8d787c;
+    --display: "Bodoni Moda", Didot, "Times New Roman", serif;
+    --util: "Outfit", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: #0d0709;
+    color: var(--bone);
+    font-family: var(--util);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-inline: 20px;
+    padding-block: 44px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .head { display: flex; flex-direction: column; gap: 10px; }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red-hot);
+    margin: 0;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(30px, 5.5vw, 46px);
+    line-height: 1.02;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .head p { margin: 0; color: var(--bone-2); max-width: 62ch; }
+
+  .shelf { display: flex; flex-wrap: wrap; gap: 30px; }
+
+  .spec-wrap { display: flex; flex-direction: column; gap: 11px; }
+
+  .spec-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--red-hot);
+  }
+
+  .frame { position: relative; overflow: hidden; width: 270px; height: 337.5px; }
+  .frame > .stage { position: absolute; top: 0; left: 0; transform-origin: top left; transform: scale(0.25); }
+
+  @media (max-width: 620px) {
+    .frame { width: 324px; height: 405px; }
+    .frame > .stage { transform: scale(0.3); }
+  }
+
+  /* ============ the reveal poster ============ */
+
+  .stage {
+    position: relative;
+    width: 1080px;
+    height: 1350px;
+    overflow: hidden;
+    background: var(--ink);
+    isolation: isolate;
+    font-family: var(--util);
+  }
+
+  .bloom {
+    position: absolute;
+    left: 50%;
+    top: 30px;
+    width: 1040px;
+    height: 1020px;
+    margin-left: -520px;
+    filter: blur(86px);
+    background: radial-gradient(ellipse 46% 48% at 50% 46%,
+      rgba(255,74,92,0.72), rgba(196,10,38,0.26) 54%, transparent 76%);
+  }
+
+  /* the aperture the press shot drops into — same doorway of light as the teaser */
+  .aperture {
+    position: absolute;
+    left: 50%;
+    top: 176px;
+    width: 470px;
+    height: 712px;
+    margin-left: -235px;
+    overflow: hidden;
+    background: linear-gradient(180deg,
+      rgba(255,222,218,0.94) 0%,
+      rgba(255,146,151,0.90) 24%,
+      rgba(238,42,72,0.82) 56%,
+      rgba(150,10,30,0.50) 82%,
+      rgba(92,5,19,0.16) 100%);
+    -webkit-mask-image:
+      linear-gradient(180deg, transparent 0%, #000 8%, #000 72%, transparent 100%),
+      linear-gradient(90deg, transparent 0%, #000 13%, #000 87%, transparent 100%);
+    mask-image:
+      linear-gradient(180deg, transparent 0%, #000 8%, #000 72%, transparent 100%),
+      linear-gradient(90deg, transparent 0%, #000 13%, #000 87%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  /* the duotoned press shot goes here; until then the slot states its own spec */
+  .slot {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+    padding: 0 60px;
+  }
+
+  .slot-mark {
+    width: 46px;
+    height: 46px;
+    border: 2px solid rgba(12,4,7,0.55);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-family: var(--display);
+    color: rgba(12,4,7,0.68);
+    line-height: 1;
+  }
+
+  .slot-t {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(12,4,7,0.72);
+  }
+
+  .slot-s {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: rgba(12,4,7,0.58);
+    line-height: 1.45;
+  }
+
+  .pool {
+    position: absolute;
+    left: 50%;
+    top: 806px;
+    width: 740px;
+    height: 220px;
+    margin-left: -370px;
+    filter: blur(44px);
+    background: radial-gradient(ellipse 50% 50% at 50% 50%,
+      rgba(255,112,126,0.70), rgba(190,10,36,0.26) 56%, transparent 78%);
+  }
+
+  .vignette {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 52% at 50% 36%, transparent 44%, rgba(6,3,5,0.55) 78%, rgba(6,3,5,0.95) 100%),
+      linear-gradient(180deg, rgba(6,3,5,0.88) 0%, transparent 13%, transparent 50%, rgba(6,3,5,0.90) 72%, rgba(6,3,5,0.99) 86%);
+  }
+
+  .grain { position: absolute; inset: 0; opacity: 0.13; mix-blend-mode: overlay; }
+
+  .type {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 58px 56px 52px;
+  }
+
+  .masthead { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+
+  .venue {
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: 0.5em;
+    text-indent: 0.5em;
+    text-transform: uppercase;
+    color: var(--bone-2);
+    margin: 0;
+    text-shadow: 0 2px 20px rgba(6,3,5,0.95);
+  }
+
+  .brand {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 58px;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    margin: 0;
+    color: #fffbfa;
+    text-shadow: 0 0 40px rgba(255,66,88,0.5);
+  }
+
+  .foot { display: flex; flex-direction: column; align-items: center; width: 100%; }
+
+  .role {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-indent: 0.24em;
+    text-transform: uppercase;
+    color: var(--red-hot);
+    margin: 0 0 16px;
+    text-shadow: 0 2px 20px rgba(6,3,5,0.95);
+  }
+
+  .dj {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 116px;
+    line-height: 0.86;
+    letter-spacing: -0.03em;
+    margin: 0;
+    color: #fffbfa;
+    text-shadow: 0 0 44px rgba(255,66,88,0.5), 0 0 130px rgba(224,13,46,0.4);
+  }
+
+  .dj.two-line { font-size: 96px; }
+
+  .set {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 34px;
+    color: #f6e4e2;
+    margin: 22px 0 0;
+    text-shadow: 0 2px 24px rgba(6,3,5,0.95);
+  }
+
+  .hairline {
+    width: 100%;
+    height: 1px;
+    margin: 30px 0 28px;
+    background: linear-gradient(90deg, transparent, rgba(244,235,232,0.38), transparent);
+  }
+
+  .date {
+    font-size: 27px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    background: var(--red);
+    color: #0a0305;
+    padding: 13px 28px;
+    white-space: nowrap;
+  }
+
+  /* ============ the brief ============ */
+
+  section { display: flex; flex-direction: column; gap: 18px; }
+
+  h2.sec {
+    font-family: var(--display);
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.05;
+  }
+
+  .reqs { display: flex; flex-direction: column; gap: 0; }
+
+  .req {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 4px 24px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .req:first-child { border-top: 1px solid var(--line); }
+
+  .req dt {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--red-hot);
+    padding-top: 3px;
+  }
+
+  .req dd { margin: 0; font-size: 15px; color: var(--bone-2); }
+  .req dd b { color: var(--bone); font-weight: 600; }
+
+  @media (max-width: 620px) {
+    .req { grid-template-columns: 1fr; gap: 6px; }
+  }
+
+  .callout {
+    border-left: 3px solid var(--red);
+    background: var(--ink-2);
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .callout h3 { font-family: var(--display); font-size: 20px; font-weight: 700; margin: 0; line-height: 1.2; }
+  .callout p { margin: 0; font-size: 15px; color: var(--bone-2); max-width: 64ch; }
+
+  footer {
+    font-size: 12.5px;
+    color: var(--bone-dim);
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--line-soft);
+    padding-top: 22px;
+  }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="grainFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="page">
+
+  <div class="head">
+    <p class="eyebrow">Red Room &mdash; weeks two and three</p>
+    <h1>The reveal posters</h1>
+    <p>One per act, released two at a time after the teaser has run. Same doorway of light as the teaser &mdash; except this time somebody is standing in it. Each aperture is cut and waiting; drop the duotoned press shot in and the set is finished.</p>
+  </div>
+
+  <div class="shelf">
+
+    <div class="spec-wrap">
+      <p class="spec-label">01 &mdash; Peak</p>
+      <div class="frame"><div class="stage" id="p-alisha">
+        <div class="bloom"></div>
+        <div class="aperture"><div class="slot">
+          <div class="slot-mark">1</div>
+          <p class="slot-t">Alisha</p>
+          <p class="slot-s">press shot drops here<br>3:4 portrait &middot; eyes on the upper third</p>
+        </div></div>
+        <div class="pool"></div>
+        <div class="vignette"></div>
+        <svg class="grain"><rect width="100%" height="100%" filter="url(#grainFilter)"/></svg>
+        <div class="type">
+          <div class="masthead">
+            <p class="venue">Club Guvnor</p>
+            <p class="brand">RED ROOM</p>
+          </div>
+          <div class="foot">
+            <p class="role">Peak &middot; Silhouette Hour</p>
+            <p class="dj">DJ ALISHA</p>
+            <p class="set">01:00 &ndash; 02:30</p>
+            <div class="hairline"></div>
+            <span class="date">Fri 23 Oct</span>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="spec-wrap">
+      <p class="spec-label">02 &mdash; Opener</p>
+      <div class="frame"><div class="stage" id="p-tea">
+        <div class="bloom"></div>
+        <div class="aperture"><div class="slot">
+          <div class="slot-mark">2</div>
+          <p class="slot-t">Tea</p>
+          <p class="slot-s">press shot drops here<br>3:4 portrait &middot; eyes on the upper third</p>
+        </div></div>
+        <div class="pool"></div>
+        <div class="vignette"></div>
+        <svg class="grain"><rect width="100%" height="100%" filter="url(#grainFilter)"/></svg>
+        <div class="type">
+          <div class="masthead">
+            <p class="venue">Club Guvnor</p>
+            <p class="brand">RED ROOM</p>
+          </div>
+          <div class="foot">
+            <p class="role">Opener</p>
+            <p class="dj">DJ TEA</p>
+            <p class="set">22:00 &ndash; 23:30</p>
+            <div class="hairline"></div>
+            <span class="date">Fri 23 Oct</span>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="spec-wrap">
+      <p class="spec-label">03 &mdash; Build</p>
+      <div class="frame"><div class="stage" id="p-miss">
+        <div class="bloom"></div>
+        <div class="aperture"><div class="slot">
+          <div class="slot-mark">3</div>
+          <p class="slot-t">Missterious2</p>
+          <p class="slot-s">press shot drops here<br>3:4 portrait &middot; two-up, both faces in the upper half</p>
+        </div></div>
+        <div class="pool"></div>
+        <div class="vignette"></div>
+        <svg class="grain"><rect width="100%" height="100%" filter="url(#grainFilter)"/></svg>
+        <div class="type">
+          <div class="masthead">
+            <p class="venue">Club Guvnor</p>
+            <p class="brand">RED ROOM</p>
+          </div>
+          <div class="foot">
+            <p class="role">Build &middot; Duo set</p>
+            <p class="dj two-line">MISSTERIOUS2</p>
+            <p class="set">23:30 &ndash; 01:00</p>
+            <div class="hairline"></div>
+            <span class="date">Fri 23 Oct</span>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="spec-wrap">
+      <p class="spec-label">04 &mdash; Close</p>
+      <div class="frame"><div class="stage" id="p-hady">
+        <div class="bloom"></div>
+        <div class="aperture"><div class="slot">
+          <div class="slot-mark">4</div>
+          <p class="slot-t">Hady</p>
+          <p class="slot-s">press shot drops here<br>3:4 portrait &middot; eyes on the upper third</p>
+        </div></div>
+        <div class="pool"></div>
+        <div class="vignette"></div>
+        <svg class="grain"><rect width="100%" height="100%" filter="url(#grainFilter)"/></svg>
+        <div class="type">
+          <div class="masthead">
+            <p class="venue">Club Guvnor</p>
+            <p class="brand">RED ROOM</p>
+          </div>
+          <div class="foot">
+            <p class="role">Close &middot; UV segment</p>
+            <p class="dj">DJ HADY</p>
+            <p class="set">02:30 &ndash; 04:00</p>
+            <div class="hairline"></div>
+            <span class="date">Fri 23 Oct</span>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+
+  <section>
+    <h2 class="sec">What each photo needs</h2>
+    <dl class="reqs">
+      <div class="req">
+        <dt>Aperture</dt>
+        <dd><b>470 &times; 626 px</b> inside a 1080 &times; 1350 poster. Supply the shot at 1400 px wide or better so it holds up after the crop.</dd>
+      </div>
+      <div class="req">
+        <dt>Crop</dt>
+        <dd>3:4 portrait, head and shoulders to mid-thigh. <b>Eyes on the upper third</b> &mdash; the light is brightest at the top of the aperture and that is where the face has to sit. Missterious2 are a duo, so frame them two-up with both faces in the upper half rather than stacked.</dd>
+      </div>
+      <div class="req">
+        <dt>Background</dt>
+        <dd>Plainer is better. The doorway light replaces whatever is behind them, so a busy room fights the effect. A cut-out with a transparent background is ideal.</dd>
+      </div>
+      <div class="req">
+        <dt>Grade</dt>
+        <dd>Duotone to Red Room red and black &mdash; crush the mids, hold the highlight on the face, let the rest drop into shadow. Four shots taken in four different rooms will read as one set once they are graded.</dd>
+      </div>
+      <div class="req">
+        <dt>Silhouette cut</dt>
+        <dd>A second version of each, filled solid black against the lit aperture. That is the teaser half of the reveal: silhouette first, full photo on the drop.</dd>
+      </div>
+      <div class="req">
+        <dt>Permission</dt>
+        <dd>Written OK from each DJ to run her image on paid and organic posts, plus the exact <b>@handle</b> and name spelling for the flyer.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section>
+    <h2 class="sec">Still open</h2>
+    <div class="callout">
+      <h3>The December edition</h3>
+      <p>The 4th Friday in December 2026 is Christmas Day. Skip it, move it to the 18th, or make it the Christmas special &mdash; but decide before this campaign starts, because the reveal posts will already be promising a monthly night by then.</p>
+    </div>
+  </section>
+
+  <footer>
+    Red Room &middot; Club Guvnor &middot; Fri 23 Oct &middot; 4th Friday every month
+  </footer>
+
+</div>

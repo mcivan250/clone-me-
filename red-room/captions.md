@@ -10,10 +10,11 @@ feel like it's building to something rather than just posting flyers.
 
 Pair with `exports/red-room-teaser-reel.mp4` or the teaser poster.
 
-> The lights go red on the 4th Friday.
-> Nobody's going to recognise you. That's the point.
+> YOUR ANOTHER SIDE.
+> The lights go red on the 4th Friday. Nobody's going to recognise you.
+> That's the point.
 >
-> RED ROOM. Club Guvnor. Fri 25 Sept, 10pm till late.
+> RED ROOM. Club Guvnor. Fri 23 Oct, 10pm till late.
 > Line-up drops this week.
 
 ---
@@ -24,7 +25,7 @@ Pair with `exports/red-room-teaser-reel.mp4` or the teaser poster.
 > When the lights drop red at 1am, this is who's driving it.
 >
 > DJ ALISHA · 01:00–02:30
-> RED ROOM · Club Guvnor · Fri 25 Sept
+> RED ROOM · Club Guvnor · Fri 23 Oct
 
 ## Week 2 — Tea (opener)
 
@@ -32,7 +33,7 @@ Pair with `exports/red-room-teaser-reel.mp4` or the teaser poster.
 > Happy hour, body shots, and Tea setting the tone from the door.
 >
 > DJ TEA · 22:00–23:30
-> RED ROOM · Club Guvnor · Fri 25 Sept
+> RED ROOM · Club Guvnor · Fri 23 Oct
 
 ---
 
@@ -42,23 +43,24 @@ Pair with `exports/red-room-teaser-reel.mp4` or the teaser poster.
 > The stretch where the floor tightens and the dancers come out.
 >
 > MISSTERIOUS2 · 23:30–01:00
-> RED ROOM · Club Guvnor · Fri 25 Sept
+> RED ROOM · Club Guvnor · Fri 23 Oct
 
 ## Week 3 — Hady (close)
 
 > Blackout. UV on. Tattoos glowing. Hady takes it to 4am.
 >
 > DJ HADY · 02:30–04:00
-> RED ROOM · Club Guvnor · Fri 25 Sept
+> RED ROOM · Club Guvnor · Fri 23 Oct
 
 ---
 
 ## Week 4 — full line-up
 
 > ALISHA · TEA · MISSTERIOUS2 · HADY
-> Four acts. One red room. 4th Friday, every month.
+> Four acts. One red room. Your another side.
+> 4th Friday, every month.
 >
-> Fri 25 Sept · 10pm till late · Club Guvnor
+> Fri 23 Oct · 10pm till late · Club Guvnor
 > Free body shots in the first 90 minutes. Neon tattoos all night.
 
 ---

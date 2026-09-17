@@ -1,7 +1,8 @@
 # Red Room
 
 Monthly Friday night concept for **Club Guvnor**, built on the 2020 silhouette-challenge
-format. Runs the **4th Friday of every month**. First edition: **Fri 25 Sept 2026**.
+format. Tagline: **Your another side**. Runs the **4th Friday of every month**.
+First edition: **Fri 23 Oct 2026**.
 
 Everything in this folder is the launch campaign for edition one.
 
@@ -34,7 +35,7 @@ Open any `.html` file directly in a browser. No build step, no server.
 | Close | DJ Hady | 02:30 – 04:00 | UV segment, then free floor |
 
 All four play every edition. The peak slot rotates monthly so each act headlines
-once a quarter: Alisha → Tea → Missterious2 → Hady.
+once a quarter: Alisha (Oct) → Tea (Nov) → Missterious2 (Dec) → Hady (Jan).
 
 ---
 
@@ -42,11 +43,11 @@ once a quarter: Alisha → Tea → Missterious2 → Hady.
 
 | Edition | Date | |
 |---|---|---|
-| 1 | Fri 25 Sep 2026 | Launch |
-| 2 | Fri 23 Oct 2026 | |
-| 3 | Fri 27 Nov 2026 | |
-| 4 | Fri 25 Dec 2026 | **Christmas Day** — skip, move to the 18th, or make it the special |
-| 5 | Fri 22 Jan 2027 | |
+| 1 | Fri 23 Oct 2026 | Launch |
+| 2 | Fri 27 Nov 2026 | |
+| 3 | Fri 25 Dec 2026 | **Christmas Day** — only the third edition, so skipping leaves a two-month hole |
+| 4 | Fri 22 Jan 2027 | |
+| 5 | Fri 26 Feb 2027 | |
 
 ---
 

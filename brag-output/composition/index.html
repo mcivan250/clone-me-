@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>VILLE — The Moving Town</title>
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      @font-face{
+        font-family:"Archivo";
+        src:url("fonts/Archivo-latin.woff2") format("woff2");
+        font-weight:400 900;
+        font-stretch:62% 125%;
+        font-display:block;
+        unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+      }
+      @font-face{
+        font-family:"Archivo";
+        src:url("fonts/Archivo-latin-ext.woff2") format("woff2");
+        font-weight:400 900;
+        font-stretch:62% 125%;
+        font-display:block;
+        unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+      }
+      *{margin:0;padding:0;box-sizing:border-box;}
+      html,body{width:1920px;height:1080px;overflow:hidden;background:#000;}
+      #root{
+        width:100%;height:100%;position:relative;overflow:hidden;background:#000;
+        font-family:"Archivo",Arial,sans-serif;color:#FAFAF7;
+      }
+      .clip{position:absolute;inset:0;overflow:hidden;}
+      .pad{position:absolute;inset:0;padding:104px 140px;}
+
+      .disp{font-variation-settings:"wdth" 125,"wght" 900;letter-spacing:-.035em;line-height:.92;text-transform:uppercase;}
+      .mid{font-variation-settings:"wdth" 118,"wght" 800;letter-spacing:-.02em;line-height:1;text-transform:uppercase;}
+      .lbl{font-variation-settings:"wdth" 112,"wght" 750;letter-spacing:.14em;text-transform:uppercase;}
+      .red{color:#FF3B14;} .acid{color:#E4FF3A;} .vio{color:#B084FF;}
+      .dim{color:rgba(250,250,247,.66);}
+
+      /* S1 hook */
+      .hook{position:absolute;left:140px;top:300px;width:1500px;}
+      .hook .ln{font-size:104px;display:block;width:100%;}
+      .hook .kicker{font-size:116px;display:block;width:100%;margin-top:36px;}
+
+      /* S2 reveal */
+      .rv{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+      .rv .wm{font-size:400px;line-height:.78;display:block;}
+      .rv .sub{font-size:58px;margin-top:26px;display:block;}
+      .flash{position:absolute;inset:0;background:#FF3B14;}
+      .fieldwrap{position:absolute;inset:0;}
+      canvas.field{position:absolute;right:0;top:0;width:1920px;height:1080px;}
+
+      /* S3 route */
+      .rt-head{position:absolute;left:140px;top:104px;width:1500px;}
+      .rt-head .t{font-size:82px;display:block;}
+      .rt-head .s{font-size:30px;margin-top:16px;display:block;}
+      .rt-wrap{position:absolute;left:150px;top:268px;width:1620px;height:630px;}
+      .rt-wrap svg{width:1620px;height:630px;display:block;}
+
+      /* S4 passport */
+      .pp-left{position:absolute;left:140px;top:380px;width:640px;}
+      .pp-left .t{font-size:76px;display:block;}
+      .pp-left .s{font-size:28px;margin-top:26px;display:block;}
+      .cardwrap{position:absolute;right:150px;top:190px;width:700px;height:700px;}
+      .card{
+        position:absolute;inset:0;background:#FAFAF7;color:#000;padding:48px 46px;
+        display:block;
+      }
+      .card .ctop{display:flex;justify-content:space-between;align-items:baseline;
+        border-bottom:5px solid #000;padding-bottom:18px;}
+      .card .cid{font-size:46px;font-variation-settings:"wdth" 125,"wght" 900;letter-spacing:-.03em;text-transform:uppercase;}
+      .card .cno{font-size:26px;font-variation-settings:"wdth" 110,"wght" 650;}
+      .card .ccols{display:flex;gap:44px;margin-top:30px;}
+      .card .col{flex:1;}
+      .card .ch{font-size:22px;font-variation-settings:"wdth" 118,"wght" 800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px;display:block;}
+      .card .row{font-size:25px;display:flex;gap:14px;align-items:center;padding:7px 0;}
+      .card .bx{width:20px;height:20px;border:3px solid #000;display:block;flex:0 0 auto;}
+      .card .bx.on{background:#000;}
+      .stamps{position:absolute;left:46px;right:46px;bottom:44px;height:150px;border-top:3px dashed rgba(0,0,0,.4);}
+      .stamp{
+        position:absolute;font-variation-settings:"wdth" 125,"wght" 900;text-transform:uppercase;
+        font-size:22px;letter-spacing:.04em;border:4px solid currentColor;padding:8px 12px;
+        display:block;white-space:nowrap;
+      }
+      .st-a{color:#C4300F;left:0;top:44px;}
+      .st-b{color:#6F7F10;left:190px;top:88px;}
+      .st-c{color:#6B45B8;left:392px;top:36px;}
+
+      /* S5 districts */
+      .ds-left{position:absolute;left:140px;top:360px;width:740px;}
+      .ds-left .l1{font-size:68px;display:block;}
+      .ds-left .l2{font-size:68px;display:block;margin-top:14px;}
+      .grid{position:absolute;right:140px;top:250px;width:860px;height:580px;
+        display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:16px;}
+      .blk{padding:34px 32px;display:flex;flex-direction:column;justify-content:space-between;}
+      .blk .bt{font-size:42px;font-variation-settings:"wdth" 122,"wght" 900;letter-spacing:-.025em;text-transform:uppercase;line-height:.95;display:block;}
+      .blk .bw{font-size:21px;font-variation-settings:"wdth" 110,"wght" 700;text-transform:uppercase;letter-spacing:.06em;display:block;}
+      .b1{background:#FF3B14;color:#000;}
+      .b2{background:#E4FF3A;color:#000;}
+      .b3{background:#B084FF;color:#000;}
+      .b4{border:4px solid #FAFAF7;color:#FAFAF7;}
+
+      /* S6 punchline */
+      .pl{position:absolute;left:140px;top:300px;width:1640px;}
+      .pl .l1{font-size:86px;display:block;}
+      .pl .l2{font-size:86px;display:block;margin-top:16px;}
+      .barwrap{position:absolute;left:140px;top:640px;width:1640px;}
+      .bar{height:116px;border:3px solid rgba(250,250,247,.34);display:flex;width:100%;}
+      .bar .nine{width:6.25%;background:#FF3B14;height:100%;}
+      .bar .rest{flex:1;height:100%;background:repeating-linear-gradient(90deg,rgba(250,250,247,.16) 0 3px,transparent 3px 96px);}
+      .barlabs{display:flex;justify-content:space-between;margin-top:22px;}
+      .barlabs span{font-size:26px;}
+
+      /* S7 outro */
+      .out{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+      .out .wm{font-size:280px;line-height:.78;display:block;}
+      .out .pr{font-size:52px;margin-top:30px;display:block;}
+      .out .fo{font-size:26px;margin-top:40px;display:block;}
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="22.4"
+         data-width="1920" data-height="1080" data-fps="30">
+
+      <!-- 01 HOOK -->
+      <section id="s-hook" class="clip" data-start="0" data-duration="3.4" data-track-index="0">
+        <div class="hook">
+          <span id="h1" class="ln disp">The photographer.</span>
+          <span id="h2" class="ln disp">The DJ.</span>
+          <span id="h3" class="ln disp">The designer.</span>
+          <span id="h4" class="kicker disp red">Never in the same room.</span>
+        </div>
+      </section>
+
+      <!-- 02 REVEAL -->
+      <section id="s-reveal" class="clip" data-start="3.4" data-duration="3.2" data-track-index="1">
+        <div class="fieldwrap"><canvas id="fieldA" class="field" width="1920" height="1080"></canvas></div>
+        <div class="rv">
+          <span id="r-wm" class="wm disp">Ville</span>
+          <span id="r-sub" class="sub mid">A town that moves.</span>
+        </div>
+        <div id="r-flash" class="flash" data-layout-ignore="true"></div>
+      </section>
+
+      <!-- 03 THE ROUTE -->
+      <section id="s-route" class="clip" data-start="6.6" data-duration="4.8" data-track-index="2">
+        <div class="rt-head">
+          <span id="rt-t" class="t disp">Eight stops.</span>
+          <span id="rt-s" class="s lbl dim">October 2026 &ndash; July 2027 &middot; Kampala and the road</span>
+        </div>
+        <div class="rt-wrap">
+          <svg viewBox="0 0 1440 560" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g fill="none" stroke-width="7" stroke-linecap="round">
+              <path class="seg" id="g1" pathLength="1" stroke-dasharray="1" d="M90 330 L260 190" stroke="#E4FF3A"></path>
+              <path class="seg" id="g2" pathLength="1" stroke-dasharray="1" d="M260 190 L430 355" stroke="#FF3B14"></path>
+              <path class="seg" id="g3" pathLength="1" stroke-dasharray="1" d="M430 355 L600 215" stroke="#FF3B14"></path>
+              <path class="seg" id="g4" pathLength="1" stroke-dasharray="1" d="M600 215 L700 275" stroke="rgba(250,250,247,.4)"></path>
+              <path class="seg" id="g5" pathLength="1" stroke-dasharray="1" d="M700 275 L840 390" stroke="#FF3B14"></path>
+              <path class="seg" id="g6" pathLength="1" stroke-dasharray="1" d="M840 390 L1010 195" stroke="#B084FF"></path>
+              <path class="seg" id="g7" pathLength="1" stroke-dasharray="1" d="M1010 195 L1180 380" stroke="#E4FF3A"></path>
+              <path class="seg" id="g8" pathLength="1" stroke-dasharray="1" d="M1180 380 L1318 252" stroke="#FAFAF7"></path>
+            </g>
+            <g font-family="Archivo, Arial" text-anchor="middle">
+              <g class="stn" id="n1">
+                <circle cx="90" cy="330" r="15" fill="#000" stroke="#FF3B14" stroke-width="6"></circle>
+                <text x="90" y="392" fill="#FF3B14" font-size="17" font-weight="800">01</text>
+                <text x="90" y="420" fill="#FAFAF7" font-size="25" font-weight="800">WAREHOUSE</text>
+                <text x="90" y="444" fill="rgba(250,250,247,.66)" font-size="16">Kampala &middot; 31 Oct</text>
+              </g>
+              <g class="stn" id="n2">
+                <circle cx="260" cy="190" r="15" fill="#000" stroke="#E4FF3A" stroke-width="6"></circle>
+                <text x="260" y="150" fill="#E4FF3A" font-size="17" font-weight="800">02</text>
+                <text x="260" y="122" fill="#FAFAF7" font-size="25" font-weight="800">COURTYARD</text>
+                <text x="260" y="98" fill="rgba(250,250,247,.66)" font-size="16">UCU, Mukono &middot; 14 Nov</text>
+              </g>
+              <g class="stn" id="n3">
+                <circle cx="430" cy="355" r="15" fill="#000" stroke="#FF3B14" stroke-width="6"></circle>
+                <text x="430" y="417" fill="#FF3B14" font-size="17" font-weight="800">03</text>
+                <text x="430" y="445" fill="#FAFAF7" font-size="25" font-weight="800">HILL</text>
+                <text x="430" y="469" fill="rgba(250,250,247,.66)" font-size="16">Nkonzi &middot; 28 Nov</text>
+              </g>
+              <g class="stn" id="n4">
+                <circle cx="600" cy="215" r="15" fill="#000" stroke="#FF3B14" stroke-width="6"></circle>
+                <text x="600" y="175" fill="#FF3B14" font-size="17" font-weight="800">04</text>
+                <text x="600" y="147" fill="#FAFAF7" font-size="25" font-weight="800">UNKNOWN</text>
+                <text x="600" y="123" fill="rgba(250,250,247,.66)" font-size="16">Kampala &middot; 12 Dec</text>
+              </g>
+              <g class="stn" id="n5">
+                <circle cx="840" cy="390" r="15" fill="#000" stroke="#FF3B14" stroke-width="6"></circle>
+                <text x="840" y="452" fill="#FF3B14" font-size="17" font-weight="800">05</text>
+                <text x="840" y="480" fill="#FAFAF7" font-size="25" font-weight="800">ROAD STOP</text>
+                <text x="840" y="504" fill="rgba(250,250,247,.66)" font-size="16">Jinja &middot; Feb</text>
+              </g>
+              <g class="stn" id="n6">
+                <circle cx="1010" cy="195" r="15" fill="#000" stroke="#B084FF" stroke-width="6"></circle>
+                <text x="1010" y="155" fill="#B084FF" font-size="17" font-weight="800">06</text>
+                <text x="1010" y="127" fill="#FAFAF7" font-size="25" font-weight="800">GUEST STOP</text>
+                <text x="1010" y="103" fill="rgba(250,250,247,.66)" font-size="16">Someone else&rsquo;s moment</text>
+              </g>
+              <g class="stn" id="n7">
+                <circle cx="1180" cy="380" r="15" fill="#000" stroke="#E4FF3A" stroke-width="6"></circle>
+                <text x="1180" y="442" fill="#E4FF3A" font-size="17" font-weight="800">07</text>
+                <text x="1180" y="470" fill="#FAFAF7" font-size="25" font-weight="800">THE BORDER</text>
+                <text x="1180" y="494" fill="rgba(250,250,247,.66)" font-size="16">Nairobi or Kigali &middot; May</text>
+              </g>
+              <g class="stn" id="n8">
+                <circle cx="1318" cy="252" r="17" fill="#FAFAF7" stroke="#FAFAF7" stroke-width="6"></circle>
+                <text x="1318" y="205" fill="#FAFAF7" font-size="17" font-weight="800">08</text>
+                <text x="1318" y="177" fill="#FAFAF7" font-size="25" font-weight="800">THE SUMMER</text>
+                <text x="1318" y="153" fill="rgba(250,250,247,.66)" font-size="16">19 Jun &ndash; 17 Jul</text>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </section>
+
+      <!-- 04 THE PASSPORT -->
+      <section id="s-pass" class="clip" data-start="11.4" data-duration="3.2" data-track-index="3">
+        <div class="pp-left">
+          <span id="pp-t" class="t disp">Everyone who comes gets one.</span>
+          <span id="pp-s" class="s lbl dim">Stamped at the door &middot; nobody can buy one</span>
+        </div>
+        <div class="cardwrap">
+          <div id="pp-card" class="card">
+            <div class="ctop">
+              <span class="cid">Ville / KLA</span>
+              <span class="cno">No. 0147</span>
+            </div>
+            <div class="ccols">
+              <div class="col">
+                <span class="ch">Discovered</span>
+                <div class="row"><span class="bx on"></span><span>New artist</span></div>
+                <div class="row"><span class="bx on"></span><span>New place</span></div>
+                <div class="row"><span class="bx"></span><span>New neighbourhood</span></div>
+                <div class="row"><span class="bx on"></span><span>Met someone new</span></div>
+              </div>
+              <div class="col">
+                <span class="ch">Contributed</span>
+                <div class="row"><span class="bx on"></span><span>Hired local</span></div>
+                <div class="row"><span class="bx on"></span><span>Paid a brief</span></div>
+                <div class="row"><span class="bx"></span><span>Gave a seat</span></div>
+                <div class="row"><span class="bx on"></span><span>Left it better</span></div>
+              </div>
+            </div>
+            <div class="stamps">
+              <span id="sp1" class="stamp st-a">Warehouse 31&middot;10</span>
+              <span id="sp2" class="stamp st-b">Courtyard 14&middot;11</span>
+              <span id="sp3" class="stamp st-c">Hill 28&middot;11</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 THE OFFER -->
+      <section id="s-offer" class="clip" data-start="14.6" data-duration="3.0" data-track-index="4">
+        <div class="ds-left">
+          <span id="ds1" class="l1 disp">Brands don&rsquo;t</span>
+          <span id="ds1b" class="l1 disp">sponsor it.</span>
+          <span id="ds2" class="l2 disp red">They enter it.</span>
+        </div>
+        <div class="grid">
+          <div class="blk b1 dblk"><span class="bt">Navigation</span><span class="bw">A connectivity brand</span></div>
+          <div class="blk b2 dblk"><span class="bt">Meeting</span><span class="bw">A soft drink brand</span></div>
+          <div class="blk b3 dblk"><span class="bt">The after</span><span class="bw">A spirits brand</span></div>
+          <div class="blk b4 dblk"><span class="bt">Football town</span><span class="bw">A brewer, without the rights</span></div>
+        </div>
+      </section>
+
+      <!-- 06 PUNCHLINE -->
+      <section id="s-punch" class="clip" data-start="17.6" data-duration="2.8" data-track-index="5">
+        <div class="pl">
+          <span id="p1" class="l1 disp">The match is 90 minutes.</span>
+          <span id="p2" class="l2 disp red">The city is 24 hours.</span>
+        </div>
+        <div class="barwrap">
+          <div id="p-bar" class="bar"><span class="nine"></span><span class="rest"></span></div>
+          <div id="p-labs" class="barlabs">
+            <span class="lbl red">90 minutes &mdash; sold</span>
+            <span class="lbl dim">22h 30 &mdash; nobody owns this yet</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 OUTRO -->
+      <section id="s-out" class="clip" data-start="20.4" data-duration="2.0" data-track-index="6">
+        <div class="fieldwrap"><canvas id="fieldB" class="field" width="1920" height="1080"></canvas></div>
+        <div class="out">
+          <span id="o-wm" class="wm disp">Ville</span>
+          <span id="o-pr" class="pr mid">Same room. Different energy.</span>
+          <span id="o-fo" class="fo lbl dim">A cultural property by GENrise &middot; Kampala</span>
+        </div>
+      </section>
+
+    </div>
+
+    <script>
+      /* deterministic halftone plate — seeded LCG, drawn once, never re-drawn */
+      function plate(id, hue, seed, step){
+        var cv = document.getElementById(id);
+        if(!cv) return;
+        var ctx = cv.getContext("2d");
+        var w = cv.width, h = cv.height;
+        ctx.clearRect(0,0,w,h);
+        var s = seed >>> 0;
+        function rnd(){ s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }
+        var cx = w * 0.78, cy = h * 0.34, maxd = Math.sqrt(w*w + h*h);
+        ctx.fillStyle = hue;
+        for(var y = 0; y < h + step; y += step){
+          for(var x = 0; x < w + step; x += step){
+            var dx = x - cx, dy = y - cy;
+            var t = 1 - (Math.sqrt(dx*dx + dy*dy) / maxd) * 1.9;
+            t += (rnd() - 0.5) * 0.4;
+            if(t <= 0.04) continue;
+            var r = step * 0.5 * Math.min(1, t);
+            if(r < 0.4) continue;
+            ctx.globalAlpha = Math.min(0.9, 0.14 + t * 0.8);
+            ctx.beginPath();
+            ctx.arc(x + (rnd() - 0.5) * 1.6, y + (rnd() - 0.5) * 1.6, r, 0, 6.2832);
+            ctx.fill();
+          }
+        }
+        ctx.globalAlpha = 1;
+      }
+      plate("fieldA", "#FF3B14", 7, 16);
+      plate("fieldB", "#FF3B14", 140, 18);
+
+      var tl = gsap.timeline({ paused: true });
+
+      /* ---- 01 hook (0 – 3.4) ---- */
+      tl.fromTo("#h1", { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.34, ease: "power3.out" }, 0.10);
+      tl.fromTo("#h2", { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.34, ease: "power3.out" }, 0.62);
+      tl.fromTo("#h3", { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.34, ease: "power3.out" }, 1.14);
+      tl.to("#h1, #h2, #h3", { opacity: 0.26, duration: 0.3, ease: "power2.inOut" }, 1.76);
+      tl.fromTo("#h4", { opacity: 0, y: 46 }, { opacity: 1, y: 0, duration: 0.38, ease: "power4.out" }, 1.84);
+
+      /* ---- 02 reveal (3.4 – 6.6) ---- */
+      tl.fromTo("#r-flash", { opacity: 1 }, { opacity: 0, duration: 0.10, ease: "none" }, 3.40);
+      tl.fromTo("#fieldA", { opacity: 0, xPercent: 8 }, { opacity: 0.85, xPercent: 0, duration: 1.1, ease: "power2.out" }, 3.46);
+      tl.fromTo("#r-wm", { opacity: 0, scale: 1.07 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, 3.48);
+      tl.fromTo("#r-sub", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.36, ease: "power3.out" }, 4.30);
+
+      /* ---- 03 route (6.6 – 11.4) ---- */
+      tl.fromTo("#rt-t", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.34, ease: "power3.out" }, 6.68);
+      tl.fromTo("#rt-s", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 6.94);
+      var segs = ["#g1","#g2","#g3","#g4","#g5","#g6","#g7","#g8"];
+      var stns = ["#n1","#n2","#n3","#n4","#n5","#n6","#n7","#n8"];
+      tl.fromTo(stns[0], { opacity: 0, scale: 0.4, transformOrigin: "90px 330px" },
+                         { opacity: 1, scale: 1, duration: 0.2, ease: "back.out(2)" }, 6.96);
+      var origins = ["90px 330px","260px 190px","430px 355px","600px 215px","840px 390px","1010px 195px","1180px 380px","1318px 252px"];
+      for (var i = 0; i < segs.length; i++) {
+        var at = 7.16 + i * 0.36;
+        tl.fromTo(segs[i], { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.34, ease: "power1.inOut" }, at);
+        if (i + 1 < stns.length) {
+          tl.fromTo(stns[i + 1], { opacity: 0, scale: 0.4, transformOrigin: origins[i + 1] },
+                                 { opacity: 1, scale: 1, duration: 0.22, ease: "back.out(2)" }, at + 0.26);
+        }
+      }
+
+      /* ---- 04 passport (11.4 – 14.6) ---- */
+      tl.fromTo("#pp-t", { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.36, ease: "power3.out" }, 11.48);
+      tl.fromTo("#pp-s", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 11.76);
+      tl.fromTo("#pp-card", { opacity: 0, y: 70 }, { opacity: 1, y: 0, duration: 0.52, ease: "power3.out" }, 11.46);
+      tl.fromTo("#sp1", { opacity: 0, scale: 2.5, rotation: -26 }, { opacity: 0.88, scale: 1, rotation: -8, duration: 0.2, ease: "power4.in" }, 12.40);
+      tl.fromTo("#sp2", { opacity: 0, scale: 2.5, rotation: 24 }, { opacity: 0.88, scale: 1, rotation: 5, duration: 0.2, ease: "power4.in" }, 12.86);
+      tl.fromTo("#sp3", { opacity: 0, scale: 2.5, rotation: -20 }, { opacity: 0.88, scale: 1, rotation: -4, duration: 0.2, ease: "power4.in" }, 13.32);
+
+      /* ---- 05 offer (14.6 – 17.6) ---- */
+      tl.fromTo("#ds1, #ds1b", { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.34, ease: "power3.out", stagger: 0.07 }, 14.68);
+      tl.fromTo("#ds2", { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.34, ease: "power3.out" }, 15.08);
+      tl.fromTo(".dblk", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.6)", stagger: 0.11 }, 15.42);
+
+      /* ---- 06 punchline (17.6 – 20.4) ---- */
+      tl.fromTo("#p1", { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.34, ease: "power3.out" }, 17.66);
+      tl.fromTo("#p2", { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.34, ease: "power3.out" }, 18.42);
+      tl.fromTo("#p-bar", { scaleX: 0, transformOrigin: "left center" }, { scaleX: 1, duration: 0.62, ease: "power3.inOut" }, 19.02);
+      tl.fromTo("#p-labs", { opacity: 0 }, { opacity: 1, duration: 0.28, ease: "none" }, 19.52);
+
+      /* ---- 07 outro (20.4 – 22.4) ---- */
+      tl.fromTo("#fieldB", { opacity: 0 }, { opacity: 0.7, duration: 0.8, ease: "power2.out" }, 20.44);
+      tl.fromTo("#o-wm", { opacity: 0, scale: 1.05 }, { opacity: 1, scale: 1, duration: 0.42, ease: "power3.out" }, 20.46);
+      tl.fromTo("#o-pr", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.32, ease: "power3.out" }, 20.74);
+      tl.fromTo("#o-fo", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 21.02);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

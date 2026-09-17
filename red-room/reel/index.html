@@ -13,13 +13,14 @@
         width: 1080px;
         height: 1920px;
         overflow: hidden;
-        background: #060305;
+        background: #05070a;
       }
 
       :root {
         --red: #e00d2e;
         --bone: #f4ebe8;
         --bone-2: #c5b0b2;
+        --cold: #8ea2b4;
         --display: "Bodoni Moda", Didot, "Times New Roman", serif;
         --util: "Outfit", "Helvetica Neue", Arial, sans-serif;
       }
@@ -29,50 +30,96 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
-        background: #060305;
+        background: #05070a;
         font-family: var(--util);
       }
 
-      /* ---------- the room ---------- */
+      .layer { position: absolute; inset: 0; }
+
+      /* ============ ACT ONE: the ordinary side ============ */
+
+      .cold-wash {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 60% 50% at 50% 42%, rgba(120,145,168,0.18), transparent 70%),
+          linear-gradient(180deg, #080b0f 0%, #0b1015 55%, #06080b 100%);
+      }
+
+      /* a dull strip light — the world before the room */
+      .cold-door {
+        position: absolute;
+        left: 50%;
+        top: 430px;
+        width: 300px;
+        height: 620px;
+        margin-left: -150px;
+        background: linear-gradient(180deg,
+          rgba(196,214,228,0.30) 0%,
+          rgba(150,172,190,0.20) 45%,
+          rgba(90,108,124,0.08) 100%);
+        filter: blur(3px);
+        -webkit-mask-image:
+          linear-gradient(180deg, transparent 0%, #000 10%, #000 74%, transparent 100%),
+          linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+        mask-image:
+          linear-gradient(180deg, transparent 0%, #000 10%, #000 74%, transparent 100%),
+          linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+        -webkit-mask-composite: source-in;
+        mask-composite: intersect;
+      }
+
+      .cold-label {
+        position: absolute;
+        left: 0;
+        top: 1190px;
+        width: 100%;
+        text-align: center;
+        font-size: 30px;
+        font-weight: 500;
+        letter-spacing: 0.42em;
+        text-indent: 0.42em;
+        text-transform: uppercase;
+        color: var(--cold);
+      }
+
+      /* ============ THE CUT ============ */
+
+      .flash { position: absolute; inset: 0; background: #fff5f3; opacity: 0; }
+
+      /* ============ ACT TWO: the red room ============ */
 
       .bloom {
         position: absolute;
         left: 50%;
-        top: 130px;
-        width: 1060px;
-        height: 1280px;
-        margin-left: -530px;
-        filter: blur(90px);
-        background: radial-gradient(
-          ellipse 46% 48% at 50% 48%,
-          rgba(255, 74, 92, 0.8),
-          rgba(196, 10, 38, 0.3) 54%,
-          transparent 76%
-        );
+        top: 120px;
+        width: 1080px;
+        height: 1300px;
+        margin-left: -540px;
+        filter: blur(92px);
+        background: radial-gradient(ellipse 46% 48% at 50% 48%,
+          rgba(255,74,92,0.86), rgba(196,10,38,0.32) 54%, transparent 76%);
       }
 
-      /* the doorway: scaled open on X from a hairline crack to full width */
       .door {
         position: absolute;
         left: 50%;
-        top: 240px;
-        width: 396px;
-        height: 980px;
-        margin-left: -198px;
-        background: linear-gradient(
-          180deg,
-          rgba(255, 226, 222, 0.97) 0%,
-          rgba(255, 150, 155, 0.94) 22%,
-          rgba(240, 44, 74, 0.86) 52%,
-          rgba(158, 10, 32, 0.55) 80%,
-          rgba(96, 5, 20, 0.18) 100%
-        );
+        top: 230px;
+        width: 420px;
+        height: 1000px;
+        margin-left: -210px;
+        background: linear-gradient(180deg,
+          rgba(255,228,224,0.97) 0%,
+          rgba(255,152,157,0.94) 22%,
+          rgba(240,44,74,0.86) 52%,
+          rgba(158,10,32,0.55) 80%,
+          rgba(96,5,20,0.16) 100%);
         -webkit-mask-image:
           linear-gradient(180deg, transparent 0%, #000 9%, #000 68%, transparent 100%),
-          linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
+          linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
         mask-image:
           linear-gradient(180deg, transparent 0%, #000 9%, #000 68%, transparent 100%),
-          linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
+          linear-gradient(90deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
         -webkit-mask-composite: source-in;
         mask-composite: intersect;
       }
@@ -80,69 +127,66 @@
       .core {
         position: absolute;
         left: 50%;
-        top: 268px;
-        width: 214px;
-        height: 730px;
-        margin-left: -107px;
+        top: 258px;
+        width: 224px;
+        height: 750px;
+        margin-left: -112px;
         filter: blur(34px);
-        background: linear-gradient(
-          180deg,
-          rgba(255, 240, 238, 0.92) 0%,
-          rgba(255, 176, 178, 0.7) 34%,
-          rgba(246, 60, 88, 0.34) 72%,
-          transparent 100%
-        );
+        background: linear-gradient(180deg,
+          rgba(255,242,240,0.94) 0%,
+          rgba(255,178,180,0.72) 34%,
+          rgba(246,60,88,0.34) 72%,
+          transparent 100%);
       }
 
       .pool {
         position: absolute;
         left: 50%;
-        top: 1120px;
-        width: 760px;
-        height: 270px;
-        margin-left: -380px;
-        filter: blur(46px);
-        background: radial-gradient(
-          ellipse 50% 50% at 50% 50%,
-          rgba(255, 112, 126, 0.78),
-          rgba(190, 10, 36, 0.3) 56%,
-          transparent 78%
-        );
+        top: 1130px;
+        width: 800px;
+        height: 280px;
+        margin-left: -400px;
+        filter: blur(48px);
+        background: radial-gradient(ellipse 50% 50% at 50% 50%,
+          rgba(255,112,126,0.80), rgba(190,10,36,0.30) 56%, transparent 78%);
       }
 
       .shafts {
         position: absolute;
         left: 50%;
-        top: 1050px;
+        top: 1060px;
         width: 1080px;
-        height: 470px;
+        height: 500px;
         margin-left: -540px;
-        filter: blur(26px);
+        filter: blur(28px);
         mix-blend-mode: screen;
         -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 92%);
         mask-image: linear-gradient(180deg, #000 0%, transparent 92%);
+      }
+
+      /* strobe bars — the club light, pulsed rather than continuous */
+      .bars {
+        position: absolute;
+        inset: 0;
+        mix-blend-mode: screen;
+        opacity: 0;
       }
 
       .vignette {
         position: absolute;
         inset: 0;
         background:
-          radial-gradient(ellipse 70% 54% at 50% 38%, transparent 42%, rgba(6, 3, 5, 0.58) 76%, rgba(6, 3, 5, 0.95) 100%),
-          linear-gradient(180deg, rgba(6, 3, 5, 0.9) 0%, transparent 14%, transparent 52%, rgba(6, 3, 5, 0.88) 74%, rgba(6, 3, 5, 0.99) 88%);
+          radial-gradient(ellipse 72% 56% at 50% 40%, transparent 42%, rgba(5,3,5,0.56) 76%, rgba(5,3,5,0.95) 100%),
+          linear-gradient(180deg, rgba(5,3,5,0.88) 0%, transparent 15%, transparent 60%, rgba(5,3,5,0.86) 80%, rgba(5,3,5,0.98) 93%);
       }
 
-      .grain {
-        position: absolute;
-        inset: 0;
-        opacity: 0.14;
-        mix-blend-mode: overlay;
-      }
+      .grain { position: absolute; inset: 0; opacity: 0.15; mix-blend-mode: overlay; }
 
-      /* ---------- type ---------- */
+      /* ============ type ============ */
 
       .venue {
         position: absolute;
-        top: 150px;
+        top: 148px;
         left: 0;
         width: 100%;
         text-align: center;
@@ -152,69 +196,90 @@
         text-indent: 0.54em;
         text-transform: uppercase;
         color: var(--bone);
-        text-shadow: 0 2px 22px rgba(6, 3, 5, 0.95);
+        text-shadow: 0 2px 22px rgba(5,3,5,0.95);
       }
+
+      /* the tagline, one word per beat */
+      .kinetic {
+        position: absolute;
+        left: 0;
+        top: 548px;
+        z-index: 3;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .kw { overflow: hidden; padding: 0 8px; }
+
+      .kw b {
+        display: block;
+        font-family: var(--util);
+        font-weight: 700;
+        font-size: 172px;
+        line-height: 1.02;
+        letter-spacing: -0.025em;
+        text-transform: uppercase;
+        color: #fffaf9;
+        text-shadow: 0 0 60px rgba(255,70,90,0.55);
+      }
+
+      .kw.mid b { font-size: 150px; }
 
       .foot {
         position: absolute;
         left: 58px;
         right: 58px;
-        bottom: 110px;
+        bottom: 150px;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
       }
 
+      .wordmark-wrap { overflow: hidden; }
+
       .wordmark {
         font-family: var(--display);
         font-weight: 900;
-        font-size: 188px;
+        font-size: 190px;
         line-height: 0.79;
         letter-spacing: -0.035em;
         color: #fffbfa;
-        text-shadow: 0 0 50px rgba(255, 66, 88, 0.55), 0 0 150px rgba(224, 13, 46, 0.45);
+        text-shadow: 0 0 52px rgba(255,66,88,0.58), 0 0 155px rgba(224,13,46,0.46);
       }
 
       .wordmark span { display: block; }
 
-      .tagline {
-        font-family: var(--display);
-        font-size: 36px;
-        letter-spacing: 0.17em;
-        text-indent: 0.17em;
-        text-transform: uppercase;
-        color: #f6e4e2;
-        margin-top: 36px;
-        text-shadow: 0 2px 26px rgba(6, 3, 5, 0.95);
-      }
-
       .hairline {
         width: 100%;
         height: 1px;
-        margin: 40px 0 36px;
-        background: linear-gradient(90deg, transparent, rgba(244, 235, 232, 0.4), transparent);
+        margin: 42px 0 34px;
+        background: linear-gradient(90deg, transparent, rgba(244,235,232,0.42), transparent);
+        transform: scaleX(0);
       }
 
       .date {
-        font-size: 36px;
+        font-size: 37px;
         font-weight: 700;
         letter-spacing: 0.13em;
         text-transform: uppercase;
         background: var(--red);
         color: #0a0305;
-        padding: 17px 36px;
+        padding: 18px 38px;
         white-space: nowrap;
       }
 
       .kicker {
-        font-size: 20px;
+        font-size: 21px;
         font-weight: 500;
         letter-spacing: 0.3em;
         text-indent: 0.3em;
         text-transform: uppercase;
         color: var(--bone-2);
-        margin-top: 28px;
+        margin-top: 30px;
       }
     </style>
   </head>
@@ -223,7 +288,7 @@
       id="root"
       data-composition-id="main"
       data-start="0"
-      data-duration="18"
+      data-duration="20"
       data-width="1080"
       data-height="1920"
     >
@@ -236,38 +301,59 @@
         </defs>
       </svg>
 
-      <div class="bloom clip" id="bloom" data-start="0" data-duration="18" data-track-index="0"></div>
-      <div class="door clip" id="door" data-start="0" data-duration="18" data-track-index="1"></div>
-      <div class="core clip" id="core" data-start="0" data-duration="18" data-track-index="2"></div>
-      <div class="pool clip" id="pool" data-start="0" data-duration="18" data-track-index="3"></div>
+      <!-- ACT ONE -->
+      <div class="layer clip" id="cold" data-start="0" data-duration="20" data-track-index="0">
+        <div class="cold-wash"></div>
+        <div class="cold-door" id="coldDoor"></div>
+        <p class="cold-label" id="coldLabel" data-layout-allow-occlusion>This side</p>
+      </div>
 
-      <svg class="shafts clip" id="shafts" viewBox="0 0 1080 470" preserveAspectRatio="none"
-           data-start="0" data-duration="18" data-track-index="4">
-        <polygon points="330,0 750,0 1000,470 80,470" fill="rgba(255,84,100,0.46)" />
-        <polygon points="400,0 680,0 850,470 230,470" fill="rgba(255,146,152,0.38)" />
-        <polygon points="466,0 614,0 672,470 408,470" fill="rgba(255,206,204,0.30)" />
+      <!-- ACT TWO -->
+      <div class="layer clip" id="hot" data-start="0" data-duration="20" data-track-index="1">
+        <div class="bloom" id="bloom" data-layout-allow-overflow></div>
+        <div class="door" id="door"></div>
+        <div class="core" id="core"></div>
+        <div class="pool" id="pool"></div>
+        <svg class="shafts" id="shafts" viewBox="0 0 1080 500" preserveAspectRatio="none">
+          <polygon points="320,0 760,0 1030,500 50,500" fill="rgba(255,84,100,0.46)" />
+          <polygon points="396,0 684,0 862,500 218,500" fill="rgba(255,146,152,0.38)" />
+          <polygon points="464,0 616,0 676,500 404,500" fill="rgba(255,206,204,0.30)" />
+        </svg>
+      </div>
+
+      <svg class="bars clip" id="bars" viewBox="0 0 1080 1920" preserveAspectRatio="none"
+           data-start="0" data-duration="20" data-track-index="2">
+        <rect x="84"  y="0" width="52" height="1920" fill="rgba(255,96,112,0.30)" />
+        <rect x="286" y="0" width="34" height="1920" fill="rgba(255,140,150,0.22)" />
+        <rect x="742" y="0" width="34" height="1920" fill="rgba(255,140,150,0.22)" />
+        <rect x="934" y="0" width="52" height="1920" fill="rgba(255,96,112,0.30)" />
       </svg>
 
-      <div class="vignette clip" id="vignette" data-start="0" data-duration="18" data-track-index="5"></div>
+      <div class="vignette clip" id="vignette" data-start="0" data-duration="20" data-track-index="3"></div>
 
-      <svg class="grain clip" id="grain" data-start="0" data-duration="18" data-track-index="6">
+      <svg class="grain clip" id="grain" data-start="0" data-duration="20" data-track-index="4">
         <rect width="100%" height="100%" filter="url(#grainFilter)" />
       </svg>
 
-      <div class="venue clip" id="venue" data-start="0" data-duration="18" data-track-index="7">Club Guvnor</div>
+      <div class="flash clip" id="flash" data-start="0" data-duration="20" data-track-index="5"></div>
+
+      <p class="venue clip" id="venue" data-start="0" data-duration="20" data-track-index="6">Club Guvnor</p>
+
+      <div class="kinetic clip" id="kinetic" data-start="0" data-duration="20" data-track-index="7">
+        <div class="kw" data-layout-allow-overflow><b id="kw1" data-layout-allow-occlusion>Your</b></div>
+        <div class="kw mid" data-layout-allow-overflow><b id="kw2" data-layout-allow-occlusion>Another</b></div>
+        <div class="kw" data-layout-allow-overflow><b id="kw3" data-layout-allow-occlusion>Side</b></div>
+      </div>
 
       <div class="foot">
-        <h1 class="wordmark clip" id="wordmark" data-start="0" data-duration="18" data-track-index="8">
-          <span id="w1">RED</span><span id="w2">ROOM</span>
-        </h1>
-        <p class="tagline clip" id="tagline" data-start="0" data-duration="18" data-track-index="9">
-          Your another side
-        </p>
-        <div class="hairline clip" id="hairline" data-start="0" data-duration="18" data-track-index="10"></div>
-        <span class="date clip" id="date" data-start="0" data-duration="18" data-track-index="11">
+        <div class="wordmark-wrap clip" id="wmWrap" data-layout-allow-overflow data-start="0" data-duration="20" data-track-index="8">
+          <h1 class="wordmark" id="wordmark" data-layout-allow-occlusion><span>RED</span><span>ROOM</span></h1>
+        </div>
+        <div class="hairline clip" id="hairline" data-start="0" data-duration="20" data-track-index="9"></div>
+        <span class="date clip" id="date" data-start="0" data-duration="20" data-track-index="10">
           Fri 23 Oct &middot; 10pm till late
         </span>
-        <p class="kicker clip" id="kicker" data-start="0" data-duration="18" data-track-index="12">
+        <p class="kicker clip" id="kicker" data-start="0" data-duration="20" data-track-index="11">
           4th Friday every month
         </p>
       </div>
@@ -276,39 +362,83 @@
     <script>
       const tl = gsap.timeline({ paused: true });
 
-      // Everything is authored with fromTo and explicit values so any frame can be
-      // seeked directly — no randomness, no time-of-day, no repeat counters.
+      // Every tween is authored fromTo with explicit values, or set() at an exact
+      // position, so any frame can be seeked directly. No randomness, no repeat
+      // counters, no time-of-day.
 
-      // 1. The room is dark. A crack of red light opens along the door line.
-      tl.fromTo("#door", { scaleX: 0, opacity: 0 }, { scaleX: 0.035, opacity: 1, duration: 1.6, ease: "power2.out" }, 0.3);
-      tl.set("#bloom", { opacity: 0, scale: 1 }, 0);
-      tl.fromTo("#bloom", { opacity: 0 }, { opacity: 0.28, duration: 1.6, ease: "power2.out" }, 0.3);
-      tl.fromTo("#core", { opacity: 0, scaleX: 0 }, { opacity: 0.5, scaleX: 0.04, duration: 1.6, ease: "power2.out" }, 0.3);
+      // Resting state at t=0: the ordinary side is up, the room and all type are down.
+      tl.set("#cold",     { opacity: 1 }, 0);
+      tl.set("#hot",      { opacity: 0 }, 0);
+      tl.set("#bars",     { opacity: 0 }, 0);
+      tl.set("#flash",    { opacity: 0 }, 0);
+      tl.set("#venue",    { opacity: 0 }, 0);
+      tl.set("#kinetic",  { opacity: 1 }, 0);
+      tl.set("#wmWrap",   { opacity: 0 }, 0);
+      tl.set("#hairline", { opacity: 0, scaleX: 0 }, 0);
+      tl.set("#date",     { opacity: 0 }, 0);
+      tl.set("#kicker",   { opacity: 0 }, 0);
+      tl.set(["#kw1", "#kw2", "#kw3"], { yPercent: 112 }, 0);
+      tl.set("#wordmark", { yPercent: 104 }, 0);
 
-      // 2. The door swings open and the light floods the room.
-      tl.to("#door", { scaleX: 1, duration: 1.5, ease: "power3.out" }, 2.4);
-      tl.to("#core", { scaleX: 1, opacity: 1, duration: 1.5, ease: "power3.out" }, 2.4);
-      tl.to("#bloom", { opacity: 1, duration: 1.7, ease: "power2.out" }, 2.4);
-      tl.fromTo("#pool", { opacity: 0 }, { opacity: 1, duration: 1.6, ease: "power2.out" }, 2.7);
-      tl.fromTo("#shafts", { opacity: 0 }, { opacity: 1, duration: 1.8, ease: "power2.out" }, 2.9);
+      // --- ACT ONE: the ordinary side. Dull, cold, and held just long enough to bore.
+      tl.fromTo("#coldDoor",  { opacity: 0, scaleY: 0.96 },
+                              { opacity: 1, scaleY: 1, duration: 1.1, ease: "power2.out" }, 0.25);
+      tl.fromTo("#coldLabel", { opacity: 0, y: 14 },
+                              { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" }, 0.75);
 
-      // 3. The venue signs itself in.
-      tl.fromTo("#venue", { opacity: 0, y: -18 }, { opacity: 1, y: 0, duration: 1.1, ease: "power2.out" }, 3.9);
+      // --- THE CUT: two hard strobe frames, then the world swaps underneath them.
+      tl.to("#flash", { opacity: 0.85, duration: 0.05, ease: "none" }, 2.05);
+      tl.to("#flash", { opacity: 0,    duration: 0.06, ease: "none" }, 2.10);
+      tl.to("#flash", { opacity: 1,    duration: 0.05, ease: "none" }, 2.22);
+      tl.set("#cold", { opacity: 0 }, 2.26);   // the ordinary side is gone for good
+      tl.set("#hot",  { opacity: 1 }, 2.26);
+      tl.to("#flash", { opacity: 0,    duration: 0.30, ease: "power2.out" }, 2.27);
 
-      // 4. The name lands, one word at a time, rising out of the floor light.
-      tl.fromTo("#w1", { opacity: 0, y: 70, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 1.1, ease: "power3.out" }, 5.4);
-      tl.fromTo("#w2", { opacity: 0, y: 70, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 1.1, ease: "power3.out" }, 6.0);
+      // --- ACT TWO: the room floods. Door blasts open rather than easing.
+      tl.fromTo("#door",   { scaleX: 0.14 }, { scaleX: 1, duration: 0.85, ease: "power4.out", immediateRender: false }, 2.26);
+      tl.fromTo("#core",   { scaleX: 0.10, opacity: 0.4 }, { scaleX: 1, opacity: 1, duration: 0.9, ease: "power4.out", immediateRender: false }, 2.26);
+      tl.fromTo("#bloom",  { scale: 0.86, opacity: 0.35 }, { scale: 1, opacity: 1, duration: 1.4, ease: "power3.out", immediateRender: false }, 2.26);
+      tl.fromTo("#pool",   { opacity: 0 }, { opacity: 1, duration: 1.2, ease: "power2.out", immediateRender: false }, 2.5);
+      tl.fromTo("#shafts", { opacity: 0 }, { opacity: 1, duration: 1.3, ease: "power2.out", immediateRender: false }, 2.6);
+      tl.fromTo("#venue",  { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.9, ease: "power2.out", immediateRender: false }, 3.4);
 
-      // 5. The line that makes people ask.
-      tl.fromTo("#tagline", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 7.6);
+      // strobe bars punch on the downbeats, never left running
+      [[3.05, 0.5], [3.55, 0.34], [4.15, 0.42]].forEach(([t, amp]) => {
+        tl.to("#bars", { opacity: amp, duration: 0.06, ease: "none" }, t);
+        tl.to("#bars", { opacity: 0,   duration: 0.22, ease: "power2.out" }, t + 0.06);
+      });
 
-      // 6. Rule, then the date.
-      tl.fromTo("#hairline", { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.9, ease: "power2.inOut" }, 9.2);
-      tl.fromTo("#date", { opacity: 0, y: 24, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "back.out(1.6)" }, 10.0);
-      tl.fromTo("#kicker", { opacity: 0 }, { opacity: 1, duration: 1.0, ease: "power2.out" }, 11.0);
+      // --- THE TAGLINE: one word per beat, slammed up behind a mask.
+      tl.fromTo("#kw1", { yPercent: 112 }, { yPercent: 0, duration: 0.52, ease: "power4.out", immediateRender: false }, 5.2);
+      tl.fromTo("#kw2", { yPercent: 112 }, { yPercent: 0, duration: 0.52, ease: "power4.out", immediateRender: false }, 5.92);
+      tl.fromTo("#kw3", { yPercent: 112 }, { yPercent: 0, duration: 0.52, ease: "power4.out", immediateRender: false }, 6.64);
 
-      // 7. Hold: one slow push on the light so the last six seconds still breathe.
-      tl.fromTo("#bloom", { scale: 1 }, { scale: 1.07, duration: 6.0, ease: "sine.inOut", immediateRender: false }, 12.0);
+      // each slam kicks the bars
+      [5.2, 5.92, 6.64].forEach((t) => {
+        tl.to("#bars", { opacity: 0.44, duration: 0.05, ease: "none" }, t);
+        tl.to("#bars", { opacity: 0,    duration: 0.26, ease: "power2.out" }, t + 0.05);
+      });
+
+      // hold the tagline, then clear it for the name
+      tl.to("#kinetic", { opacity: 0, duration: 0.55, ease: "power2.in" }, 8.7);
+
+      // --- THE NAME
+      tl.fromTo("#wmWrap", { opacity: 0 }, { opacity: 1, duration: 0.01, ease: "none", immediateRender: false }, 9.3);
+      tl.fromTo("#wordmark", { yPercent: 104 }, { yPercent: 0, duration: 1.0, ease: "power4.out", immediateRender: false }, 9.3);
+      tl.to("#bars", { opacity: 0.5, duration: 0.05, ease: "none" }, 9.3);
+      tl.to("#bars", { opacity: 0,   duration: 0.4,  ease: "power2.out" }, 9.35);
+
+      // --- DETAILS
+      tl.fromTo("#hairline", { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.8, ease: "power2.inOut", immediateRender: false }, 11.4);
+      tl.fromTo("#date",   { opacity: 0, y: 26, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "back.out(1.7)", immediateRender: false }, 12.2);
+      tl.fromTo("#kicker", { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "power2.out", immediateRender: false }, 13.2);
+
+      // --- END HOLD: slow push, with two flickers so it never goes dead.
+      tl.fromTo("#bloom", { scale: 1 }, { scale: 1.08, duration: 5.6, ease: "sine.inOut", immediateRender: false }, 14.4);
+      [16.2, 18.4].forEach((t) => {
+        tl.to("#bars", { opacity: 0.3, duration: 0.05, ease: "none" }, t);
+        tl.to("#bars", { opacity: 0,   duration: 0.3,  ease: "power2.out" }, t + 0.05);
+      });
 
       window.__timelines["main"] = tl;
       tl.seek(0);

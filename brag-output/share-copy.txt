@@ -52,6 +52,9 @@ next summer.
 ────────────────────────────────────────────────
 NOTES BEFORE POSTING
 ────────────────────────────────────────────────
+· Chapter names: Rave Ville, Switch Ville, Sunset Ville, Upstairs Ville.
+  Upstairs Ville is the December finale — the name is public, the
+  address is not. Never post the rooftop location early.
 · The video is silent by design — no music or SFX provider was
   configured in this environment. It reads fine muted, which is how
   most feeds play it, but add a track before any screening where sound

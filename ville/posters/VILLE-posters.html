@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VILLE — Season One Plates</title>
+<style>
+  @font-face{font-family:"Archivo";src:url("fonts/Archivo-latin.woff2") format("woff2");font-weight:400 900;font-stretch:62% 125%;font-display:block;
+    unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+  @font-face{font-family:"Archivo";src:url("fonts/Archivo-latin-ext.woff2") format("woff2");font-weight:400 900;font-stretch:62% 125%;font-display:block;
+    unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+  @font-face{font-family:"GeistMono";src:url("fonts/GeistMono-Regular.ttf") format("truetype");font-weight:400;font-display:block;}
+  @font-face{font-family:"GeistMono";src:url("fonts/GeistMono-Bold.ttf") format("truetype");font-weight:700;font-display:block;}
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{background:#111;}
+  body{font-family:"Archivo",Arial,sans-serif;}
+
+  .plate{
+    position:relative;width:1000px;height:1414px;background:#000;color:#FAFAF7;
+    overflow:hidden;margin:0 auto 40px;
+  }
+  .frame{position:absolute;left:74px;right:74px;top:74px;bottom:74px;
+    display:flex;flex-direction:column;align-items:stretch;}
+  .spacer{flex:1 1 auto;min-height:26px;}
+
+  .mono{font-family:"GeistMono","Courier New",monospace;font-weight:400;
+    font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;line-height:1.5;}
+  .mono.b{font-weight:700;}
+  .muted{color:rgba(250,250,247,.46);}
+  .ink{color:var(--ink);}
+
+  /* header */
+  .head{flex:0 0 auto;display:flex;justify-content:space-between;align-items:flex-start;}
+  .head .wm{font-variation-settings:"wdth" 125,"wght" 900;font-size:25px;letter-spacing:-.03em;
+    text-transform:uppercase;line-height:1;}
+  .head .rt{text-align:right;}
+  .hr{flex:0 0 auto;height:1px;background:rgba(250,250,247,.24);}
+  .hr.ink{background:var(--ink);opacity:.8;}
+  .hr.top{margin-top:22px;}
+  .hr.mid{margin-top:22px;}
+
+  /* observation field */
+  .field{flex:0 0 auto;position:relative;width:852px;height:540px;margin-top:26px;}
+  .field canvas{display:block;width:852px;height:540px;}
+  .fieldedge{position:absolute;inset:0;border:1px solid rgba(250,250,247,.16);pointer-events:none;}
+  .cap{flex:0 0 auto;display:flex;justify-content:space-between;align-items:baseline;
+    gap:24px;margin-top:14px;}
+
+  /* display block */
+  .name{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;margin-top:22px;}
+  .word{display:inline-block;width:auto;font-variation-settings:"wdth" 125,"wght" 900;
+    line-height:.82;text-transform:uppercase;white-space:nowrap;color:var(--ink);}
+  .ville{display:inline-block;width:auto;font-variation-settings:"wdth" 118,"wght" 700;
+    font-size:64px;line-height:1;text-transform:uppercase;white-space:nowrap;margin-top:20px;}
+  .note{margin-top:26px;font-family:"GeistMono","Courier New",monospace;font-weight:700;
+    font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);}
+
+  /* footer */
+  .foot{flex:0 0 auto;margin-top:30px;}
+  .cols{display:flex;gap:42px;padding-top:20px;}
+  .col{width:256px;}
+  .col h4{font-family:"GeistMono","Courier New",monospace;font-weight:700;font-size:10px;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--ink);margin-bottom:12px;}
+  .col p{font-variation-settings:"wdth" 112,"wght" 650;font-size:17px;line-height:1.35;
+    text-transform:uppercase;letter-spacing:.005em;}
+  .col p + p{margin-top:5px;}
+  .col p.s{font-family:"GeistMono","Courier New",monospace;font-weight:400;font-size:10.5px;
+    letter-spacing:.16em;color:rgba(250,250,247,.46);margin-top:9px;text-transform:uppercase;line-height:1.5;}
+  .terms{display:flex;justify-content:space-between;align-items:flex-end;gap:36px;margin-top:24px;}
+  .terms .t{max-width:640px;}
+
+  /* registration marks — the press signature */
+  .reg{position:absolute;width:15px;height:15px;opacity:.5;}
+  .reg::before,.reg::after{content:"";position:absolute;background:var(--ink);}
+  .reg::before{left:7px;top:0;width:1px;height:15px;}
+  .reg::after{top:7px;left:0;height:1px;width:15px;}
+  .reg.tl{left:30px;top:30px;} .reg.tr{right:30px;top:30px;}
+  .reg.bl{left:30px;bottom:30px;} .reg.br{right:30px;bottom:30px;}
+
+  @page{size:1000px 1414px;margin:0;}
+  @media print{
+    html,body{background:#fff;}
+    .plate{margin:0;break-after:page;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .plate:last-child{break-after:auto;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ PLATE I ══ -->
+<section class="plate" id="p1" style="--ink:#FF3B14">
+  <span class="reg tl"></span><span class="reg tr"></span><span class="reg bl"></span><span class="reg br"></span>
+  <div class="frame">
+    <div class="head">
+      <div class="wm">Ville</div>
+      <div class="rt mono muted">Plate I of IV<br>Season One · Kampala</div>
+    </div>
+    <div class="hr ink top"></div>
+    <div class="field"><canvas id="c1" width="852" height="540"></canvas><span class="fieldedge"></span></div>
+    <div class="cap">
+      <span class="mono muted">Fig. I &mdash; sound pressure, measured from the centre of the room</span>
+      <span class="mono ink b">Ink: one</span>
+    </div>
+    <div class="spacer"></div>
+    <div class="hr mid"></div>
+    <div class="name">
+      <div class="word" data-fit>Rave</div>
+      <div class="ville" data-track>Ville</div>
+      <div class="note">No costumes. No theme. Come as you are.</div>
+    </div>
+    <div class="foot">
+      <div class="hr ink"></div>
+      <div class="cols">
+        <div class="col"><h4>Where</h4><p>Design Hub</p><p>Kampala</p><p class="s">A working warehouse. Sound and light are the whole production.</p></div>
+        <div class="col"><h4>When</h4><p>Saturday</p><p>31 October 2026</p><p class="s">Late. No headliner. No lineup announced.</p></div>
+        <div class="col"><h4>Admission</h4><p>UGX 50,000</p><p>300 only</p><p class="s">Same room. Same ticket. No VIP, no tables, no sections.</p></div>
+      </div>
+      <div class="terms">
+        <span class="mono muted t">Passport stamped at the door &middot; Bring your own, corkage 100,000 per cooler &middot; The room changes, the job doesn&rsquo;t</span>
+        <span class="mono muted">GENrise</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PLATE II ══ -->
+<section class="plate" id="p2" style="--ink:#E4FF3A">
+  <span class="reg tl"></span><span class="reg tr"></span><span class="reg bl"></span><span class="reg br"></span>
+  <div class="frame">
+    <div class="head">
+      <div class="wm">Ville</div>
+      <div class="rt mono muted">Plate II of IV<br>Season One · Mukono</div>
+    </div>
+    <div class="hr ink top"></div>
+    <div class="field"><canvas id="c2" width="852" height="540"></canvas><span class="fieldedge"></span></div>
+    <div class="cap">
+      <span class="mono muted">Fig. II &mdash; three hundred listeners distributed across three channels</span>
+      <span class="mono ink b">Ink: three</span>
+    </div>
+    <div class="spacer"></div>
+    <div class="hr mid"></div>
+    <div class="name">
+      <div class="word" data-fit>Switch</div>
+      <div class="ville" data-track>Ville</div>
+      <div class="note">Same courtyard. Nobody hearing the same thing.</div>
+    </div>
+    <div class="foot">
+      <div class="hr ink"></div>
+      <div class="cols">
+        <div class="col"><h4>Where</h4><p>Tupe Hostel, UCU</p><p>Mukono</p><p class="s">An open quadrangle. No amplified sound leaves it.</p></div>
+        <div class="col"><h4>When</h4><p>Saturday</p><p>14 November 2026</p><p class="s">Three channels. Three DJs. Switch whenever you like.</p></div>
+        <div class="col"><h4>Admission</h4><p>UGX 25,000</p><p>300 only</p><p class="s">The cheapest door of the season. Receivers included.</p></div>
+      </div>
+      <div class="terms">
+        <span class="mono muted t">Passport stamped at the door &middot; Bring your own, corkage 100,000 per cooler &middot; Same room. Same ticket.</span>
+        <span class="mono muted">GENrise</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PLATE III ══ -->
+<section class="plate" id="p3" style="--ink:#B084FF">
+  <span class="reg tl"></span><span class="reg tr"></span><span class="reg bl"></span><span class="reg br"></span>
+  <div class="frame">
+    <div class="head">
+      <div class="wm">Ville</div>
+      <div class="rt mono muted">Plate III of IV<br>Season One · Nkonzi</div>
+    </div>
+    <div class="hr ink top"></div>
+    <div class="field"><canvas id="c3" width="852" height="540"></canvas><span class="fieldedge"></span></div>
+    <div class="cap">
+      <span class="mono muted">Fig. III &mdash; light falling on open ground, from gold to dark</span>
+      <span class="mono ink b">Ink: three</span>
+    </div>
+    <div class="spacer"></div>
+    <div class="hr mid"></div>
+    <div class="name">
+      <div class="word" data-fit>Sunset</div>
+      <div class="ville" data-track>Ville</div>
+      <div class="note">Fire, food, a view. The slow one.</div>
+    </div>
+    <div class="foot">
+      <div class="hr ink"></div>
+      <div class="cols">
+        <div class="col"><h4>Where</h4><p>Nkonzi Hill</p><p>Open ground</p><p class="s">No venue. A place. Bring something warm for after dark.</p></div>
+        <div class="col"><h4>When</h4><p>Saturday</p><p>28 November 2026</p><p class="s">From afternoon, through golden hour, until the light goes.</p></div>
+        <div class="col"><h4>Admission</h4><p>UGX 60,000</p><p>300 only</p><p class="s">Food off the grill. The hill is left exactly as found.</p></div>
+      </div>
+      <div class="terms">
+        <span class="mono muted t">Passport stamped at the door &middot; Bring your own, corkage 100,000 per cooler &middot; Plate IV announced from the stage</span>
+        <span class="mono muted">GENrise</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PLATE IV ══ -->
+<section class="plate" id="p4" style="--ink:#FAFAF7">
+  <span class="reg tl"></span><span class="reg tr"></span><span class="reg bl"></span><span class="reg br"></span>
+  <div class="frame">
+    <div class="head">
+      <div class="wm">Ville</div>
+      <div class="rt mono muted">Plate IV of IV<br>Season One · Withheld</div>
+    </div>
+    <div class="hr ink top" style="opacity:.55"></div>
+    <div class="field"><canvas id="c4" width="852" height="540"></canvas><span class="fieldedge"></span></div>
+    <div class="cap">
+      <span class="mono muted">Fig. IV &mdash; the city surveyed from one floor above it, location suppressed</span>
+      <span class="mono b" style="color:#FF3B14">Ink: two</span>
+    </div>
+    <div class="spacer"></div>
+    <div class="hr mid"></div>
+    <div class="name">
+      <div class="word" data-fit>Upstairs</div>
+      <div class="ville" data-track>Ville</div>
+      <div class="note" style="color:#FF3B14">The name tells you it&rsquo;s up. That&rsquo;s all you get.</div>
+    </div>
+    <div class="foot">
+      <div class="hr ink" style="opacity:.55"></div>
+      <div class="cols">
+        <div class="col"><h4>Where</h4><p><span id="redact">&nbsp;</span></p><p>Kampala</p><p class="s">A rooftop. Address released on the day.</p></div>
+        <div class="col"><h4>When</h4><p>Saturday</p><p>12 December 2026</p><p class="s">The last plate of the season, in the biggest week of the year.</p></div>
+        <div class="col"><h4>Admission</h4><p>UGX 70,000</p><p>300 only</p><p class="s">Four stamps means you were there for all of it.</p></div>
+      </div>
+      <div class="terms">
+        <span class="mono muted t">Passport stamped at the door &middot; Bring your own, corkage 100,000 per cooler &middot; We don&rsquo;t reveal everything</span>
+        <span class="mono muted">GENrise</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  "use strict";
+  var DPR = 3, W = 852, H = 540;
+  function ctxFor(id){
+    var cv = document.getElementById(id);
+    cv.width = W * DPR; cv.height = H * DPR;
+    cv.style.width = W + "px"; cv.style.height = H + "px";
+    var c = cv.getContext("2d");
+    c.setTransform(DPR,0,0,DPR,0,0);
+    return c;
+  }
+  function seeded(s){ s = s>>>0; return function(){ s = (s*1664525 + 1013904223)>>>0; return s/4294967296; }; }
+
+  /* ── I · shock rings: sound pressure from one point ── */
+  (function(){
+    var c = ctxFor("c1"), r = seeded(31), cx = W*0.615, cy = H*0.5;
+    c.fillStyle = "#000"; c.fillRect(0,0,W,H);
+    var maxR = 690, n = 168;
+    for (var i=0;i<n;i++){
+      var t = i/n;
+      var rad = 7 + Math.pow(t,1.22) * maxR;
+      var a = Math.max(0, 0.95 - t*0.92) * (0.72 + r()*0.28);
+      c.save();
+      c.beginPath();
+      c.strokeStyle = "rgba(255,59,20," + a.toFixed(3) + ")";
+      c.lineWidth = 0.7 + (1-t)*2.1;
+      if (i % 9 === 4) c.setLineDash([2 + r()*16, 5 + r()*22]);
+      c.arc(cx, cy, rad, 0, 6.28319);
+      c.stroke();
+      c.restore();
+    }
+    /* halftone charge at the source */
+    var step = 7;
+    for (var y=0;y<H;y+=step){
+      for (var x=0;x<W;x+=step){
+        var d = Math.hypot(x-cx, y-cy)/232;
+        var v = 1 - d;
+        v += (r()-0.5)*0.34;
+        if (v <= 0.06) continue;
+        c.globalAlpha = Math.min(0.95, v*0.95);
+        c.fillStyle = "#FF3B14";
+        c.beginPath(); c.arc(x, y, Math.min(step*0.46, step*0.46*v), 0, 6.28319); c.fill();
+      }
+    }
+    c.globalAlpha = 1;
+    /* instrument ticks around the source */
+    for (var k=0;k<48;k++){
+      var ang = (k/48)*6.28319, len = (k%4===0) ? 15 : 7;
+      c.strokeStyle = "rgba(250,250,247," + (k%4===0 ? 0.5 : 0.24) + ")";
+      c.lineWidth = 1;
+      c.beginPath();
+      c.moveTo(cx + Math.cos(ang)*258, cy + Math.sin(ang)*258);
+      c.lineTo(cx + Math.cos(ang)*(258+len), cy + Math.sin(ang)*(258+len));
+      c.stroke();
+    }
+  })();
+
+  /* ── II · 300 listeners across 3 channels — shape encodes channel, not colour alone ── */
+  (function(){
+    var c = ctxFor("c2"), r = seeded(214);
+    c.fillStyle = "#000"; c.fillRect(0,0,W,H);
+    var cols = 25, rows = 12, padX = 34, padY = 52;
+    var gw = (W - padX*2) / cols, gh = (H - padY*2) / rows;
+    var inks = ["#E4FF3A", "#FF3B14", "#B084FF"];
+    /* three channel traces, drawn under the specimen grid */
+    for (var ch=0; ch<3; ch++){
+      c.beginPath();
+      c.strokeStyle = inks[ch]; c.globalAlpha = 0.34; c.lineWidth = 1.4;
+      for (var x=0; x<=W; x+=2){
+        var yy = H/2 + Math.sin((x/W)*6.28319*(1.5+ch*0.85) + ch*2.1) * (44 + ch*26);
+        if (x===0) c.moveTo(x,yy); else c.lineTo(x,yy);
+      }
+      c.stroke();
+    }
+    c.globalAlpha = 1;
+    /* the 300 */
+    for (var i=0;i<cols*rows;i++){
+      var cxi = i % cols, cyi = Math.floor(i/cols);
+      var x0 = padX + cxi*gw + gw/2, y0 = padY + cyi*gh + gh/2;
+      var pick = r();
+      var ch2 = pick < 0.42 ? 0 : (pick < 0.75 ? 1 : 2);
+      c.strokeStyle = inks[ch2]; c.fillStyle = inks[ch2];
+      c.globalAlpha = 0.5 + r()*0.5;
+      c.lineWidth = 1.7;
+      if (ch2 === 0){                      /* channel one — a standing bar */
+        c.beginPath(); c.moveTo(x0, y0-9); c.lineTo(x0, y0+9); c.stroke();
+      } else if (ch2 === 1){               /* channel two — a lying bar */
+        c.beginPath(); c.moveTo(x0-9, y0); c.lineTo(x0+9, y0); c.stroke();
+      } else {                             /* channel three — a filled point */
+        c.beginPath(); c.arc(x0, y0, 3.4, 0, 6.28319); c.fill();
+      }
+    }
+    c.globalAlpha = 1;
+    /* measure rule along the base */
+    c.strokeStyle = "rgba(250,250,247,.34)"; c.lineWidth = 1;
+    c.beginPath(); c.moveTo(padX, H-26); c.lineTo(W-padX, H-26); c.stroke();
+    for (var m=0; m<=cols; m++){
+      var mx = padX + m*gw, tall = (m%5===0) ? 9 : 4;
+      c.beginPath(); c.moveTo(mx, H-26); c.lineTo(mx, H-26+tall); c.stroke();
+    }
+  })();
+
+  /* ── III · light falling: halftone sky, negative sun, contoured ground ── */
+  (function(){
+    var c = ctxFor("c3"), r = seeded(77);
+    c.fillStyle = "#000"; c.fillRect(0,0,W,H);
+    var horizon = H*0.605, sunX = W*0.335, sunY = horizon - 118, sunR = 96;
+    function ramp(t){                      /* violet high → red → acid at the horizon */
+      var stops = [[176,132,255],[255,59,20],[228,255,58]];
+      var k = Math.min(0.9999, Math.max(0,t)) * 2, i = Math.floor(k), f = k - i;
+      var a = stops[i], b = stops[Math.min(2,i+1)];
+      return "rgb(" + Math.round(a[0]+(b[0]-a[0])*f) + "," + Math.round(a[1]+(b[1]-a[1])*f) + "," + Math.round(a[2]+(b[2]-a[2])*f) + ")";
+    }
+    var step = 8;
+    for (var y=6; y<horizon; y+=step){
+      var t = y/horizon;
+      for (var x=4; x<W; x+=step){
+        var d = Math.hypot(x-sunX, y-sunY);
+        if (d < sunR) continue;                      /* the sun is what is not printed */
+        var v = Math.pow(t, 1.5) * 0.92 + 0.08;
+        v *= (1 - Math.min(0.62, Math.max(0, (d-sunR)/560)));
+        v += (r()-0.5)*0.16;
+        if (v <= 0.05) continue;
+        c.fillStyle = ramp(t);
+        c.globalAlpha = Math.min(0.95, v*1.15);
+        c.beginPath(); c.arc(x, y, Math.min(step*0.45, step*0.45*(0.35+v)), 0, 6.28319); c.fill();
+      }
+    }
+    c.globalAlpha = 1;
+    /* sun limb */
+    c.strokeStyle = "rgba(228,255,58,.55)"; c.lineWidth = 1.2;
+    c.beginPath(); c.arc(sunX, sunY, sunR, 0, 6.28319); c.stroke();
+    /* contoured ground */
+    var bands = 19;
+    for (var b2=0;b2<bands;b2++){
+      var base = horizon + b2*((H-horizon)/bands)*0.94;
+      c.beginPath();
+      c.strokeStyle = "rgba(250,250,247," + (0.74 - b2*0.031).toFixed(3) + ")";
+      c.lineWidth = b2 === 0 ? 2.2 : 1.15;
+      for (var x2=0; x2<=W; x2+=4){
+        var u = x2/W;
+        var hgt = Math.sin(u*3.14159)*(62 - b2*2.7)
+                + Math.sin(u*9.1 + 1.2)*(14 - b2*0.55)
+                + Math.sin(u*19.3 + 0.4)*(5 - b2*0.16);
+        var yy = base - Math.max(0, hgt);
+        if (x2===0) c.moveTo(x2,yy); else c.lineTo(x2,yy);
+      }
+      c.stroke();
+    }
+    /* elevation ticks */
+    c.strokeStyle = "rgba(250,250,247,.3)"; c.lineWidth = 1;
+    for (var e=0;e<bands;e+=3){
+      var ey = horizon + e*((H-horizon)/bands)*0.94;
+      c.beginPath(); c.moveTo(W-46, ey); c.lineTo(W-30, ey); c.stroke();
+    }
+  })();
+
+  /* ── IV · the city from above, one plot suppressed ── */
+  (function(){
+    var c = ctxFor("c4"), r = seeded(1209);
+    c.fillStyle = "#000"; c.fillRect(0,0,W,H);
+    /* survey grid */
+    c.strokeStyle = "rgba(250,250,247,.07)"; c.lineWidth = 1;
+    for (var g=0; g<W; g+=26){ c.beginPath(); c.moveTo(g,0); c.lineTo(g,H); c.stroke(); }
+    for (var g2=0; g2<H; g2+=26){ c.beginPath(); c.moveTo(0,g2); c.lineTo(W,g2); c.stroke(); }
+    /* recursive subdivision — a plan of blocks */
+    var blocks = [];
+    (function split(x,y,w,h,depth){
+      if (depth > 5 || w < 42 || h < 42){ blocks.push([x,y,w,h]); return; }
+      var vertical = w > h ? (r() < 0.82) : (r() < 0.18);
+      var f = 0.34 + r()*0.32, gap = 7;
+      if (vertical){
+        var wl = w*f;
+        split(x, y, wl-gap/2, h, depth+1);
+        split(x+wl+gap/2, y, w-wl-gap/2, h, depth+1);
+      } else {
+        var ht = h*f;
+        split(x, y, w, ht-gap/2, depth+1);
+        split(x, y+ht+gap/2, w, h-ht-gap/2, depth+1);
+      }
+    })(26, 26, W-52, H-52, 0);
+    for (var i=0;i<blocks.length;i++){
+      var b = blocks[i], x = b[0], y = b[1], w = b[2], h = b[3];
+      var lit = r();
+      c.strokeStyle = "rgba(250,250,247," + (0.34 + r()*0.52).toFixed(3) + ")";
+      c.lineWidth = 1;
+      c.strokeRect(x, y, w, h);
+      if (lit < 0.2){                      /* a lit block */
+        c.fillStyle = "rgba(250,250,247,.14)";
+        c.fillRect(x, y, w, h);
+      }
+      /* windows: the patient accumulation */
+      var cols = Math.max(1, Math.floor(w/13)), rows = Math.max(1, Math.floor(h/13));
+      for (var cxi=0; cxi<cols; cxi++){
+        for (var cyi=0; cyi<rows; cyi++){
+          if (r() > 0.44) continue;
+          c.fillStyle = "rgba(250,250,247," + (0.2 + r()*0.78).toFixed(3) + ")";
+          c.fillRect(x + 5 + cxi*13, y + 5 + cyi*13, 3.4, 3.4);
+        }
+      }
+    }
+    /* the suppressed plot */
+    var t = blocks[Math.floor(blocks.length*0.41)];
+    if (t){
+      c.fillStyle = "#FF3B14";
+      c.fillRect(t[0]-1, t[1]-1, t[2]+2, t[3]+2);
+    }
+    /* datum marks */
+    c.strokeStyle = "rgba(250,250,247,.4)"; c.lineWidth = 1;
+    for (var d=0; d<=8; d++){
+      var dx = 26 + d*((W-52)/8);
+      c.beginPath(); c.moveTo(dx, H-16); c.lineTo(dx, H-8); c.stroke();
+    }
+  })();
+
+  /* ── typography: fit the chapter word to the measure, track VILLE to match ── */
+  function widthOf(el){ return el.getBoundingClientRect().width; }
+  function fit(el, target){
+    var lo = 110, hi = 236, best = lo;
+    el.style.letterSpacing = "0px"; el.style.width = "auto";
+    for (var i=0;i<26;i++){
+      var mid = (lo+hi)/2;
+      el.style.fontSize = mid + "px";
+      if (widthOf(el) <= target){ best = mid; lo = mid; } else { hi = mid; }
+    }
+    el.style.fontSize = best + "px";
+    var gap = target - widthOf(el);
+    var n = el.textContent.trim().length - 1;
+    if (gap > 1 && n > 0){
+      var ls = gap / n;
+      el.style.letterSpacing = ls + "px";
+    }
+    el.style.width = target + "px";      /* trailing track sits inside the measure */
+  }
+  function track(el, target){
+    el.style.letterSpacing = "0px"; el.style.width = "auto";
+    var n = el.textContent.trim().length - 1;
+    var gap = target - widthOf(el);
+    if (n > 0){
+      el.style.letterSpacing = (gap / n) + "px";
+    }
+    el.style.width = target + "px";
+  }
+  function layout(){
+    var M = 852;
+    document.querySelectorAll("[data-fit]").forEach(function(el){ fit(el, M); });
+    document.querySelectorAll("[data-track]").forEach(function(el){ track(el, M); });
+    /* the redaction bar sized to the line it replaces */
+    var rd = document.getElementById("redact");
+    if (rd){ rd.style.display = "inline-block"; rd.style.width = "186px";
+             rd.style.height = "21px"; rd.style.background = "#FF3B14"; rd.style.verticalAlign = "-3px"; }
+  }
+  if (document.fonts && document.fonts.ready){ document.fonts.ready.then(layout); } else { layout(); }
+  window.__layout = layout;
+})();
+</script>
+</body>
+</html>
